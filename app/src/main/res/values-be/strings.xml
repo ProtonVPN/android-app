@@ -74,7 +74,7 @@
     <string name="error_server_unreachable">Немагчыма падключыцца да VPN. Праверце сваё падключэнне да сеткі і паўтарыце спробу.</string>
     <string name="error_auth_failed">Збой аўтэнтыфікацыі карыстальніка.</string>
     <string name="error_generic">Пры падключэнні адбыўся невядомы збой.</string>
-    <string name="error_generic_with_reason">Proton VPN не можа ўсталяваць падключэнне па VPN. Паўтарыце спробу праз некалькі секунд.<br/><br/> Падрабязнасці: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN не можа ўсталяваць падключэнне па VPN. Паспрабуйце яшчэ раз праз некалькі секунд.<br/><br/> Падрабязнасці: %1$s</string>
     <string name="reconnect">Перападключыцца</string>
     <string name="reconnect_now">Перападключыцца</string>
     <string name="try_reconnecting">Паспрабуйце перападключыцца</string>
@@ -123,7 +123,7 @@
     <string name="noNotificationPermissionGrantTitle">Будзьце ў курсе…</string>
     <string name="noNotificationPermissionGrantDescription">Уключыць апавяшчэнні для атрымання абвестак аб змяненні вашага статусу падключэння.</string>
     <string name="noNotificationPermissionGrantNowTitle">Уключыць апавяшчэнні</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Адключыце пастаяннае падключэнне па VPN для ўсіх іншых праграм VPN у наладах аперацыйнай сістэмы, бо гэта перашкаджае Proton VPN усталяваць падключэнне з серверам VPN. Таксама дайце правы VPN, калі з\'яўляецца адпаведнае патрабаванне дазволіць доступ па VPN. Магчыма, што неабходна будзе выдаліць іншыя праграмы VPN для прадухілення канфліктаў. Пасля гэтага паўтарыце спробу. <a href="%1$s">Даведацца больш</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Адключыце пастаяннае падключэнне па VPN для ўсіх іншых праграм VPN у наладах аперацыйнай сістэмы, бо гэта перашкаджае Proton VPN усталяваць падключэнне з серверам VPN. Таксама дайце правы VPN, калі з\'яўляецца адпаведнае патрабаванне дазволіць доступ па VPN. Магчыма, што неабходна будзе выдаліць іншыя праграмы VPN для прадухілення канфліктаў. Пасля гэтага паспрабуйце яшчэ раз. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="error_prepare_vpn_settings">Перайсці да налад VPN для Android</string>
     <string name="error_prepare_vpn_title">Памылка: праблема дазволу VPN</string>
     <string name="error_server_not_set">Сервер больш недаступны</string>
@@ -147,7 +147,7 @@
     <string name="settingsExcludedApps">Выключаныя праграмы</string>
     <string name="settingsExcludedAppsEmpty">Дадайце праграмы, якія будуць падключацца без VPN.</string>
     <string name="settingsIncludedAppsEmpty">Дадайце праграмы, якія будуць уключаны ў трафік VPN.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Выключаныя праграмы: (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Выключаныя праграмы (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Уключаныя праграмы (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Усе іншыя звычайныя праграмы (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Усе іншыя сістэмныя праграмы (%1$d)</string>
@@ -189,7 +189,7 @@
     <string name="accessibility_action_item_move_up">Перамясціць уверх</string>
     <string name="accessibility_action_item_move_down">Перамясціць уніз</string>
     <string name="tileConnected">Падключана: %1$s</string>
-    <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены вэб-браўзер.</string>
+    <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
     <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паўтарыце спробу.</string>
     <string name="troubleshootButton">Выпраўленне непаладак</string>
     <string name="activityTroubleshootTitle">Выпраўленне непаладак</string>
@@ -203,7 +203,7 @@
     <string name="troubleshootProxyFirewallProblemTitle">Канфлікт з проксі або міжсеткавым экранам</string>
     <string name="troubleshootProxyFirewallProblemDescription">Адключыце ўсе проксі, міжсеткавыя экраны або звярніцеся да свайго сеткавага адміністратара.</string>
     <string name="troubleshootProtonDownTitle">Proton не працуе</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Праверце <a href=\"%1$s\">статус Proton</a>, каб даведацца пра статус нашай сістэмы.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Праверце <a href=\"%1$s\">статус Proton,</a> каб даведацца пра статус нашай сістэмы.]]></string>
     <string name="troubleshootContactUsSectionTitle">Усё яшчэ неабходна дапамога? Вы можаце звязацца непасрэдна з намі</string>
     <string name="troubleshootCustomerSupport">Падтрымка кліентаў</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтэрнатыўная маршрутызацыя</string>
@@ -229,7 +229,7 @@
     <string name="settingsSendCrashReportsTitle">Абагульванне ананімных справаздач аб збоях</string>
     <string name="settingsSendCrashReportsDescription">Справаздачы аб збоях дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Вашы даныя ніколі не будуць абагульвацца са староннімі асобамі. <a href="%1$s">Даведацца больш</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм адсочвання на вэб-сайтах і ў праграмах. %1$s</string>
     <string name="netshield_settings_description_tv">Абараняе вас ад старонняй рэкламы, праграм сачэння і шкодных праграм. NetShield не блакіруе рэкламу, якая ўбудавана ў такія сэрвісы прагляду, як YouTube і Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">Як працуе NetShield</string>
@@ -320,7 +320,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Загружанасць сервера %1$s%%</string>
+    <string name="tv_server_list_load">загружанасць сервера %1$s%%</string>
     <string name="tv_recently_used_servers">Серверы, якімі вы нядаўна карысталіся</string>
     <string name="tv_available_servers">Даступныя серверы</string>
     <string name="tv_locked_servers">Заблакіраваныя серверы</string>
@@ -377,10 +377,10 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d краіне</item>
-        <item quantity="few">%1$d краінах</item>
-        <item quantity="many">%1$d краінах</item>
-        <item quantity="other">%1$d краінах</item>
+        <item quantity="one">%1$d краіна</item>
+        <item quantity="few">%1$d краіны</item>
+        <item quantity="many">%1$d краін</item>
+        <item quantity="other">%1$d краін</item>
     </plurals>
     <string name="upsell_upgrade_again">Палепшыць яшчэ раз, каб карыстацца ўсімі функцыямі:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -577,7 +577,7 @@
         <item quantity="one">%1$d дзень</item>
         <item quantity="few">%1$d дні</item>
         <item quantity="many">%1$d дзён</item>
-        <item quantity="other">%1$d дзён</item>
+        <item quantity="other">%1$d дня</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
         <item quantity="one">%1$d тыдзень</item>
@@ -587,15 +587,15 @@
     </plurals>
     <plurals name="payment_price_cycle_label_month">
         <item quantity="one">%1$d месяц</item>
-        <item quantity="few">%1$d месяцы</item>
-        <item quantity="many">%1$d месяцаў</item>
-        <item quantity="other">%1$d месяцаў</item>
+        <item quantity="few">%1$d месяцаў</item>
+        <item quantity="many">%1$d месяцы</item>
+        <item quantity="other">%1$d месяцы</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
         <item quantity="one">%1$d год</item>
-        <item quantity="few">%1$d гады</item>
-        <item quantity="many">%1$d гадоў</item>
-        <item quantity="other">%1$d гадоў</item>
+        <item quantity="few">%1$d гадоў</item>
+        <item quantity="many">%1$d гады</item>
+        <item quantity="other">%1$d гады</item>
     </plurals>
     <string name="payment_select_your_plan">Выберыце тарыфны план</string>
     <!-- Label on a button for purchasing a subscription.
@@ -869,7 +869,7 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Ачысціць</string>
     <string name="free_connections_info_message">Proton Free аўтаматычна падключае вас да самага хуткага з даступных сервераў. Звычайна гэта самы блізкі сервер адносна вашага месцазнаходжання.</string>
-    <string name="free_connections_info_server_locations">Размяшчэнні бясплатных сервераў (%1$d)</string>
+    <string name="free_connections_info_server_locations">Размяшчэнні сервераў Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Доступ да ўсіх краін з VPN Plus</string>
     <string name="free_connection_info_title">Бясплатныя падключэнні</string>
     <string name="search_upsell_banner_title">Прагляд трансляцый з любой краіны ў свеце.</string>
@@ -920,12 +920,12 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">Засталося: %1$s %2$s</string>
+    <string name="offer_time_left">Засталося %1$s %2$s</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d секунда</item>
         <item quantity="few">%1$d секунды</item>
-        <item quantity="many">%1$d секунд</item>
+        <item quantity="many">%1$d секунды</item>
         <item quantity="other">%1$d секунд</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
@@ -1564,7 +1564,7 @@
     <plurals name="full_name_traffic_volume_kilobytes">
         <item quantity="one">%1$s кілабайт</item>
         <item quantity="few">%1$s кілабайты</item>
-        <item quantity="many">%1$s кілабайтаў</item>
+        <item quantity="many">%1$s кілабайты</item>
         <item quantity="other">%1$s кілабайтаў</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
@@ -1630,7 +1630,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Павялічце хуткасць свайго падключэння да 400%% дзякуючы тэхналогіям павышэння прадукцыйнасці. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Павялічце хуткасць свайго падключэння да 400 %% дзякуючы тэхналогіям павышэння прадукцыйнасці. %1$s</string>
     <string name="settings_account_settings_title">Налады ўліковага запісу</string>
     <string name="settings_account_change_password">Змяніць пароль</string>
     <string name="settings_account_recovery_email">Электронная пошта для аднаўлення доступу</string>
@@ -1665,7 +1665,7 @@
     <string name="settings_advanced_allow_lan_title_tv">Дазволіць падключэнні па лакальнай сетцы</string>
     <string name="settings_advanced_nat_type_title">Тып NAT</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Выберыце тып трансляцыі сеткавых адрасоў для вашага падключэння. %1$s</string>
+    <string name="settings_advanced_nat_type_description">Выберыце тып пераўтварэння сеткавых адрасоў для вашага падключэння. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Выберыце тып трансляцыі сеткавых адрасоў для вашага падключэння.</string>
     <string name="settings_advanced_nat_type_strict">Абмежаваны (тып 3)</string>
     <string name="settings_advanced_nat_type_strict_short">Тып 3</string>
@@ -1764,7 +1764,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Гэта перазапусціць ваша падключэнне.</string>
-    <string name="profile_overrides_setting">Гэтыя налады падключаны да <b>%1$s</b> і імі можна кіраваць толькі ў профілях.</string>
+    <string name="profile_overrides_setting">Гэтыя налады падключаны да <b>%1$s</b> і імі можна кіраваць толькі ў профілі.</string>
     <string name="initial_profile_name_streaming_us">Трансляцыі ЗША</string>
     <string name="initial_profile_name_work_school">Праца/школа</string>
     <string name="initial_profile_name_anti_censorship">Супрацьдзеянне цэнзуры</string>
@@ -1798,12 +1798,12 @@
     <string name="profiles_button_create_profile">Стварыць профіль</string>
     <string name="profile_deleted_snackbar_message">Профіль выдалены</string>
     <string name="profile_connected_edit_setting">Гэтая налада падключана да вашага актыўнага профілю.\n\nАдрэдагуйце свой профіль, каб унесці змены. Вы таксама можаце адключыцца, каб адрэдагаваць вашы агульныя налады VPN.</string>
-    <string name="profile_connected_dialog_title">Кіраванне %1$s у профілях</string>
+    <string name="profile_connected_dialog_title">Кіраванне %1$s у профілях.</string>
     <string name="undo">Адрабіць</string>
     <string name="profile_unavailable_dialog_title">Профіль недаступны</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паўтарыце спробу пазней.</string>
+    <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паспрабуйце яшчэ раз пазней.</string>
     <string name="profile_location_excluded_dialog_message"><![CDATA[Выбраны вамі сервер для <b>%1$s</b> недаступны. Выберыце іншы сервер, праверце свае выключаныя месцазнаходжанні або паўтарыце спробу.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->

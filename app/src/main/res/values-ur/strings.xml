@@ -74,7 +74,7 @@
     <string name="error_server_unreachable">VPN سے کنیکٹ نہیں کیا جا سکا۔ براہِ کرم اپنی کنکشن چیک کریں اور دوبارہ کوشش کریں۔</string>
     <string name="error_auth_failed">صارف کی توثیق نہیں ہو سکی۔</string>
     <string name="error_generic">کنیکٹ کرتے وقت ایک غیر متعینہ خرابی پیش آئی۔</string>
-    <string name="error_generic_with_reason">Proton VPN کسی VPN کنکشن کو قائم نہیں کر سکا۔ براہِ کرم چند سیکنڈ میں دوبارہ کوشش کریں۔<br/><br/> تفصیلات: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN could not establish a VPN connection. Please, try again in few seconds.<br/><br/> Details: %1$s</string>
     <string name="reconnect">دوبارہ کنیکٹ کریں</string>
     <string name="reconnect_now">دوبارہ کنیکٹ کریں</string>
     <string name="try_reconnecting">دوبارہ کنیکٹ کرنے کی کوشش کریں</string>
@@ -123,7 +123,7 @@
     <string name="noNotificationPermissionGrantTitle">غافل نہ رہیں…</string>
     <string name="noNotificationPermissionGrantDescription">کنکشن کی صورتحال میں تبدیلیوں سے آگاہ ہونے کے لیے اطلاعات فعال کریں۔</string>
     <string name="noNotificationPermissionGrantNowTitle">اطلاعات فعال کریں</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Android کی VPN سسٹم سیٹنگز میں تمام دوسری VPN ایپس کے لیے ہمیشہ آن VPN غیر فعال کریں، کیونکہ اس سے Proton VPN کے لیے VPN کنکشن قائم کرنا ممکن نہیں رہتا۔ اگر VPN کی اجازت مانگنے والا ڈائیلاگ ظاہر ہو تو VPN کی اجازت بھی دیں۔ تنازعات سے بچنے کے لیے دوسری VPN ایپس کو اَن انسٹال کرنا بھی ضروری ہو سکتا ہے۔ اس کے بعد دوبارہ کوشش کریں۔ <a href="%1$s">مزید جانیں</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Please disable always-on VPN for all other VPN apps in the Android VPN system settings, as that prevents Proton VPN from establishing a VPN connection. Please also grant VPN permissions if a dialog requesting VPN permissions appears. Other VPN apps may also need to be uninstalled to prevent conflicts. Afterwards, please try again. <a href="%1$s">Learn more</a>]]></string>
     <string name="error_prepare_vpn_settings">Android کی VPN سیٹنگز میں جائیں</string>
     <string name="error_prepare_vpn_title">نقص: VPN کی اجازت کا مسئلہ</string>
     <string name="error_server_not_set">سرور اب دستیاب نہیں ہے۔</string>
@@ -142,16 +142,16 @@
     <string name="settings_new_label_badge">نیا</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">بیٹا</string>
-    <string name="settingsExcludedIPAddressesListHeader">خارج شدہ IP پتے (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">شامل شدہ IP پتے (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">خارج شدہ ایپس</string>
     <string name="settingsExcludedAppsEmpty">ایسی ایپس شامل کریں جو VPN ٹریفک سے خارج کی جائیں۔</string>
     <string name="settingsIncludedAppsEmpty">ایسی ایپس شامل کریں جو VPN ٹریفک میں شامل ہوں۔</string>
-    <string name="settingsExcludedAppsSelectedHeader">خارج شدہ ایپس (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">شامل شدہ ایپس (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">تمام دیگر عام ایپس (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">تمام دیگر سسٹم ایپس (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">تمام دیگر ایپس (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">سسٹم ایپس دکھائیں</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">سسٹم ایپس دکھائیں</string>
     <string name="settingsSplitTunnelingExcludedAppsList">یہ ایپس آپ کے VPN کنکشن سے خارج کی گئی ہیں۔</string>
@@ -188,8 +188,8 @@
     <string name="accessibility_action_item_delete">حذف کریں</string>
     <string name="accessibility_action_item_move_up">اوپر منتقل کریں</string>
     <string name="accessibility_action_item_move_down">نیچے منتقل کریں</string>
-    <string name="tileConnected">کنیکٹ شدہ: %1$s</string>
-    <string name="openUrlError">%1$s نہیں کھولا جا سکا۔ آپ کی ڈیوائس پر ویب براؤزر نہیں ملا۔</string>
+    <string name="tileConnected">Connected: %1$s</string>
+    <string name="openUrlError">%1$s could not be opened. Web browser was not detected on your device.</string>
     <string name="loaderErrorTimeout">کنکشن کا وقت ختم ہو گیا۔ براہِ کرم دوبارہ کوشش کریں۔</string>
     <string name="troubleshootButton">مسائل کا ازالہ کریں</string>
     <string name="activityTroubleshootTitle">مسائل حل کریں</string>
@@ -197,23 +197,23 @@
     <string name="troubleshootNoInternetDescription">براہِ کرم یقینی بنائیں کہ آپ کا انٹرنیٹ کنکشن کام کر رہا ہے۔</string>
     <string name="troubleshootNoInternetTitle">انٹرنیٹ کنکشن موجود نہیں</string>
     <string name="troubleshootIspProblemTitle">انٹرنیٹ سروس فراہم کنندہ (ISP) کا مسئلہ</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Proton سے کسی دوسرے نیٹ ورک سے کنیکٹ ہونے کی کوشش کریں (یا <a href=\'%1$s\'>Tor</a> استعمال کریں)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">اینٹی وائرس کی مداخلت</string>
     <string name="troubleshootAntivirusProblemDescription">عارضی طور پر اپنا اینٹی وائرس سافٹ ویئر غیر فعال کریں یا ہٹا دیں۔</string>
     <string name="troubleshootProxyFirewallProblemTitle">پراکسی/فائر وال کی مداخلت</string>
     <string name="troubleshootProxyFirewallProblemDescription">کسی بھی پراکسی یا فائر وال کو غیر فعال کریں، یا اپنے نیٹ ورک ایڈمنسٹریٹر سے رابطہ کریں۔</string>
     <string name="troubleshootProtonDownTitle">Proton کام نہیں کر رہا</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[ہمارے سسٹم کی صورتحال دیکھنے کے لیے <a href=\"%1$s\">Proton Status</a> دیکھیں۔]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Check <a href=\"%1$s\">Proton Status</a> for our system status.]]></string>
     <string name="troubleshootContactUsSectionTitle">اب بھی مدد درکار ہے؟ براہِ راست ہم سے رابطہ کریں</string>
     <string name="troubleshootCustomerSupport">کسٹمر سپورٹ</string>
     <string name="settingsAllowAlternativeRoutingTitle">متبادل روٹنگ</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[اگر Proton بلاک ہو، تو ایپ کو Proton سرورز تک پہنچنے کے لیے متبادل راستے آزمانے کی اجازت دیں۔ <a href="%1$s">مزید جانیں</a>۔]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">حکومتی بلاک</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[ہو سکتا ہے آپ کا ملک Proton تک رسائی بلاک کر رہا ہو۔ Proton تک رسائی کے لیے <a href=\'%1$s\'>Tor</a> استعمال کرنے کی کوشش کریں۔]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">کِل سوئچ کیسے فعال کریں</string>
     <string name="settingsKillSwitchEnableStep1">1. اپنی ڈیوائس کی سیٹنگز کھولیں</string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsKillSwitchEnableStep2">2. Proton VPN تلاش کریں اور %1$s پر ٹیپ کریں</string>
+    <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">سیٹنگز</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
@@ -229,8 +229,8 @@
     <string name="settingsSendCrashReportsTitle">گمنام کریش رپورٹس شیئر کریں</string>
     <string name="settingsSendCrashReportsDescription">کریش رپورٹس ہمیں بگ ٹھیک کرنے، فائر وال کی شناخت کرنے اور VPN کے بلاکس سے بچنے میں مدد دیتی ہیں۔</string>
     <string name="settingsTelemetryScreenTitle">استعمال کے اعداد و شمار</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[ان اعداد و شمار میں آپ کا IP پتہ شامل نہیں، اور ان سے آپ کی شناخت نہیں کی جا سکتی۔ ہم انہیں کبھی فریقِ ثالث کے ساتھ شیئر نہیں کریں گے۔ <a href="%1$s">مزید جانیں</a>]]></string>
-    <string name="netshield_settings_description_not_html">ویب سائٹس اور ایپس پر اشتہارات، مالویئر اور ٹریکرز سے بچیں۔ %1$s</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
     <string name="netshield_settings_description_tv">فریق ثالث کے اشتہارات، ٹریکرز اور مالویئر سے آپ کی حفاظت کرتا ہے۔ NetShield YouTube اور Netflix جیسی اسٹریمنگ سروسز میں شامل اشتہارات کو بلاک نہیں کرتا۔</string>
     <string name="netshield_settings_more_info_title_tv">NetShield کیسے کام کرتا ہے</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
@@ -238,7 +238,7 @@
         <item>اس کا مطلب ہے کہ آپ کو اپنے براؤزر یا فریق ثالث کی اشتہاری سروسز استعمال کرنے والی فری ایپس سے اشتہارات نہیں ملیں گے۔</item>
         <item>تاہم، یہ YouTube اور Netflix جیسی اسٹریمنگ پلیٹ فارمز کے اشتہارات بلاک نہیں کر سکتا، کیونکہ ان کے اشتہارات ان کے اپنے سرورز سے آتے ہیں۔</item>
     </string-array>
-    <string name="settings_icon_change_description">Proton VPN ایپ کو ایک غیر واضح آئیکن کے ذریعے چھپا رکھیں۔ اطلاعات میں پھر بھی ڈیفالٹ Proton VPN نام اور آئیکن ہی دکھایا جائے گا۔ %1$s</string>
+    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
     <string name="settings_icon_change_learn_more">مزید جانیں</string>
     <string name="learn_more">مزید جانیں</string>
     <string name="netshield_state_on" comment="Describes state, not action">آن</string>
@@ -281,7 +281,7 @@
     <string name="errorTorrentNotAllowed">اس سرور پر P2P کی اجازت نہیں ہے۔</string>
     <string name="error_profile_fallback_unavailable">کنکشن قائم نہیں ہو سکا۔ پروفائل کے لیے آپ کا منتخب کردہ سرور دستیاب نہیں ہے۔</string>
     <string name="profileProtocolNotAvailable">اس پروفائل کا VPN پروٹوکول اس وقت دستیاب نہیں۔ کنیکٹ ہونے کے لیے پروٹوکول تبدیل کرنے کی کوشش کریں۔</string>
-    <string name="stateConnectedTo">%1$s سے کنیکٹ ہو گئے</string>
+    <string name="stateConnectedTo">%1$s سےمتصل شدہ</string>
     <string name="stateNotConnected">آپ کنیکٹ نہیں ہیں</string>
     <string name="nameEurope">یورپ</string>
     <string name="nameAmerica">امریکہ</string>
@@ -292,7 +292,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">اسپلٹ ٹنلنگ</string>
     <string name="tv_card_protocol_label">پروٹوکول</string>
-    <string name="tv_dialog_delete_server_title">سرور %1$s حذف کریں؟</string>
+    <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">پسندیدہ</string>
     <string name="tv_detail_connect_streaming">Plus کے ساتھ اسٹریم کریں</string>
     <string name="tv_detail_connect">کنیکٹ کریں</string>
@@ -301,7 +301,7 @@
     <string name="tv_detail_description_country_not_available">یہ ملک دستیاب نہیں۔ Proton VPN Plus پلان کے ساتھ مزید اسٹریمنگ آپشنز حاصل کریں۔</string>
     <string name="tv_detail_description_plus">اپنی ایپس کے ذریعے اپنی پسندیدہ ویڈیوز، فلمیں یا کھیل اسٹریم کریں۔</string>
     <string name="tv_login_title_welcome">اپنا پسندیدہ ویڈیو مواد اسٹریم کریں</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[اپنا Proton VPN اکاؤنٹ <b>%1$s</b> پر حاصل کریں]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Get your Proton VPN account at <b>%1$s</b>]]></string>
     <string name="back">واپس</string>
     <string name="tv_vpn_error_dialog_title">VPN کنکشن قائم نہیں کیا جا سکا</string>
     <string name="tv_signout_label">سائن آؤٹ کریں</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% سرور لوڈ</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">حال ہی میں استعمال شدہ سرورز</string>
     <string name="tv_available_servers">دستیاب سرورز</string>
     <string name="tv_locked_servers">لاک شدہ سرورز</string>
@@ -324,7 +324,7 @@
     <string name="tv_server_list">سرورز کی فہرست</string>
     <string name="tv_server_list_action_unavailable">دستیاب نہیں</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">متصل</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
     <string name="tv_country_tile_connecting">Connecting</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
@@ -337,8 +337,8 @@
     <string name="notification_max_sessions_title">آپ ڈیوائسز کی زیادہ سے زیادہ حد تک پہنچ چکے ہیں</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">اس ڈیوائس کو کنیکٹ کرنے کے لیے براہِ کرم دوسری ڈیوائس ڈسکنیکٹ کریں، یا اپ گریڈ کر کے Plus پر ایک ساتھ %1$d ڈیوائس تک کنیکٹ ہونے کی سہولت حاصل کریں۔</item>
-        <item quantity="other">اس ڈیوائس کو کنیکٹ کرنے کے لیے براہِ کرم دوسری ڈیوائس ڈسکنیکٹ کریں، یا اپ گریڈ کر کے Plus پر ایک ساتھ %1$d ڈیوائسز تک کنیکٹ ہونے کی سہولت حاصل کریں۔</item>
+        <item quantity="one">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d device connected at the same time.</item>
+        <item quantity="other">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d devices connected at the same time.</item>
     </plurals>
     <string name="notification_max_sessions_content">اس ڈیوائس کو کنیکٹ کرنے کے لیے براہِ کرم دوسری ڈیوائس ڈسکنیکٹ کریں۔</string>
     <string name="notification_cancel_to_free">آپ Free plan پر ہیں۔ Free سرورز اور خصوصیات دستیاب ہیں۔</string>
@@ -360,8 +360,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d سرور</item>
-        <item quantity="other">%1$d سرورز</item>
+        <item quantity="one">%1$d server</item>
+        <item quantity="other">%1$d servers</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -369,8 +369,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d ملک</item>
-        <item quantity="other">%1$d ممالک</item>
+        <item quantity="one">%1$d country</item>
+        <item quantity="other">%1$d countries</item>
     </plurals>
     <string name="upsell_upgrade_again">تمام خصوصیات سے لطف اندوز ہونے کے لیے دوبارہ اپ گریڈ کریں:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -380,8 +380,8 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d محفوظ سرور</item>
-        <item quantity="other">%d محفوظ سرورز</item>
+        <item quantity="one">%d secure server</item>
+        <item quantity="other">%d secure servers</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -389,8 +389,8 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d ملک</item>
-        <item quantity="other">%d ممالک</item>
+        <item quantity="one">%d country</item>
+        <item quantity="other">%d countries</item>
     </plurals>
     <string name="upgrade_not_now_button">ابھی نہیں</string>
     <!-- Content description for plan selection list.
@@ -448,7 +448,7 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">VPN Plus کے ساتھ %1$s کھولیں</string>
+    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
     <string name="upsell_panel_countries_title">VPN Plus کے ساتھ تمام ممالک کھولیں </string>
     <string name="upsell_panel_country_benefit_speed">ہائی اسپیڈ سرورز</string>
     <string name="upsell_panel_country_benefit_shows">وہ شوز دیکھیں جو صرف بیرونِ ملک دستیاب ہیں</string>
@@ -499,12 +499,12 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%2$s میں %1$d+ سرور مقامات</string>
+    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
     <string name="upsell_card_customization_title">اور دیگر خصوصیات…</string>
     <string name="upsell_card_customization_description">کارکردگی اور رازداری کی مزید خصوصیات سے فائدہ اٹھائیں</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">%1$d ڈیوائس کی حفاظت کریں</item>
-        <item quantity="other">%1$d ڈیوائسوں کی حفاظت کریں</item>
+        <item quantity="one">Protect %1$d device</item>
+        <item quantity="other">Protect %1$d devices</item>
     </plurals>
     <string name="upsell_card_devices_description">آپ کی تمام ڈیوائسوں پر سیکیورٹی اور رازداری</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -520,7 +520,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">مزید تیز رفتاری سے براؤز کریں (زیادہ سے زیادہ %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">اسپلٹ ٹنلنگ</string>
     <string name="upsell_card_split_tunneling_description">ایک ہی وقت میں دو مقامات سے براؤز کریں</string>
     <string name="upsell_card_streaming_title">اسٹریمنگ</string>
@@ -534,7 +534,7 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">%2$s میں %1$s کھولیں۔</string>
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Plus کے ساتھ اشتہارات سے پاک براؤزنگ سے لطف اٹھائیں</string>
     <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> کے ساتھ اشتہارات، ٹریکرز اور مالویئر بلاک کریں۔]]></string>
     <string name="upsell_tv_split_tunneling_title">Plus کے ساتھ دونوں کے بہترین پہلوؤں سے فائدہ اٹھائیں</string>
@@ -558,20 +558,20 @@
     <string name="payment_price_per_month">مہینہ</string>
     <string name="payment_price_per_year">سال</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d دن</item>
-        <item quantity="other">%1$d دن</item>
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d ہفتہ</item>
-        <item quantity="other">%1$d ہفتے</item>
+        <item quantity="one">%1$d week</item>
+        <item quantity="other">%1$d weeks</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d ماہ</item>
-        <item quantity="other">%1$d ماہ</item>
+        <item quantity="one">%1$d month</item>
+        <item quantity="other">%1$d months</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d سال</item>
-        <item quantity="other">%1$d سال</item>
+        <item quantity="one">%1$d year</item>
+        <item quantity="other">%1$d years</item>
     </plurals>
     <string name="payment_select_your_plan">اپنا پلان منتخب کریں</string>
     <!-- Label on a button for purchasing a subscription.
@@ -584,57 +584,57 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="one">خصوصی پیشکش۔ %1$s فی دن کی شرح سے خودکار تجدید۔</item>
-        <item quantity="other">خصوصی پیشکش۔ ہر %2$d دنوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/day</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="one">خصوصی پیشکش۔ %1$s فی ہفتہ کی شرح سے خودکار تجدید۔</item>
-        <item quantity="other">خصوصی پیشکش۔ ہر %2$d ہفتوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/week</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="one">خصوصی پیشکش۔ %1$s فی ماہ کی شرح سے خودکار تجدید۔</item>
-        <item quantity="other">خصوصی پیشکش۔ ہر %2$d مہینوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/month</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="one">خصوصی پیشکش۔ %1$s فی سال کی شرح سے خودکار تجدید۔</item>
-        <item quantity="other">خصوصی پیشکش۔ ہر %2$d سالوں بعد %1$s کی شرح سے خودکار تجدید۔</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/year</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">سبسکرپشن %1$s فی دن کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
-        <item quantity="other">سبسکرپشن ہر %2$d دنوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="one">Subscription auto renews at %1$s/day</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">سبسکرپشن %1$s فی ہفتہ کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
-        <item quantity="other">سبسکرپشن ہر %2$d ہفتوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="one">Subscription auto renews at %1$s/week</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">سبسکرپشن %1$s فی ماہ کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
-        <item quantity="other">سبسکرپشن ہر %2$d مہینوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="one">سبسکرپشن کی %1$s/ماہ پر خودکار تجدید ہوگی</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">سبسکرپشن %1$s فی سال کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
-        <item quantity="other">سبسکرپشن ہر %2$d سالوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے۔</item>
+        <item quantity="one">سبسکرپشن کی %1$s/سال پر خودکار تجدید ہوگی</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -642,8 +642,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="one">%1$s فی دن</item>
-        <item quantity="other">ہر %2$d دنوں بعد %1$s</item>
+        <item quantity="one">%1$s/day</item>
+        <item quantity="other">%1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -651,8 +651,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s فی ہفتہ</item>
-        <item quantity="other">ہر %2$d ہفتوں بعد %1$s</item>
+        <item quantity="one">%1$s/week</item>
+        <item quantity="other">%1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -660,8 +660,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s فی ماہ</item>
-        <item quantity="other">ہر %2$d مہینوں بعد %1$s</item>
+        <item quantity="one">%1$s/month</item>
+        <item quantity="other">%1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -669,40 +669,40 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="one">%1$s فی سال</item>
-        <item quantity="other">ہر %2$d سالوں بعد %1$s</item>
+        <item quantity="one">%1$s/year</item>
+        <item quantity="other">%1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">پہلے دن کے لیے</item>
-        <item quantity="other">پہلے %1$d دنوں کے لیے</item>
+        <item quantity="one">for the first day</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">پہلے ہفتے کے لیے</item>
-        <item quantity="other">پہلے %1$d ہفتوں کے لیے</item>
+        <item quantity="one">for the first week</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">پہلے مہینے کے لیے</item>
-        <item quantity="other">پہلے %1$d مہینوں کے لیے</item>
+        <item quantity="one">for the first month</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">پہلے سال کے لیے</item>
-        <item quantity="other">پہلے %1$d سالوں کے لیے</item>
+        <item quantity="one">for the first year</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -710,8 +710,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">پھر %1$s فی دن کی شرح سے خود بخود تجدید ہوتی ہے</item>
-        <item quantity="other">پھر ہر %2$d دنوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="one">then auto renews at %1$s/day</item>
+        <item quantity="other">then auto renews at %1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -719,8 +719,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">پھر %1$s فی ہفتہ کی شرح سے خود بخود تجدید ہوتی ہے</item>
-        <item quantity="other">پھر ہر %2$d ہفتوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="one">then auto renews at %1$s/week</item>
+        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -728,8 +728,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">پھر %1$s فی ماہ کی شرح سے خود بخود تجدید ہوتی ہے</item>
-        <item quantity="other">پھر ہر %2$d مہینوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="one">then auto renews at %1$s/month</item>
+        <item quantity="other">then auto renews at %1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -737,8 +737,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">پھر %1$s فی سال کی شرح سے خود بخود تجدید ہوتی ہے</item>
-        <item quantity="other">پھر ہر %2$d سالوں بعد %1$s کی شرح سے خود بخود تجدید ہوتی ہے</item>
+        <item quantity="one">then auto renews at %1$s/year</item>
+        <item quantity="other">then auto renews at %1$s every %2$d years</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -755,7 +755,7 @@
       "$19.99/year for the first 3 years, then auto renews at $24.99/year"
       "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
     -->
-    <string name="payment_multi_renewal_template">%1$s %2$s، %3$s۔</string>
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">یہ ٹیکنالوجی Proton VPN کو ان ممالک میں بھی زیادہ رفتار اور سیکیورٹی فراہم کرنے کے قابل بناتی ہے جہاں خدمت فراہم کرنا مشکل ہو۔</string>
     <string name="tor_title">Tor</string>
@@ -805,14 +805,14 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">صاف کریں</string>
     <string name="free_connections_info_message">Proton Free آپ کو خود بخود دستیاب تیز ترین سرور سے کنیکٹ کر دیتا ہے۔ یہ عموماً آپ کے مقام کے قریب ترین سرور ہوتا ہے۔</string>
-    <string name="free_connections_info_server_locations">مفت سرور کے مقامات (%1$d)</string>
+    <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plus کے ساتھ تمام ممالک تک رسائی حاصل کریں</string>
     <string name="free_connection_info_title">مفت کنکشنز</string>
     <string name="search_upsell_banner_title">کہیں سے بھی اسٹریم کریں</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">VPN Plus کے ساتھ %1$d ملک کا جیو بلاک شدہ مواد کھولیں۔</item>
-        <item quantity="other">VPN Plus کے ساتھ %1$d ممالک کا جیو بلاک شدہ مواد کھولیں۔</item>
+        <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
+        <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
     </plurals>
     <string name="select_default_connection">اپنا ڈیفالٹ کنکشن منتخب کریں</string>
     <string name="settings_default_connection_title">ڈیفالٹ کنکشن</string>
@@ -839,7 +839,7 @@
     <string name="settings_widget_selection_title">Proton VPN ویجٹ آزمائیں</string>
     <string name="settings_widget_selection_description">اپنی کنکشن کی صورتحال دیکھیں اور ہوم اسکرین سے اپنے پسندیدہ VPN کنکشنز تک رسائی حاصل کریں۔</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">ویجٹ شامل کرنے کے لیے اپنی ہوم اسکرین پر کہیں بھی دبائیں اور پکڑے رہیں، پھر ویجٹ مینو سے %1$s منتخب کریں۔</string>
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
     <string name="settings_widget_selection_button_title">ویجٹ شامل کریں</string>
     <string name="setting_widget_try_title">Proton VPN ویجٹ آزمائیں</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -854,26 +854,26 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s باقی</string>
+    <string name="offer_time_left">%1$s %2$s left</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
-        <item quantity="one">%1$d سیکنڈ</item>
-        <item quantity="other">%1$d سیکنڈ</item>
+        <item quantity="one">%1$d second</item>
+        <item quantity="other">%1$d seconds</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="one">%1$d منٹ</item>
-        <item quantity="other">%1$d منٹ</item>
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
-        <item quantity="one">%1$d گھنٹہ</item>
-        <item quantity="other">%1$d گھنٹے</item>
+        <item quantity="one">%1$d hour</item>
+        <item quantity="other">%1$d hours</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="one">%1$d دن</item>
-        <item quantity="other">%1$d دن</item>
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <string name="server_change_max_reached">فی الحال مفت سرور تبدیل کرنے کی زیادہ سے زیادہ حد تک پہنچ گئے ہیں۔</string>
     <string name="server_change_upsell">VPN Plus کے ساتھ لامحدود تبدیلیاں حاصل کریں۔</string>
@@ -886,7 +886,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">%1$s %2$s کے بعد دستیاب</string>
+    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -894,7 +894,7 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">%1$s کے بعد دستیاب</string>
+    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
     <string name="server_change_progress_finished_contend_description">اب دستیاب</string>
     <string name="not_wanted_country_title">کیا یہ آپ کا مطلوبہ ملک نہیں؟</string>
     <string name="not_wanted_country_description">کوئی بھی سرور منتخب کرنے کے لیے اپ گریڈ کریں</string>
@@ -1027,21 +1027,21 @@
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">آئس لینڈ کے ذریعے %1$s</string>
+    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">سویڈن کے ذریعے %1$s</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">سوئٹزرلینڈ کے ذریعے %1$s</string>
+    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -1050,7 +1050,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%2$s کے ذریعے %1$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -1080,7 +1080,7 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">%1$s کے راستے</string>
+    <string name="connection_info_secure_core_entry_other">via %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
@@ -1098,7 +1098,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">[flags]+%1$d میں سے خودکار طور پر منتخب شدہ</string>
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1106,8 +1106,8 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">%1$d ملک میں سے خودکار طور پر منتخب شدہ</item>
-        <item quantity="other">%1$d ممالک میں سے خودکار طور پر منتخب شدہ</item>
+        <item quantity="one">Auto-selected from %1$d country</item>
+        <item quantity="other">Auto-selected from %1$d countries</item>
     </plurals>
     <string name="connection_info_auto_selected_free_countries_plain">مفت ممالک میں سے خودکار طور پر منتخب شدہ۔</string>
     <!-- tag(Redesign_2023)
@@ -1248,7 +1248,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Proton VPN کی درجہ بندی کریں</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">ایپ کا ورژن: %1$s</string>
+    <string name="settings_app_version">App version: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">تھرڈ پارٹی کے لائسنسز</string>
     <!-- tag(Redesign_2023) -->
@@ -1272,24 +1272,24 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">تمام ممالک (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Plus ممالک (%1$d)</string>
-    <string name="country_filter_countries_list_header">ممالک (%1$d)</string>
-    <string name="country_filter_cities_list_header">شہر (%1$d)</string>
-    <string name="country_filter_states_list_header">ریاستیں (%1$d)</string>
+    <string name="country_filter_all_list_header">All countries (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
+    <string name="country_filter_states_list_header">States (%1$d)</string>
     <string name="country_filter_servers_list_header">سرورز</string>
-    <string name="country_filter_secure_core_list_header">Secure Core ممالک (%1$d)</string>
-    <string name="country_filter_p2p_list_header">P2P ممالک (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P شہر (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P ریاستیں (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core countries (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
     <string name="counrty_filter_p2p_servers_list_header">P2P سرورز</string>
-    <string name="country_filter_tor_list_header">Tor ممالک (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor سرورز</string>
     <string name="country_filter_info_label">معلومات</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">لوڈ: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1414,7 +1414,7 @@
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">آپ کو ایسے سرورز کے ذریعے آپ کی منزل کے ملک سے کنیکٹ کرتا ہے جو جسمانی طور پر کہیں اور واقع ہیں۔</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">آپ کو منزل کے ملک سے ایسے سرورز کے ذریعے کنیکٹ کرتا ہے جو جسمانی طور پر کہیں اور واقع ہیں: %1$s۔</string>
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">سرورز جسمانی طور پر %1$s میں واقع ہیں، لیکن آپ %2$s سے براؤزنگ کرتے نظر آئیں گے۔</string>
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1443,51 +1443,51 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">اسپیڈ %1$s</string>
+    <string name="speed_graph_title">Speed %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s بائٹ فی سیکنڈ</item>
-        <item quantity="other">%1$s بائٹس فی سیکنڈ</item>
+        <item quantity="one">%1$s Byte per second</item>
+        <item quantity="other">%1$s Bytes per second</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s کلو بائٹ فی سیکنڈ</item>
-        <item quantity="other">%1$s کلو بائٹس فی سیکنڈ</item>
+        <item quantity="one">%1$s Kilobyte per second</item>
+        <item quantity="other">%1$s Kilobytes per second</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s میگا بائٹ فی سیکنڈ</item>
-        <item quantity="other">%1$s میگا بائٹ فی سیکنڈ</item>
+        <item quantity="one">%1$s Megabyte per second</item>
+        <item quantity="other">%1$s Megabytes per second</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s گیگا بائٹ فی سیکنڈ</item>
-        <item quantity="other">%1$s گیگا بائٹ فی سیکنڈ</item>
+        <item quantity="one">%1$s Gigabyte per second</item>
+        <item quantity="other">%1$s Gigabytes per second</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s ٹیرا بائٹ فی سیکنڈ</item>
-        <item quantity="other">%1$s ٹیرا بائٹ فی سیکنڈ</item>
+        <item quantity="one">%1$s Terabyte per second</item>
+        <item quantity="other">%1$s Terabytes per second</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s بائٹ</item>
-        <item quantity="other">%1$s بائٹ</item>
+        <item quantity="one">%1$s Byte</item>
+        <item quantity="other">%1$s Bytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s کلو بائٹ</item>
-        <item quantity="other">%1$s کلو بائٹ</item>
+        <item quantity="one">%1$s Kilobyte</item>
+        <item quantity="other">%1$s Kilobytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s میگا بائٹ</item>
-        <item quantity="other">%1$s میگا بائٹ</item>
+        <item quantity="one">%1$s Megabyte</item>
+        <item quantity="other">%1$s Megabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s گیگا بائٹ</item>
-        <item quantity="other">%1$s گیگا بائٹ</item>
+        <item quantity="one">%1$s Gigabyte</item>
+        <item quantity="other">%1$s Gigabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s ٹیرا بائٹ</item>
-        <item quantity="other">%1$s ٹیرا بائٹ</item>
+        <item quantity="one">%1$s Terabyte</item>
+        <item quantity="other">%1$s Terabytes</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
@@ -1500,21 +1500,21 @@
     <string name="error_vpn_waiting_for_network">نیٹ ورک کا انتظار ہو رہا ہے</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
-        <item quantity="one">%1$d دن</item>
-        <item quantity="other">%1$d دن</item>
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d گھنٹے</string>
+    <string name="connection_details_hours_shortened">%1$d hr</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d منٹ</string>
+    <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d سیکنڈ</string>
+    <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">کنکشن قائم نہیں ہو سکی</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">یہ ڈیوائس VPN کنکشنز کی اجازت نہیں دیتا۔</string>
     <string name="create_profile_title">پروفائل بنائیں</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
-    <string name="edit_profile_title">%1$s ترمیم کریں</string>
+    <string name="edit_profile_title">Edit %1$s</string>
     <string name="edit_profile_dialog_action">پروفائل ترمیم کریں</string>
     <string name="create_profile_name_hint">پروفائل کا نام</string>
     <string name="create_profile_name_error_empty">پروفائل کا نام درج کریں</string>
@@ -1527,12 +1527,12 @@
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">مرحلہ %1$d از %2$d</string>
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
     <string name="create_profile_button_next">اگلا</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">کارکردگی بہتر بنانے والی ٹیکنالوجیز کے ذریعے اپنی کنکشن کی رفتار 400%% تک بڑھائیں۔ %1$s</string>
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">اکاؤنٹ سیٹنگز</string>
     <string name="settings_account_change_password">پاس ورڈ تبدیل کریں</string>
     <string name="settings_account_recovery_email">بازیابی ای میل</string>
@@ -1552,7 +1552,7 @@
     <string name="settings_add_dns_duplicate_input">سرور پہلے سے شامل ہے</string>
     <string name="settings_advanced_dns_description">خود ہوسٹ کیے گئے یا فریق ثالث کے DNS کے ذریعے VPN سے کنیکٹ کریں۔ مزید جانیں</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">سرورز (%1$d)</string>
+    <string name="settings_dns_list_title">Servers (%1$d)</string>
     <string name="settings_dns_list_description">اگر آپ کا حسب ضرورت DNS سرور کام نہ کرے تو معیاری VPN DNS استعمال ہوگا۔</string>
     <string name="settings_dns_list_description_multiple">ہم ان سرورز سے ترتیب وار کنیکٹ ہونے کی کوشش کریں گے۔ اگر کوئی بھی کام نہ کرے تو VPN DNS استعمال ہوگا۔</string>
     <string name="settings_changes_apply_on_reconnect_toast">تبدیلیاں دوبارہ کنیکٹ ہونے پر لاگو ہو جائیں گی۔</string>
@@ -1567,7 +1567,7 @@
     <string name="settings_advanced_allow_lan_title_tv">LAN کنکشنز کی اجازت دیں</string>
     <string name="settings_advanced_nat_type_title">NAT کی قسم</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">اپنی کنکشن کے لیے نیٹ ورک ایڈریس ٹرانسلیشن (NAT) کی ایک قسم منتخب کریں۔ %1$s</string>
+    <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">اپنی کنکشن کے لیے نیٹ ورک پتہ ٹرانسلیشن (NAT) کی ایک قسم منتخب کریں۔</string>
     <string name="settings_advanced_nat_type_strict">سخت (قسم 3)</string>
     <string name="settings_advanced_nat_type_strict_short">قسم 3</string>
@@ -1575,8 +1575,8 @@
     <string name="settings_advanced_nat_type_moderate_short">قسم 2</string>
     <string name="settings_advanced_nat_type_strict_description">آپ کے نیٹ ورک میں داخل ہونے والے ڈیٹا پر پابندی عائد کرتا ہے۔ یہ آپشن زیادہ محفوظ ہے، لیکن اس سے پیر ٹو پیر گیمنگ کنکشنز مشکل ہو سکتی ہیں۔</string>
     <string name="settings_advanced_nat_type_moderate_description">آپ کے نیٹ ورک میں داخل ہونے والے ڈیٹا پر کچھ پابندی عائد ہوتی ہے۔ یہ آپشن آن لائن ویڈیو گیمنگ کے لیے بہترین ہے۔</string>
-    <string name="settings_split_tunneling_description">یہ طے کر کے اپنی کنکشن کسٹمائز کریں کہ کون سی ایپس اور IP پتے VPN کی حفاظت میں ہوں۔ %1$s</string>
-    <string name="settings_protocol_description">VPN پروٹوکول طے کرتا ہے کہ VPN سرور اور آپ کی ڈیوائس کے درمیان ڈیٹا کیسے منتقل ہوتا ہے۔ %1$s</string>
+    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
+    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
     <string name="settings_protocol_description_no_link">VPN پروٹوکول طے کرتا ہے کہ VPN سرور اور آپ کی ڈیوائس کے درمیان ڈیٹا کیسے منتقل ہوتا ہے۔</string>
     <string name="settings_protocol_section_speed">اسپیڈ (UDP)</string>
     <string name="settings_protocol_section_reliability">بھروسہ مندی (TCP)</string>
@@ -1601,7 +1601,7 @@
     <string name="settings_split_tunneling_included_apps">شامل کردہ ایپس</string>
     <string name="settings_split_tunneling_included_ips">شامل کردہ IP پتے</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">کوئی نہیں</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s، %2$s اور %3$d مزید</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_split_tunneling_already_excluded">پہلے سے مستثنیٰ</string>
     <string name="settings_split_tunneling_already_included">پہلے سے شامل</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">کیا آپ IP پتہ کو فہرست سے ہٹانا چاہتے ہیں؟</string>
@@ -1666,7 +1666,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">اس سے آپ کا کنکشن دوبارہ شروع ہو گا۔</string>
-    <string name="profile_overrides_setting">یہ سیٹنگز <b>%1$s</b> سے منسلک ہیں اور ان کا انتظام صرف پروفائلز میں کیا جا سکتا ہے۔</string>
+    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">اسٹریمنگ US</string>
     <string name="initial_profile_name_work_school">دفتر/اسکول</string>
     <string name="initial_profile_name_anti_censorship">سینسرشپ کے خلاف</string>
@@ -1690,7 +1690,7 @@
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
-    <string name="create_profile_copy_name">%1$s (نقل)</string>
+    <string name="create_profile_copy_name">%1$s (copy)</string>
     <string name="create_profile_fastest_city">سب سے تیز</string>
     <string name="create_profile_fastest_state">سب سے تیز</string>
     <string name="create_profile_fastest_server">سب سے تیز</string>
@@ -1700,19 +1700,19 @@
     <string name="profiles_button_create_profile">پروفائل بنائیں</string>
     <string name="profile_deleted_snackbar_message">پروفائل حذف ہو گئی۔</string>
     <string name="profile_connected_edit_setting">یہ سیٹنگ آپ کی فعال پروفائل سے منسلک ہے۔\n\nتبدیلیاں کرنے کے لیے اپنی پروفائل ترمیم کریں، یا عمومی VPN سیٹنگز میں تبدیلی کے لیے ڈسکنیکٹ کریں۔</string>
-    <string name="profile_connected_dialog_title">%1$s کو پروفائلز میں انتظام کریں</string>
+    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
     <string name="undo">کالعدم کریں</string>
     <string name="profile_unavailable_dialog_title">پروفائل دستیاب نہیں</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">%1$s کے لیے آپ کا منتخب کردہ سرور دستیاب نہیں۔ کوئی اور سرور منتخب کریں یا بعد میں دوبارہ کوشش کریں۔</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[<b>%1$s</b> کے لیے آپ کا منتخب کردہ سرور دستیاب نہیں ہے۔ کوئی دوسرا سرور منتخب کریں، اپنے مستثنیٰ مقامات کا جائزہ لیں یا بعد میں دوبارہ کوشش کریں۔]]></string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">آئیکن %1$d</string>
+    <string name="profile_icon_accessibility">Icon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">رنگ %1$d</string>
+    <string name="profile_color_accessibility">Color %1$d</string>
     <string name="generic_info_label">معلومات</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
@@ -1801,10 +1801,10 @@
     <string name="session_fork_qr_code_error_network">اپنا نیٹ ورک چیک کریں اور دوبارہ کوشش کریں۔</string>
     <string name="session_fork_qr_code_error_create_new_button">نیا کوڈ بنائیں</string>
     <string name="session_fork_user_code_title">کوڈ اسکین نہیں ہو سکتا؟ دستی طور پر سائن ان کریں</string>
-    <string name="session_fork_user_code_step1"><![CDATA[یہاں جائیں: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">سائن ان کریں یا اکاؤنٹ بنائیں</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[کوڈ درج کریں: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[ابھی بھی مدد درکار ہے؟ <b>%1$s</b> ملاحظہ کریں]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

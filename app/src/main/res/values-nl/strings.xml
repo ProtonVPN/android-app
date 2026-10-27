@@ -47,7 +47,7 @@
     <string name="quickConnect">Snel verbinden</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s %%</string>
+    <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Annuleren</string>
     <string name="close">Sluiten</string>
     <string name="dialogContinue">Doorgaan</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% serverbelasting</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Recent gebruikte servers</string>
     <string name="tv_available_servers">Beschikbare servers</string>
     <string name="tv_locked_servers">Vergrendelde servers</string>
@@ -370,7 +370,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d land</item>
-        <item quantity="other">%1$d+ landen</item>
+        <item quantity="other">%1$d landen</item>
     </plurals>
     <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -390,7 +390,7 @@
          -->
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d land</item>
-        <item quantity="other">%d+ landen</item>
+        <item quantity="other">%d landen</item>
     </plurals>
     <string name="upgrade_not_now_button">Niet nu</string>
     <!-- Content description for plan selection list.
@@ -425,17 +425,17 @@
     <string name="upsell_panel_content_description_yes">Ja</string>
     <string name="upsell_panel_content_description_no">Nee</string>
     <string name="upsell_panel_table_header_plan_free">Gratis</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">Blokkeer advertenties en trackers</string>
+    <string name="upsell_panel_general_benefit_countries">Beschikbare landen</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_location">Kies uw locatie</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_general_benefit_shows">Bekijk uw favoriete programma\'s vanuit elk land</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Standaard</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Hoogste</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
@@ -466,7 +466,7 @@
     <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
     <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
     <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Onbeperkt</string>
     <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
     <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
@@ -479,7 +479,7 @@
     <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Gefilterde apps</string>
     <string name="upsell_panel_streaming_title">Bekijk uw favoriete streamingdiensten</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch shows from any country</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -487,11 +487,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Stream in HD zonder buffering</string>
     <string name="upsell_panel_streaming_benefit_devices">Apparaten tegelijk aangesloten</string>
     <string name="upsell_panel_streaming_footer">* Abonnement op het streamingplatform vereist.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_streaming_block_title">Upgrade om VPN-blokkades te omzeilen</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus servers stellen u in staat om uw favoriete films en tv-programma\'s van over de hele wereld te bekijken.</string>
     <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor via VPN</string>
     <string name="upsell_card_countries_title">Wereldwijde dekking</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -553,25 +553,25 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
+    <string name="payment_price_per_day">dag</string>
     <string name="payment_price_per_week">week</string>
     <string name="payment_price_per_month">maand</string>
     <string name="payment_price_per_year">jaar</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d dag</item>
+        <item quantity="other">%1$d dagen</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
         <item quantity="one">%1$d week</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="other">%1$d weken</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d maand</item>
+        <item quantity="other">%1$d maanden</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d jaar</item>
+        <item quantity="other">%1$d jaren</item>
     </plurals>
     <string name="payment_select_your_plan">Kies uw abonnement</string>
     <!-- Label on a button for purchasing a subscription.
@@ -626,14 +626,14 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
+        <item quantity="one">Abonnement wordt automatisch verlengd voor %1$s per maand</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
+        <item quantity="one">Abonnement wordt automatisch verlengd voor %1$s per jaar</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
@@ -660,7 +660,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
+        <item quantity="one">%1$s/maand</item>
         <item quantity="other">%1$s every %2$d months</item>
     </plurals>
     <!--
@@ -693,7 +693,7 @@
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
+        <item quantity="one">voor de eerste maand</item>
         <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
@@ -1289,7 +1289,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Belasting: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Geladen: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Servers bevinden zich fysiek in %1$s, maar u lijkt te browsen vanuit %2$s.</string>
+    <string name="country_smart_routing_info">Servers bevinden zich fysiek in %1$s, maar u zult vanuit %2$s lijken te surfen.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1532,7 +1532,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Verhoog uw verbindingssnelheid met tot 400%% met prestatieverbeterende technologieën. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Verhoog uw verbindingssnelheid met maximaal 400%% met prestatieverbetering technologieën. %1$s</string>
     <string name="settings_account_settings_title">Accountinstellingen</string>
     <string name="settings_account_change_password">Wachtwoord wijzigen</string>
     <string name="settings_account_recovery_email">Herstel-e-mailadres</string>

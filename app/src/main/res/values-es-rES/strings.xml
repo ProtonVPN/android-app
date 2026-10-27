@@ -123,7 +123,7 @@
     <string name="noNotificationPermissionGrantTitle">No te dejes sorprender…</string>
     <string name="noNotificationPermissionGrantDescription">Activa las notificaciones para recibir alertas cuando ocurran cambios en tu conexión.</string>
     <string name="noNotificationPermissionGrantNowTitle">Activar las notificaciones</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Desactiva la opción VPN siempre activa para todas las demás aplicaciones VPN en la configuración del sistema de Android, ya que eso impide que Proton VPN pueda establecer una conexión VPN. Concede también los permisos VPN si aparece un cuadro de diálogo solicitándolos. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después inténtalo de nuevo. <a href="%1$s">Más información</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Please disable always-on VPN for all other VPN apps in the Android VPN system settings, as that prevents Proton VPN from establishing a VPN connection. Please also grant VPN permissions if a dialog requesting VPN permissions appears. Other VPN apps may also need to be uninstalled to prevent conflicts. Afterwards, please try again. <a href="%1$s">Learn more</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir a la configuración de VPN en Android</string>
     <string name="error_prepare_vpn_title">Error: problema de permisos de VPN</string>
     <string name="error_server_not_set">El servidor ya no está disponible</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Carga del servidor %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Servidores utilizados recientemente</string>
     <string name="tv_available_servers">Servidores disponibles</string>
     <string name="tv_locked_servers">Servidores bloqueados</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">Lista de servidores</string>
     <string name="tv_server_list_action_unavailable">No disponible</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Conectado</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Conectando</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Mantenimiento</string>
     <string name="notification_subscription_expired_title">Tu plan de suscripción a Proton VPN ha expirado.</string>
     <string name="notification_subscription_expired_content">Hemos tenido que atribuirte un plan con menos funciones pero te estamos reconectando al servidor más rápido disponible en ese plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Has pasado a una suscripción con menos funciones.</string>
@@ -370,7 +370,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d país</item>
-        <item quantity="other">%1$d país</item>
+        <item quantity="other">%1$d países</item>
     </plurals>
     <string name="upsell_upgrade_again">Actualiza de nuevo para disfrutar de todas las funciones:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -390,7 +390,7 @@
          -->
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d país</item>
-        <item quantity="other">%d país</item>
+        <item quantity="other">%d países</item>
     </plurals>
     <string name="upgrade_not_now_button">Ahora no</string>
     <!-- Content description for plan selection list.
@@ -503,7 +503,7 @@
     <string name="upsell_card_customization_title">Y mucho más…</string>
     <string name="upsell_card_customization_description">Accede a más funciones de privacidad y rendimiento</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Protege %1$d dispositivo</item>
+        <item quantity="one">Protege hasta %1$d dispositivos</item>
         <item quantity="other">Protege hasta %1$d dispositivos</item>
     </plurals>
     <string name="upsell_card_devices_description">Seguridad y privacidad en todos tus dispositivos</string>
@@ -626,14 +626,14 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
+        <item quantity="one">La suscripción se renueva automáticamente por %1$s/mes.</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
+        <item quantity="one">La suscripción se renueva automáticamente por %1$s/año.</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
@@ -660,7 +660,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
+        <item quantity="one">%1$s/mes</item>
         <item quantity="other">%1$s every %2$d months</item>
     </plurals>
     <!--
@@ -693,7 +693,7 @@
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
+        <item quantity="one">por el primer mes</item>
         <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--

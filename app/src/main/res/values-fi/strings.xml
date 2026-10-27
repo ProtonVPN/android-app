@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% palvelimen kuormitus</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Viimeksi käytetyt palvelimet</string>
     <string name="tv_available_servers">Käytettävissä olevat palvelimet</string>
     <string name="tv_locked_servers">Lukitut palvelimet</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">Palvelinluettelo</string>
     <string name="tv_server_list_action_unavailable">Ei käytettävissä</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Yhdistetty</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Yhdistetään</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Huollossa</string>
     <string name="notification_subscription_expired_title">Proton VPN -tilauksesi on päättynyt</string>
     <string name="notification_subscription_expired_content">Tilauksesi jouduttiin vaihtamaan alempaan luokkaan, mutta sinut yhdistetään nykyisen tilauksen nopeimpaan palvelimeen.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Tilauksesi on vaihdettu alempaan luokkaan.</string>
@@ -360,8 +360,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d palvelinta</item>
-        <item quantity="other">%1$d pavelinta</item>
+        <item quantity="one">%1$d palvelin</item>
+        <item quantity="other">%1$d palvelinta</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -369,8 +369,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d maasta</item>
-        <item quantity="other">%1$d maasta</item>
+        <item quantity="one">%1$d maassa</item>
+        <item quantity="other">%1$d maassa</item>
     </plurals>
     <string name="upsell_upgrade_again">Tilaa uudelleen nauttiaksesi kaikista ominaisuuksista:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -380,7 +380,7 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d turvallisen palvelimen</item>
+        <item quantity="one">%d turvallista palvelinta</item>
         <item quantity="other">%d turvallista palvelinta</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
@@ -389,8 +389,8 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d maasta</item>
-        <item quantity="other">%d maasta</item>
+        <item quantity="one">%d maassa</item>
+        <item quantity="other">%d maassa</item>
     </plurals>
     <string name="upgrade_not_now_button">Ei nyt</string>
     <!-- Content description for plan selection list.
@@ -425,16 +425,16 @@
     <string name="upsell_panel_content_description_yes">Kyllä</string>
     <string name="upsell_panel_content_description_no">Ei</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">Estä mainoksia ja seurantoja</string>
+    <string name="upsell_panel_general_benefit_countries">Saatavilla olevat maat</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Suojatut laitteet</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_location">Valitse sijaintisi</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_general_benefit_shows">Katso sarjojasi mistä tahansa maasta</string>
     <string name="upsell_panel_general_benefit_speed">Palvelimen nopeus</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Tavallinen</string>
     <string name="upsell_panel_general_benefit_speed_highest">Korkein</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
@@ -466,7 +466,7 @@
     <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
     <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
     <string name="upsell_panel_profiles_benefit_profiles">Tallennetut profiilit</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">ei rajoitusta</string>
     <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
     <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
@@ -487,8 +487,8 @@
     <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
     <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
     <string name="upsell_panel_streaming_footer">* Vaatii suoratoistopalvelun tilauksen.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_streaming_block_title">Päivitä ohittaaksesi VPN-estot</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus -palvelimien avulla voit nauttia suosikkielokuvista ja TV-ohjelmista eri puolilta maailmaa.</string>
     <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
     <string name="upsell_panel_tor_benefit_tor">Tor + VPN</string>
@@ -534,15 +534,15 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">Avaa %1$s %2$s.</string>
     <string name="upsell_tv_netshield_title">Nauti mainosvapaasta selauksesta Plussalla</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Estä mainokset, seurannat ja haittaohjelmat <b>NetShieldillä</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Hanki molempien parhaat puolet Plussalla</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Jaa tietoliikenteesi VPN-tunneliin ja sen ulkopuolelle <b>jaetun tunneloinnin</b> avulla.]]></string>
     <string name="upsell_tv_subscription_expired_title">Tilaus on päättynyt</string>
     <string name="upsell_tv_subscription_expired_description">Päivitä tilauksesi palauttaaksesi Plus-palvelimet ja -ominaisuudet käyttöösi.</string>
     <string name="upsell_tv_customization_title">Saat edistyneet VPN-mukautukset Plus-versiolla.</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
+    <string name="upsell_tv_customization_description"><![CDATA[Avaa <b>LAN-yhteydet</b>, <b>Mukautettu DNS</b>, ja kehittyneemmät VPN-ominaisuudet.]]></string>
     <string name="upsell_tv_fallback_description">Siirry Proton VPN:n sivustolle päivittääksesi tilauksesi.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
@@ -626,14 +626,14 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
+        <item quantity="one">Tilaus uudistuu automaattisesti hintaan %1$s/kuukausi.</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
+        <item quantity="one">Tilaus uudistuu automaattisesti hintaan %1$s/vuosi.</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
@@ -660,7 +660,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
+        <item quantity="one">%1$s/kk</item>
         <item quantity="other">%1$s every %2$d months</item>
     </plurals>
     <!--
@@ -693,7 +693,7 @@
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
+        <item quantity="one">ensimmäisen kuukauden ajan</item>
         <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
@@ -839,7 +839,7 @@
     <string name="settings_widget_selection_title">Kokeile Proton VPN -widgettiä</string>
     <string name="settings_widget_selection_description">Näe yhteystilasi ja käytä suosikki-VPN-yhteyksiäsi aloitusnäytöltä.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">Lisää widgetti painamalla pitkään mitä tahansa tyhjää kohtaa aloitusnäytölläsi ja etsi sitten widgettivalikosta %1$s.</string>
+    <string name="setting_widget_selection_additional_description">Voit lisätä widgetin painamalla ja pitämällä pohjassa mitä tahansa kohtaa aloitusnäytölläsi, ja valitsemalla sitten widget-valikosta %1$s.</string>
     <string name="settings_widget_selection_button_title">Lisää widgetti</string>
     <string name="setting_widget_try_title">Kokeile Proton VPN -widgettiä</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -872,8 +872,8 @@
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="one">%1$d vuorokausi</item>
-        <item quantity="other">%1$d vuorokautta</item>
+        <item quantity="one">%1$d päivä</item>
+        <item quantity="other">%1$d päivää</item>
     </plurals>
     <string name="server_change_max_reached">Olet saavuttanut tällä erää käytettävissä olevien Free-palvelinvaihtojen enimmäismäärän.</string>
     <string name="server_change_upsell">Hanki rajattomasti vaihtoja VPN Plussalla</string>
@@ -1080,7 +1080,7 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">maan %1$s kautta</string>
+    <string name="connection_info_secure_core_entry_other">%1$s kautta</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Palvelimien fyysinen sijainti on %1$s, mutta näytät selaavan sijainnista %2$s.</string>
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1438,7 +1438,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Tämä kaavio näyttää nykyisen lähetys- ja lataustoimintasi nopeuden. VPN-yhteytesi ei todennäköisesti hidasta normaalia verkkotoimintaa.</string>
     <string name="speed_bytes_per_second">%1$s t/s</string>
-    <string name="speed_kilobytes_per_second">%1$s kt/s</string>
+    <string name="speed_kilobytes_per_second">%1$s Kt/s</string>
     <string name="speed_megabytes_per_second">%1$s Mt/s</string>
     <string name="speed_gigabytes_per_second">%1$s Gt/s</string>
     <string name="speed_terabytes_per_second">%1$s Tt/s</string>
@@ -1490,7 +1490,7 @@
         <item quantity="other">%1$s teratavua</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s t</string>
-    <string name="traffic_volume_kilobytes">%1$s kt</string>
+    <string name="traffic_volume_kilobytes">%1$s Kt</string>
     <string name="traffic_volume_megabytes">%1$s Mt</string>
     <string name="traffic_volume_gigabytes">%1$s Gt</string>
     <string name="traffic_volume_terabytes">%1$s Tt</string>
@@ -1500,8 +1500,8 @@
     <string name="error_vpn_waiting_for_network">Odotetaan verkkoa</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
-        <item quantity="one">%1$d vuorokausi</item>
-        <item quantity="other">%1$d vuorokautta</item>
+        <item quantity="one">%1$d päivä</item>
+        <item quantity="other">%1$d päivää</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d t</string>
@@ -1532,7 +1532,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Nopeuta yhteyttäsi jopa 400%% suorituskykyä parantavien tekniikoiden avulla. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Nopeuta yhteyttäsi jopa 400 %% suorituskykyä parantavien tekniikoiden avulla. %1$s</string>
     <string name="settings_account_settings_title">Tilin asetukset</string>
     <string name="settings_account_change_password">Vaihda salasana</string>
     <string name="settings_account_recovery_email">Palautusosoite</string>

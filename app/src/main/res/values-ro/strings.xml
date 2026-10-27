@@ -209,7 +209,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Rută alternativă</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[În cazul în care Proton este blocat, se permite aplicației să încerce căi alternative pentru a se conecta la serverele Proton. <a href="%1$s">Detalii</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocare guvernamentală</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Țara unde vă aflați ar putea bloca accesul la Proton. Încercați să folosiți <a href=\'%1$s\'>Tor</a> pentru a accesa Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Țara dvs. ar putea bloca accesul la Proton. Încercați să folosiți <a href=\'%1$s\'>Tor</a> pentru a accesa Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">Cum se activează întrerupătorul de conexiune</string>
     <string name="settingsKillSwitchEnableStep1">1. Deschideți setările dispozitivului</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -318,7 +318,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s %% încărcare server</string>
+    <string name="tv_server_list_load">Încărcare server %1$s %%</string>
     <string name="tv_recently_used_servers">Servere utilizate recent</string>
     <string name="tv_available_servers">Servere disponibile</string>
     <string name="tv_locked_servers">Servere blocate</string>
@@ -339,9 +339,9 @@
     <string name="notification_max_sessions_title">Ați atins limita maximă de dispozitive folosite</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la planul Plus pentru a avea până la %1$d dispozitiv conectat.</item>
-        <item quantity="few">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la planul Plus pentru a avea până la %1$d dispozitive conectate simultan.</item>
-        <item quantity="other">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la planul Plus pentru a avea până la %1$d de dispozitive conectate simultan.</item>
+        <item quantity="one">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea maxim %1$d dispozitiv conectat simultan.</item>
+        <item quantity="few">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea maxim %1$d dispozitive conectat simultan.</item>
+        <item quantity="other">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea maxim %1$d de dispozitive conectate simultan.</item>
     </plurals>
     <string name="notification_max_sessions_content">Deconectați un alt dispozitiv pentru a-l conecta pe acesta.</string>
     <string name="notification_cancel_to_free">Sunteți pe planul gratuit. Sunt disponibile serverele și funcțiile gratuite.</string>
@@ -435,7 +435,7 @@
     <string name="upsell_panel_general_benefit_block_ads">Blocați reclame și urmăritori</string>
     <string name="upsell_panel_general_benefit_countries">Țări disponibile</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">peste %1$d</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Dispozitive protejate</string>
     <string name="upsell_panel_general_benefit_location">Alegeți orice loc</string>
     <string name="upsell_panel_general_benefit_server">Alegeți-vă serverul</string>
@@ -644,7 +644,7 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Abonamentul se reînnoiește automat cu %1$s/lună.</item>
+        <item quantity="one">Abonamentul se autoreînnoiește cu %1$s/lună.</item>
         <item quantity="few">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d lună.</item>
         <item quantity="other">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d de luni.</item>
     </plurals>
@@ -652,7 +652,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Abonamentul se reînnoiește automat cu %1$s/an.</item>
+        <item quantity="one">Abonamentul se autoreînnoiește cu %1$s/an.</item>
         <item quantity="few">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d ani.</item>
         <item quantity="other">Abonamentul se reînnoiește automat cu %1$s la fiecare %2$d de ani.</item>
     </plurals>
@@ -837,7 +837,7 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Golire</string>
     <string name="free_connections_info_message">Proton gratuit vă conectează automat la cel mai rapid server disponibil. Acesta va fi în mod normal cel mai apropiat server de locul de unde vă conectați.</string>
-    <string name="free_connections_info_server_locations">Țări cu servere gratuite (%1$d)</string>
+    <string name="free_connections_info_server_locations">Locuri servere gratuite (%1$d)</string>
     <string name="free_connections_info_banner_text">Accesați toate țările cu VPN Plus</string>
     <string name="free_connection_info_title">Conexiuni gratuite</string>
     <string name="search_upsell_banner_title">Vizionați transmisii în flux de oriunde</string>
@@ -872,7 +872,7 @@
     <string name="settings_widget_selection_title">Încercați widget-ul Proton VPN</string>
     <string name="settings_widget_selection_description">Vedeți starea conexiunii și accesați conexiunile VPN preferate direct de pe ecranul principal.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">Pentru a adăuga widget-ul, țineți apăsat oriunde pe ecranul de pornire, apoi selectați %1$s din meniul afișat.</string>
+    <string name="setting_widget_selection_additional_description">Pentru a adăuga modulul, țineți apăsat oriunde pe ecranul de pornire, apoi selectați %1$s din meniul de module.</string>
     <string name="settings_widget_selection_button_title">Adăugare widget</string>
     <string name="setting_widget_try_title">Încercați widget-ul Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -1495,47 +1495,47 @@
     <plurals name="full_name_speed_kilobytes_per_second">
         <item quantity="one">%1$s kibibait pe secundă</item>
         <item quantity="few">%1$s kibibaiți pe secundă</item>
-        <item quantity="other">%1$s kibibaiți pe secundă</item>
+        <item quantity="other">%1$s de kibibaiți pe secundă</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
         <item quantity="one">%1$s mibibait pe secundă</item>
         <item quantity="few">%1$s mibibaiți pe secundă</item>
-        <item quantity="other">%1$s mibibaiți pe secundă</item>
+        <item quantity="other">%1$s de mibibaiți pe secundă</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
         <item quantity="one">%1$s gibibait pe secundă</item>
         <item quantity="few">%1$s gibibaiți pe secundă</item>
-        <item quantity="other">%1$s gibibaiți pe secundă</item>
+        <item quantity="other">%1$s de gibibaiți pe secundă</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
         <item quantity="one">%1$s tibibait pe secundă</item>
         <item quantity="few">%1$s tibibaiți pe secundă</item>
-        <item quantity="other">%1$s tibibaiți pe secundă</item>
+        <item quantity="other">%1$s de tibibaiți pe secundă</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s bait</item>
         <item quantity="few">%1$s baiți</item>
-        <item quantity="other">%1$s baiți</item>
+        <item quantity="other">%1$s de baiți</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
         <item quantity="one">%1$s kibibait</item>
         <item quantity="few">%1$s kibibaiți</item>
-        <item quantity="other">%1$s kibibaiți</item>
+        <item quantity="other">%1$s de kibibaiți</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
         <item quantity="one">%1$s mibibait</item>
         <item quantity="few">%1$s mibibaiți</item>
-        <item quantity="other">%1$s mibibaiți</item>
+        <item quantity="other">%1$s de mibibaiți</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
         <item quantity="one">%1$s gibibait</item>
         <item quantity="few">%1$s gibibaiți</item>
-        <item quantity="other">%1$s gibibaiți</item>
+        <item quantity="other">%1$s de gibibaiți</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
         <item quantity="one">%1$s tibibait</item>
         <item quantity="few">%1$s tibibaiți</item>
-        <item quantity="other">%1$s tibibaiți</item>
+        <item quantity="other">%1$s de tibibaiți</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KiB</string>
@@ -1624,7 +1624,7 @@
     <string name="settings_advanced_nat_type_moderate_short">Tip 2</string>
     <string name="settings_advanced_nat_type_strict_description">Restricționează datele care intră în rețeaua proprie. Această opțiune este mai sigură, dar poate face mai dificilă conexiunile jocurilor cu utilizatori multipli.</string>
     <string name="settings_advanced_nat_type_moderate_description">O anumită restricție la datele care intră în rețeaua personală. Această opțiune este cea mai bună pentru jocurile video online.</string>
-    <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând care aplicații și adrese IP sunt protejate de VPN. %1$s</string>
+    <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând ce aplicații și adrese IP sunt protejate de VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal. %1$s</string>
     <string name="settings_protocol_description_no_link">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal.</string>
     <string name="settings_protocol_section_speed">Viteză (UDP)</string>

@@ -39,7 +39,7 @@
     <string name="buttonConnect">เชื่อมต่อ</string>
     <string name="loaderConnectingTo">กำลังเชื่อมต่อไปยัง %1$s</string>
     <string name="loaderNotConnected">ไม่ได้เชื่อมต่อ (ไม่ได้รับการปกป้อง)</string>
-    <string name="loaderConnectedTo">เชื่อมต่อกับ %1$s แล้ว</string>
+    <string name="loaderConnectedTo">เชื่อมต่อไปยัง %1$s แล้ว</string>
     <string name="loaderDisconnecting">กำลังยกเลิกการเชื่อมต่อ</string>
     <string name="loaderReconnecting">กำลังเชื่อมต่อใหม่</string>
     <string name="loaderReconnectNoNetwork">กำลังรอเครือข่ายที่ใช้งานได้</string>
@@ -279,7 +279,7 @@
     <string name="errorTorrentNotAllowed">ไม่อนุญาตให้ใช้ P2P บนเซิร์ฟเวอร์นี้</string>
     <string name="error_profile_fallback_unavailable">การเชื่อมต่อล้มเหลว การเลือกเซิร์ฟเวอร์สำหรับโปรไฟล์ของคุณไม่พร้อมใช้งาน</string>
     <string name="profileProtocolNotAvailable">โปรโตคอล VPN ของโปรไฟล์นี้ไม่พร้อมใช้งานในขณะนี้ หากต้องการเชื่อมต่อ ให้ลองเปลี่ยนโปรโตคอล</string>
-    <string name="stateConnectedTo">เชื่อมต่อกับ %1$s แล้ว</string>
+    <string name="stateConnectedTo">เชื่อมต่อไปยัง %1$s แล้ว</string>
     <string name="stateNotConnected">คุณไม่ได้เชื่อมต่อ</string>
     <string name="nameEurope">ยุโรป</string>
     <string name="nameAmerica">อเมริกา</string>
@@ -314,7 +314,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">โหลดเซิร์ฟเวอร์ %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">เซิร์ฟเวอร์ที่ใช้ล่าสุด</string>
     <string name="tv_available_servers">เซิร์ฟเวอร์ที่พร้อมใช้งาน</string>
     <string name="tv_locked_servers">เซิร์ฟเวอร์ที่ถูกล็อก</string>
@@ -322,11 +322,11 @@
     <string name="tv_server_list">รายชื่อเซิร์ฟเวอร์</string>
     <string name="tv_server_list_action_unavailable">ไม่พร้อมใช้งาน</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">เชื่อมต่อแล้ว</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">กำลังเชื่อมต่อ</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">การบำรุงรักษา</string>
     <string name="notification_subscription_expired_title">แผนการสมัครสมาชิก Proton VPN ของคุณหมดอายุแล้ว</string>
     <string name="notification_subscription_expired_content">เราจำเป็นต้องดาวน์เกรดแผนของคุณ แต่เรากำลังเชื่อมต่อคุณกับเซิร์ฟเวอร์ที่เร็วที่สุดที่มีอยู่ในแผนนั้นใหม่</string>
     <string name="notification_subscription_expired_no_reconnection_content">การสมัครสมาชิกของคุณถูกดาวน์เกรดแล้ว</string>
@@ -375,7 +375,7 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="other">เซิร์ฟเวอร์ที่ปลอดภัย %d แห่ง</item>
+        <item quantity="other">%d เซิร์ฟเวอร์ที่ปลอดภัย</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -418,8 +418,8 @@
     <string name="upsell_panel_content_description_yes">ใช่</string>
     <string name="upsell_panel_content_description_no">ไม่</string>
     <string name="upsell_panel_table_header_plan_free">ฟรี</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">บล็อกโฆษณาและตัวติดตาม</string>
+    <string name="upsell_panel_general_benefit_countries">ประเทศที่ให้บริการ</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Protected devices</string>
@@ -427,8 +427,8 @@
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
     <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_general_benefit_speed_standard">มาตรฐาน</string>
+    <string name="upsell_panel_general_benefit_speed_highest">สูงสุด</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
@@ -459,7 +459,7 @@
     <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
     <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
     <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">ไม่จำกัด</string>
     <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
     <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
@@ -472,7 +472,7 @@
     <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">การแยกช่องสัญญาณ</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch shows from any country</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -480,11 +480,11 @@
     <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
     <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
     <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_streaming_block_title">อัปเกรดเพื่อหลีกเลี่ยงการบล็อก VPN เหล่านี้</string>
+    <string name="upsell_panel_streaming_block_description">เซิร์ฟเวอร์ VPN Plus ให้คุณเพลิดเพลินกับภาพยนตร์และรายการทีวีที่ชื่นชอบจากทั่วโลก</string>
     <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_tor_benefit_tor">เลือกใช้ Tor แทนที่ VPN</string>
     <string name="upsell_card_countries_title">ความครอบคลุมทั่วโลก</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -530,12 +530,12 @@
     <string name="upsell_tv_netshield_title">เพลิดเพลินกับการท่องเว็บแบบไม่มีโฆษณาด้วย Plus</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">รับสิ่งที่ดีที่สุดจากทั้งสองโลกด้วย Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[แบ่งทราฟฟิกของคุณเป็นช่องทาง VPN และที่ไม่ใช่ VPN ด้วย<b>การแยกช่องสัญญาณ</b>]]></string>
+    <string name="upsell_tv_subscription_expired_title">การสมัครสมาชิกหมดอายุ</string>
+    <string name="upsell_tv_subscription_expired_description">อัปเกรดเพื่อเข้าถึงเซิร์ฟเวอร์และคุณสมบัติ Plus อีกครั้ง</string>
     <string name="upsell_tv_customization_title">รับการปรับแต่ง VPN ขั้นสูงด้วย Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_fallback_description">ไปที่เว็บไซต์ Proton VPN เพื่ออัปเกรดแผนของคุณ</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
@@ -545,21 +545,21 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">วัน</string>
+    <string name="payment_price_per_week">สัปดาห์</string>
     <string name="payment_price_per_month">เดือน</string>
     <string name="payment_price_per_year">ปี</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="other">%1$d days</item>
+        <item quantity="other">%1$d วัน</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="other">%1$d สัปดาห์</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="other">%1$d months</item>
+        <item quantity="other">%1$d เดือน</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="other">%1$d years</item>
+        <item quantity="other">%1$d ปี</item>
     </plurals>
     <string name="payment_select_your_plan">เลือกแผน</string>
     <!-- Label on a button for purchasing a subscription.
@@ -771,7 +771,7 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">ล้าง</string>
     <!-- Content description for an icon button that clears text in an input field. -->
-    <string name="clear_text_field_content_description">Clear</string>
+    <string name="clear_text_field_content_description">ล้าง</string>
     <string name="free_connections_info_message">Proton Free จะเชื่อมต่อคุณกับเซิร์ฟเวอร์ที่เร็วที่สุดที่มีอยู่โดยอัตโนมัติ โดยปกติจะเป็นเซิร์ฟเวอร์ที่ใกล้กับตำแหน่งของคุณมากที่สุด</string>
     <string name="free_connections_info_server_locations">ตำแหน่งเซิร์ฟเวอร์ฟรี (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
@@ -935,7 +935,7 @@
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">ส่ง</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1384,7 +1384,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">เซิร์ฟเวอร์ตั้งอยู่จริงใน %1$s แต่คุณจะปรากฏเหมือนว่ากำลังท่องเว็บจาก %2$s</string>
+    <string name="country_smart_routing_info">เซิร์ฟเวอร์ตั้งอยู่ใน %1$s แต่คุณจะปรากฏเหมือนกำลังท่องเว็บจาก %2$s</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1483,7 +1483,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">เพิ่มความเร็วการเชื่อมต่อของคุณสูงสุด 400%% ด้วยเทคโนโลยีเพิ่มประสิทธิภาพ %1$s</string>
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">การตั้งค่าบัญชี</string>
     <string name="settings_account_change_password">เปลี่ยนรหัสผ่าน</string>
     <string name="settings_account_recovery_email">อีเมลการกู้คืน</string>
@@ -1723,15 +1723,15 @@
     <string name="no_connections_help_follow_instructions"><![CDATA[หากผู้ดูแลระบบของคุณต้องการความช่วยเหลือในการเปิดใช้งานการเข้าถึง VPN ให้ส่ง <a href="">คำแนะนำเหล่านี้</a> ให้พวกเขา]]></string>
     <string name="settings_protocol_proton_protocols">โปรโตคอล Proton</string>
     <string name="settings_protocol_proton_protocols_description">ใช้ WireGuard ที่ Proton VPN พัฒนาขึ้นเอง นี่เป็นคุณสมบัติทดลอง จึงอาจพบความไม่เสถียรบ้าง</string>
-    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">ไม่ใช่ประเทศที่คุณต้องการใช่หรือไม่?</string>
     <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
     <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
     <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
     <string name="session_fork_no_account_title">Sign in on Android TV</string>
     <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[การใช้แอปนี้แสดงว่าคุณยอมรับ<a href="">ข้อกำหนดและเงื่อนไข</a>ของเรา]]></string>
+    <string name="session_fork_no_account_signup_button">สร้างบัญชีใหม่</string>
+    <string name="session_fork_no_account_signin_button">เข้าสู่ระบบ</string>
     <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>

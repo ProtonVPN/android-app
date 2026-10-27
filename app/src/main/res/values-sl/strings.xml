@@ -47,7 +47,7 @@
     <string name="quickConnect">Hitro povezovanje</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s%%</string>
+    <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Prekliči</string>
     <string name="close">Zapri</string>
     <string name="dialogContinue">Nadaljuj</string>
@@ -74,7 +74,7 @@
     <string name="error_server_unreachable">Ni se bilo možno povezati z VPN. Prosimo, preverite svojo povezavo in poskusite ponovno.</string>
     <string name="error_auth_failed">Preverjanje pristnosti uporabnika ni uspelo</string>
     <string name="error_generic">Neznana napaka pri povezovanju.</string>
-    <string name="error_generic_with_reason">Proton VPN ni mogel vzpostaviti povezave VPN. Prosimo, poskusite znova čez nekaj sekund.<br/><br/> Podrobnosti: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN ni mogel vzpostaviti povezave VPN. Poskusite znova čez nekaj sekund.<br/><br/> Podrobnosti: %1$s</string>
     <string name="reconnect">Ponovno vzpostavite povezavo</string>
     <string name="reconnect_now">Zdaj se ponovno povežite</string>
     <string name="try_reconnecting">Poskusite znova vzpostaviti povezavo</string>
@@ -142,7 +142,7 @@
     <string name="settings_new_label_badge">NOVO</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">BETA</string>
-    <string name="settingsExcludedIPAddressesListHeader">Izključeni naslovi IP (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Izključeni IP naslovi (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Vključeni naslovi IP (%1$d)</string>
     <string name="settingsExcludedApps">Izvzete aplikacije</string>
     <string name="settingsExcludedAppsEmpty">Dodajte aplikacije, ki jih želite izključiti iz prometa VPN.</string>
@@ -207,7 +207,7 @@
     <string name="troubleshootContactUsSectionTitle">Še vedno potrebuješ pomoč? Kontaktirajte nas neposredno</string>
     <string name="troubleshootCustomerSupport">Podpora strankam</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativno usmerjanje</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V primeru, da je Proton blokiran, dovolite aplikaciji, da preizkusi alternativne poti za doseganje strežnikov Proton. <a href="%1$s">Več o tem</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Če je Proton blokiran, dovolite aplikaciji, da preizkusi alternativne poti za doseganje strežnikov Proton. <a href="%1$s">Več o tem</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada s strani države</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša država morda blokira dostop do Protona. Poskusite uporabiti <a href=\'%1$s\'>Tor</a> za dostop do Protona.]]></string>
     <string name="settingsKillSwitchEnableTitle">Kako omogočiti odklopno stikalo</string>
@@ -320,7 +320,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% obremenitev strežnika</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Nedavno uporabljeni strežniki</string>
     <string name="tv_available_servers">Razpoložljivi strežniki</string>
     <string name="tv_locked_servers">Zaklenjeni strežniki</string>
@@ -328,11 +328,11 @@
     <string name="tv_server_list">Seznam strežnikov</string>
     <string name="tv_server_list_action_unavailable">Ni na voljo</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Povezano</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Povezovanje</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Vzdrževanje</string>
     <string name="notification_subscription_expired_title">Vaš naročniški paket Proton VPN je potekel</string>
     <string name="notification_subscription_expired_content">Vaš paket smo morali znižati, vendar vas ponovno povezujemo z najhitrejšim strežnikom, ki je na voljo v tem paketu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaša naročnina je bila znižana.</string>
@@ -343,7 +343,7 @@
     <plurals name="notification_max_sessions_upsell_content">
         <item quantity="one">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d napravo.</item>
         <item quantity="two">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d napravi.</item>
-        <item quantity="few">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d naprave.</item>
+        <item quantity="few">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d naprav.</item>
         <item quantity="other">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d naprav.</item>
     </plurals>
     <string name="notification_max_sessions_content">Odklopite drugo napravo, da povežete to.</string>
@@ -439,12 +439,12 @@
     <string name="upsell_panel_content_description_yes">Da</string>
     <string name="upsell_panel_content_description_no">Ne</string>
     <string name="upsell_panel_table_header_plan_free">Brezplačno</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
+    <string name="upsell_panel_general_benefit_block_ads">Blokiraj oglase in sledilnike</string>
     <string name="upsell_panel_general_benefit_countries">Razpoložljive države</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Zaščitene naprave</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_location">Izberite svojo lokacijo</string>
     <string name="upsell_panel_general_benefit_server">Izberite svoj strežnik</string>
     <string name="upsell_panel_general_benefit_shows">Glejte svoje serije iz katere koli države</string>
     <string name="upsell_panel_general_benefit_speed">Hitrost strežnika</string>
@@ -492,7 +492,7 @@
     <string name="upsell_panel_speed_benefit_video">Pretočne video vsebine brez čakanja</string>
     <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Izberite, katere aplikacije lahko uporabijo VPN</string>
-    <string name="upsell_panel_split_tunneling_description">Vaš brskalnik upirabi VPN, vaša bančna aplikacija za zaobide. Vi določite, za vsako aplikacijo posebej.</string>
+    <string name="upsell_panel_split_tunneling_description">Vaš brskalnik uporabi VPN, vaša bančna aplikacija ga zaobide. Vi določite, za vsako aplikacijo posebej.</string>
     <string name="upsell_panel_split_tunneling_benefit_split">Razdeljeno tuneliranje</string>
     <string name="upsell_panel_streaming_title">Glejte svoje priljubljene storitve za pretočno predvajanje</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch shows from any country</string>
@@ -502,7 +502,7 @@
     <string name="upsell_panel_streaming_benefit_devices">Naprave, ki so hkrati povezane</string>
     <string name="upsell_panel_streaming_footer">* Potrebna je naročnina na platformo za pretočno predvajanje.</string>
     <string name="upsell_panel_streaming_block_title">Nadgradite, da obidete blokade VPN</string>
-    <string name="upsell_panel_streaming_block_description">Strežniki VPN Plus vam omogočajo uživanje v vaših najljubših filmih in TV-oddajah z vsega sveta.</string>
+    <string name="upsell_panel_streaming_block_description">Strežniki VPN Plus vam omogočajo uživanje v vaših najljubših filmih in serijah z vsega sveta.</string>
     <string name="upsell_panel_tor_title">Spletne strani \"Onion\", brez potrebe po brskalniku Tor</string>
     <string name="upsell_panel_tor_description">Dostop do .onion strani v brskalniku, katerega običajno uporabljate.</string>
     <string name="upsell_panel_tor_benefit_tor">Tor preko VPN</string>
@@ -569,33 +569,33 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">dan</string>
+    <string name="payment_price_per_week">teden</string>
     <string name="payment_price_per_month">mesec</string>
     <string name="payment_price_per_year">leto</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="two">%1$d days</item>
-        <item quantity="few">%1$d days</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d dan</item>
+        <item quantity="two">%1$d dneva</item>
+        <item quantity="few">%1$d dnevi</item>
+        <item quantity="other">%1$d dni</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="two">%1$d weeks</item>
-        <item quantity="few">%1$d weeks</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d teden</item>
+        <item quantity="two">%1$d tednov</item>
+        <item quantity="few">%1$d tednov</item>
+        <item quantity="other">%1$d tedni</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="two">%1$d months</item>
-        <item quantity="few">%1$d months</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d mesec</item>
+        <item quantity="two">%1$d meseca</item>
+        <item quantity="few">%1$d meseci</item>
+        <item quantity="other">%1$d mesecev</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="two">%1$d years</item>
-        <item quantity="few">%1$d years</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d leto</item>
+        <item quantity="two">%1$d leti</item>
+        <item quantity="few">%1$d leta</item>
+        <item quantity="other">%1$d let</item>
     </plurals>
     <string name="payment_select_your_plan">Izberite svoj paket</string>
     <!-- Label on a button for purchasing a subscription.
@@ -662,7 +662,7 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
+        <item quantity="one">Naročnina se samodejno obnovi po ceni %1$s/mesec</item>
         <item quantity="two">Subscription auto renews at %1$s every %2$d months</item>
         <item quantity="few">Subscription auto renews at %1$s every %2$d months</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
@@ -671,7 +671,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
+        <item quantity="one">Naročnina se samodejno obnovi po ceni %1$s/leto</item>
         <item quantity="two">Subscription auto renews at %1$s every %2$d years</item>
         <item quantity="few">Subscription auto renews at %1$s every %2$d years</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
@@ -704,7 +704,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
+        <item quantity="one">%1$s/mesec</item>
         <item quantity="two">%1$s every %2$d months</item>
         <item quantity="few">%1$s every %2$d months</item>
         <item quantity="other">%1$s every %2$d months</item>
@@ -745,7 +745,7 @@
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
+        <item quantity="one">za prvi mesec</item>
         <item quantity="two">for the first %1$d months</item>
         <item quantity="few">for the first %1$d months</item>
         <item quantity="other">for the first %1$d months</item>
@@ -876,7 +876,7 @@
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Odklenite geografsko blokirano vsebino iz %1$d države z VPN Plus</item>
-        <item quantity="two">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
+        <item quantity="two">Odklenite geografsko blokirano vsebino iz %1$d države z VPN Plus</item>
         <item quantity="few">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
         <item quantity="other">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
     </plurals>
@@ -931,8 +931,8 @@
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d minuta</item>
-        <item quantity="two">%1$d minuti</item>
-        <item quantity="few">%1$d minute</item>
+        <item quantity="two">%1$d minut</item>
+        <item quantity="few">%1$d minut</item>
         <item quantity="other">%1$d minut</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
@@ -1181,7 +1181,7 @@
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
         <item quantity="one">Samodejno izbrano iz %1$d države</item>
-        <item quantity="two">Samodejno izbrano iz %1$d držav</item>
+        <item quantity="two">Samodejno izbrano iz %1$d državi</item>
         <item quantity="few">Samodejno izbrano iz %1$d držav</item>
         <item quantity="other">Samodejno izbrano iz %1$d držav</item>
     </plurals>
@@ -1365,7 +1365,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Nalaganje: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Obremenitev: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1534,31 +1534,31 @@
     <plurals name="full_name_speed_kilobytes_per_second">
         <item quantity="one">%1$s kilobajt na sekundo</item>
         <item quantity="two">%1$s kilobajta na sekundo</item>
-        <item quantity="few">%1$s kilobajti na sekundo</item>
+        <item quantity="few">%1$s kilobajte na sekundo</item>
         <item quantity="other">%1$s kilobajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
         <item quantity="one">%1$s megabajt na sekundo</item>
         <item quantity="two">%1$s megabajta na sekundo</item>
-        <item quantity="few">%1$s megabajti na sekundo</item>
+        <item quantity="few">%1$s megabajte na sekundo</item>
         <item quantity="other">%1$s megabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
         <item quantity="one">%1$s gigabajt na sekundo</item>
         <item quantity="two">%1$s gigabajta na sekundo</item>
-        <item quantity="few">%1$s gigabajti na sekundo</item>
+        <item quantity="few">%1$s gigabajte na sekundo</item>
         <item quantity="other">%1$s gigabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
         <item quantity="one">%1$s terabajt na sekundo</item>
         <item quantity="two">%1$s terabajta na sekundo</item>
-        <item quantity="few">%1$s terabajti na sekundo</item>
+        <item quantity="few">%1$s terabajte na sekundo</item>
         <item quantity="other">%1$s terabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s bajt</item>
         <item quantity="two">%1$s bajta</item>
-        <item quantity="few">%1$s bajti</item>
+        <item quantity="few">%1$s bajte</item>
         <item quantity="other">%1$s bajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">

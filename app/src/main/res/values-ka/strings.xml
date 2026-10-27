@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">სერვერის დატვირთვა %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">ახლახან გამოყენებული სერვერები</string>
     <string name="tv_available_servers">ხელმისაწვდომი სერვერები</string>
     <string name="tv_locked_servers">დაბლოკილი სერვერები</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">სერვერების სია</string>
     <string name="tv_server_list_action_unavailable">ხელმიუწვდომელია</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">დაკავშირებულია</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">მიერთება</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">ტექმომსახურება</string>
     <string name="notification_subscription_expired_title">Proton VPN-ის თქვენს გამოწერის გეგმას ვადა გაუვიდა</string>
     <string name="notification_subscription_expired_content">ჩვენ იძულებულები ვიყავით, თქვენი სატარიფო გეგმა ჩამოგვეწია, მაგრამ ჩვენ იმ გეგმის უსწრაფეს სერვერთან მიგაერთებთ.</string>
     <string name="notification_subscription_expired_no_reconnection_content">თქვენი გამოწერის დონე დაწეულია.</string>
@@ -678,7 +678,7 @@
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
         <item quantity="one">პირველი დღისთვის</item>
-        <item quantity="other">პირველი %1$d დღისთვის</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -686,7 +686,7 @@
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
         <item quantity="one">პირველი კვირისთვის</item>
-        <item quantity="other">პირველი %1$d კვირისთვის</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -694,7 +694,7 @@
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
         <item quantity="one">პირველი თვისთვის</item>
-        <item quantity="other">პირველი %1$d თვისთვის</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -702,7 +702,7 @@
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
         <item quantity="one">პირველი წლისთვის</item>
-        <item quantity="other">პირველი %1$d წლისთვის</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">სერვერები ფიზიკურად განთავსებულია ქვეყანაში %1$s, მაგრამ თქვენ გამოჩნდებით, თითქოს, %2$s-დან მუშაობთ.</string>
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->

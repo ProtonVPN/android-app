@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s %% de charge serveur</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Serveurs récemment utilisés</string>
     <string name="tv_available_servers">Serveurs disponibles</string>
     <string name="tv_locked_servers">Serveurs verrouillés</string>
@@ -360,8 +360,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d serveur</item>
-        <item quantity="other">%1$d serveurs</item>
+        <item quantity="one">%1$d serveur</item>
+        <item quantity="other">%1$d serveurs</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -369,8 +369,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d pays</item>
-        <item quantity="other">%1$d pays</item>
+        <item quantity="one">%1$d pays</item>
+        <item quantity="other">%1$d pays</item>
     </plurals>
     <string name="upsell_upgrade_again">Passez de nouveau à la version supérieure pour profiter de toutes les fonctionnalités :</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -380,8 +380,8 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d serveur sécurisé</item>
-        <item quantity="other">%d serveurs sécurisés</item>
+        <item quantity="one">%d serveur sécurisé</item>
+        <item quantity="other">%d serveurs sécurisés</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -389,8 +389,8 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d pays</item>
-        <item quantity="other">%d pays</item>
+        <item quantity="one">%d pays</item>
+        <item quantity="other">%d pays</item>
     </plurals>
     <string name="upgrade_not_now_button">Plus tard</string>
     <!-- Content description for plan selection list.
@@ -428,7 +428,7 @@
     <string name="upsell_panel_general_benefit_block_ads">Bloquez les publicités et les traqueurs</string>
     <string name="upsell_panel_general_benefit_countries">Pays disponibles</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">%1$d +</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Appareils protégés</string>
     <string name="upsell_panel_general_benefit_location">Choisissez votre emplacement</string>
     <string name="upsell_panel_general_benefit_server">Choisissez votre serveur</string>
@@ -558,8 +558,8 @@
     <string name="payment_price_per_month">mois</string>
     <string name="payment_price_per_year">an</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d jour</item>
-        <item quantity="other">%1$d jours</item>
+        <item quantity="one">%1$d jour</item>
+        <item quantity="other">%1$d jours</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
         <item quantity="one">%1$d semaine</item>
@@ -626,14 +626,14 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">L\'abonnement est renouvelé automatiquement à %1$s par mois</item>
+        <item quantity="one">L\'abonnement est renouvelé automatiquement à %1$s par mois.</item>
         <item quantity="other">L\'abonnement est renouvelé automatiquement à %1$s tous les %2$d mois</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">L\'abonnement est renouvelé automatiquement à %1$s par an</item>
+        <item quantity="one">L\'abonnement est renouvelé automatiquement à %1$s par an.</item>
         <item quantity="other">L\'abonnement est renouvelé automatiquement à %1$s tous les %2$d ans</item>
     </plurals>
     <!--
@@ -678,7 +678,7 @@
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
         <item quantity="one">pour le premier jour</item>
-        <item quantity="other">pour les %1$d premiers jours</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -686,7 +686,7 @@
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
         <item quantity="one">pour la première semaine</item>
-        <item quantity="other">pour les %1$d premières semaines</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -694,7 +694,7 @@
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
         <item quantity="one">pour le premier mois</item>
-        <item quantity="other">pour les %1$d premiers mois</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -702,7 +702,7 @@
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
         <item quantity="one">pour la première année</item>
-        <item quantity="other">pour les %1$d premières années</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -863,7 +863,7 @@
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d minute</item>
-        <item quantity="other">%1$d minutes</item>
+        <item quantity="other">%1$d minutes</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
@@ -872,8 +872,8 @@
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="one">%1$d jour</item>
-        <item quantity="other">%1$d jours</item>
+        <item quantity="one">%1$d jour</item>
+        <item quantity="other">%1$d jours</item>
     </plurals>
     <string name="server_change_max_reached">Vous avez atteint le nombre maximum de changements de serveurs Free pour le moment.</string>
     <string name="server_change_upsell">Disposez d\'un nombre illimité de changements avec VPN Plus.</string>
@@ -1500,8 +1500,8 @@
     <string name="error_vpn_waiting_for_network">En attente d\'un réseau</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
-        <item quantity="one">%1$d jour</item>
-        <item quantity="other">%1$d jours</item>
+        <item quantity="one">%1$d jour</item>
+        <item quantity="other">%1$d jours</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d h</string>

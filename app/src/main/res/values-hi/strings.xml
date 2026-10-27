@@ -39,7 +39,7 @@
     <string name="buttonConnect">कनेक्ट करें</string>
     <string name="loaderConnectingTo">%1$s से जुड़ रहे</string>
     <string name="loaderNotConnected">जुड़े नहीं (असुरक्षित)</string>
-    <string name="loaderConnectedTo">%1$s से जुड़े</string>
+    <string name="loaderConnectedTo">%1$s से जुड़े है</string>
     <string name="loaderDisconnecting">कनेक्शन तोड़ रहे है</string>
     <string name="loaderReconnecting">वापस जुड़ रहे है</string>
     <string name="loaderReconnectNoNetwork">इस्तेमाल लायक नेटवर्क का इंतज़ार कर रहे</string>
@@ -74,7 +74,7 @@
     <string name="error_server_unreachable">VPN से कनेक्ट नहीं हो सका। कृपया अपने कनेक्शन की जांच करें और फिर से प्रयास करें।</string>
     <string name="error_auth_failed">यूज़र ऑथेंटिकेशन असफल रहा।</string>
     <string name="error_generic">कनेक्ट करते समय अनिर्दिष्ट विफलता।</string>
-    <string name="error_generic_with_reason">Proton VPN VPN कनेक्शन स्थापित नहीं कर सका। कृपया, कुछ सेकंड में पुन: प्रयास करें।<br/><br/> जानकारी: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN VPN कनेक्शन स्थापित नहीं कर सका। कृपया, कुछ सेकंड में पुन: प्रयास करें।<br/><br/>विवरण:%1$s</string>
     <string name="reconnect">फिर से कनेक्ट करें</string>
     <string name="reconnect_now">अभी फिर से कनेक्ट करें</string>
     <string name="try_reconnecting">दोबारा कनेक्ट करने की कोशिश करें</string>
@@ -108,7 +108,7 @@
     <string name="menu_option_move_down" comment="command used to move an item one position down in the list">नीचे ले जाएं</string>
     <string name="remove">हटाएं</string>
     <string name="saveButton">सेव करें</string>
-    <string name="ipWithPlaceholder">IP: %1$s</string>
+    <string name="ipWithPlaceholder">आईपी: %1$s</string>
     <string name="activityLicensesTitle">थर्ड पार्टी लाइसेंस</string>
     <string name="stateFragmentUnknownIp">अज्ञात</string>
     <string name="noVpnPermissionMainTitle">VPN से कनेक्ट करने के लिए कार्रवाई आवश्यक है</string>
@@ -123,7 +123,7 @@
     <string name="noNotificationPermissionGrantTitle">चौंकिए मत...</string>
     <string name="noNotificationPermissionGrantDescription">कनेक्शन स्टेटस में बदलाव के बारे में अलर्ट पाने के लिए नोटिफिकेशन सक्षम करें।</string>
     <string name="noNotificationPermissionGrantNowTitle">नोटिफिकेशन सक्षम करें</string>
-    <string name="error_prepare_vpn_description"><![CDATA[कृपया Android VPN सिस्टम सेटिंग्स में सभी अन्य VPN ऐप्स के लिए हमेशा-ऑन VPN को अक्षम करें, क्योंकि इससे Proton VPN को VPN कनेक्शन स्थापित करने में बाधा होती है। यदि VPN अनुमतियों का अनुरोध करने वाला एक संवाद प्रकट होता है, तो कृपया VPN अनुमतियाँ भी प्रदान करें। अन्य VPN ऐप्स को भी संघर्षों को रोकने के लिए अनइंस्टॉल करने की आवश्यकता हो सकती है। इसके बाद, कृपया पुनः प्रयास करें। <a href="%1$s">और जानें</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[कृपया Android VPN सिस्टम सेटिंग्स में सभी अन्य VPN ऐप्स के लिए हमेशा चालू रहने वाले VPN को अक्षम करें, क्योंकि इससे Proton VPN को VPN कनेक्शन स्थापित करने में बाधा होती है। यदि VPN अनुमतियों का अनुरोध करने वाला एक संवाद प्रकट होता है, तो कृपया VPN अनुमतियाँ भी प्रदान करें। अन्य VPN ऐप्स को भी संघर्षों को रोकने के लिए अनइंस्टॉल करने की आवश्यकता हो सकती है। इसके बाद, कृपया पुनः प्रयास करें। <a href="%1$s">अधिक जानें</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN सेटिंग्स पर जाएं</string>
     <string name="error_prepare_vpn_title">गड़बड़ी: VPN अनुमति समस्या</string>
     <string name="error_server_not_set">सर्वर अब उपलब्ध नहीं है।</string>
@@ -147,8 +147,8 @@
     <string name="settingsExcludedApps">बहिष्कृत ऐप</string>
     <string name="settingsExcludedAppsEmpty">वे ऐप जोड़ें जिन्हें VPN ट्रैफिक से बाहर रखना है।</string>
     <string name="settingsIncludedAppsEmpty">VPN ट्रैफिक में शामिल किए जाने वाले ऐप जोड़ें।</string>
-    <string name="settingsExcludedAppsSelectedHeader">बहिष्कृत ऐप (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">शामिल ऐप (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">अन्य सभी नियमित ऐप (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">अन्य सभी सिस्टम ऐप (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">अन्य सभी ऐप (%1$d)</string>
@@ -197,23 +197,23 @@
     <string name="troubleshootNoInternetDescription">कृपया सुनिश्चित करें कि आपका इंटरनेट कनेक्शन काम कर रहा है।</string>
     <string name="troubleshootNoInternetTitle">कोई इंटरनेट कनेक्शन नहीं</string>
     <string name="troubleshootIspProblemTitle">इंटरनेट सेवा प्रोवाइडर (ISP) समस्या</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Proton से कनेक्ट होने के लिए कोई दूसरा नेटवर्क इस्तेमाल करें (या <a href=\'%1$s\'>Tor</a> इस्तेमाल करें)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Proton से कनेक्ट होने के लिए कोई दूसरा नेटवर्क इस्तेमाल करे (या इस्तेमाल करे <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">एंटीवायरस हस्तक्षेप</string>
     <string name="troubleshootAntivirusProblemDescription">अपने एंटीवायरस सॉफ्टवेयर को अस्थायी रूप से अक्षम या हटा दें।</string>
     <string name="troubleshootProxyFirewallProblemTitle">प्रॉक्सी / फायरवॉल हस्तक्षेप</string>
     <string name="troubleshootProxyFirewallProblemDescription">किसी भी प्रॉक्सी या फायरवॉल को अक्षम करें, या अपने नेटवर्क व्यवस्थापक से संपर्क करें।</string>
     <string name="troubleshootProtonDownTitle">Proton काम नहीं कर रहा है</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[हमारे सिस्टम की स्थिति देखने के लिए <a href=\"%1$s\">Proton Status</a> देखें।]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[देखे <a href=\"%1$s\">Proton स्टेट्स</a> हमारा सिस्टम स्टेट्स देखने के लिए।]]></string>
     <string name="troubleshootContactUsSectionTitle">अभी भी सहायता चाहिए? हमसे सीधे संपर्क करें</string>
     <string name="troubleshootCustomerSupport">ग्राहक सहायता</string>
     <string name="settingsAllowAlternativeRoutingTitle">दूसरा रूट</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[अगर Proton ब्लॉक है, तो ऐप को दूसरे रास्तों से Proton सर्वर तक पहुंचने की अनुमति दें। <a href="%1$s">और जानें</a>।]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[अगर Proton ब्लॉक है, तो ऐप को दूसरे रास्तों से Proton सर्वर तक पहुँचने की अनुमति दे। <a href="%1$s">और जाने</a>।]]></string>
     <string name="troubleshootGovernmentBlockTitle">सरकारी ब्लॉक</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[आपका देश Proton तक पहुंच को अवरुद्ध कर सकता है। Proton तक पहुंचने के लिए <a href=\'%1$s\'>Tor</a> का उपयोग करने का प्रयास करें।]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[आपका देश Proton तक पहुंच को अवरुद्ध कर रहा है। Proton तक पहुँचने के लिए <a href=\'%1$s\'>Tor</a> का उपयोग करने का प्रयास करें।]]></string>
     <string name="settingsKillSwitchEnableTitle">किल स्विच कैसे सक्षम करें</string>
     <string name="settingsKillSwitchEnableStep1">1. अपनी डिवाइस की सेटिंग खोलें</string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsKillSwitchEnableStep2">2. Proton VPN खोजें और %1$s पर टैप करें</string>
+    <string name="settingsKillSwitchEnableStep2">2. Proton VPN खोजें और टैप करे %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">सेटिंग</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
@@ -229,8 +229,8 @@
     <string name="settingsSendCrashReportsTitle">अज्ञात क्रैश रिपोर्ट शेयर करें</string>
     <string name="settingsSendCrashReportsDescription">क्रेश रिपोर्ट हमें बग्स ठीक करने, फॉयरवॉल डिटेक्ट करने और VPN ब्लॉक से बचने में मदद करती हैं।</string>
     <string name="settingsTelemetryScreenTitle">उपयोग के आंकड़े</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[ये आंकड़े आपका IP पता नहीं रखते, और इनका इस्तेमाल आपको पहचानने में नहीं किया जा सकता। हम कभी भी इन्हें तीसरें-पार्टी के साथ शेयर नहीं करते। <a href="%1$s">और जानें</a>]]></string>
-    <string name="netshield_settings_description_not_html">वेबसाइटों और ऐप्स पे विज्ञापनों, मालवेयर और ट्रैकरों से खुद को बचाएं। %1$s</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[ये आंकड़े आपका आईपी नहीं रखते, और इनका इस्तेमाल आपको पहचानने में नही किया जा सकता। हम कभी भी इन्हें दूसरे लोगों के साथ शेयर नहीं करते। <a href="%1$s">और जाने</a>]]></string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
     <string name="netshield_settings_description_tv">थर्ड-पार्टी विज्ञापन, ट्रैकर और मालवेयर से बचाता है। NetShield, YouTube और Netflix जैसी स्ट्रीमिंग सर्विस में शामिल विज्ञापनों को ब्लॉक नहीं करता।</string>
     <string name="netshield_settings_more_info_title_tv">NetShield कैसे काम करता है</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
@@ -238,7 +238,7 @@
         <item>इसका मतलब है कि आपको अपने ब्राउज़र या उन फ्री ऐप्स से विज्ञापन नहीं मिलेंगे जो थर्ड-पार्टी विज्ञापन सर्विस इस्तेमाल करते हैं।</item>
         <item>हालांकि, ये YouTube और Netflix जैसे स्ट्रीमिंग प्लेटफॉर्म के विज्ञापन ब्लॉक नहीं कर सकता, क्योंकि उनके विज्ञापन उनके अपने सर्वर से आते हैं।</item>
     </string-array>
-    <string name="settings_icon_change_description">Proton VPN ऐप को गुप्त आइकन से छिपाएं। नोटिफिकेशन अभी भी डिफॉल्ट Proton VPN नाम और आइकन प्रदर्शित करेंगे। %1$s</string>
+    <string name="settings_icon_change_description">Proton VPN ऐप को गुप्त आइकन से छिपाएं। सूचनाएं अभी भी डिफॉल्ट Proton VPN नाम और आइकन प्रदर्शित करेंगीं। %1$s</string>
     <string name="settings_icon_change_learn_more">और जानें</string>
     <string name="learn_more">और जानें</string>
     <string name="netshield_state_on" comment="Describes state, not action">चालू</string>
@@ -292,7 +292,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">स्प्लिट टनलिंग</string>
     <string name="tv_card_protocol_label">प्रोटोकॉल</string>
-    <string name="tv_dialog_delete_server_title">सर्वर %1$s मिटा दें?</string>
+    <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">मनपसंद</string>
     <string name="tv_detail_connect_streaming">Plus के साथ स्ट्रीम करें</string>
     <string name="tv_detail_connect">कनेक्ट करें</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% सर्वर लोड</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">हाल में इस्तेमाल किए गए सर्वर</string>
     <string name="tv_available_servers">उपलब्ध सर्वर</string>
     <string name="tv_locked_servers">लॉक किए गए सर्वर</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">सर्वर सूची</string>
     <string name="tv_server_list_action_unavailable">अनुपलब्ध</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">जुड़े हुए</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">जुड़ रहे</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">रखरखाव</string>
     <string name="notification_subscription_expired_title">आपकी Proton VPN सदस्यता योजना समाप्त हो गई है</string>
     <string name="notification_subscription_expired_content">हमें आपका प्लान डाउनग्रेड करना पड़ा, लेकिन हम आपको उस प्लान में सबसे तेज़ मौजूद सर्वर से वापिस जोड़ रहे हैं।</string>
     <string name="notification_subscription_expired_no_reconnection_content">आपकी सदस्यता डाउनग्रेड कर दी गई है।</string>
@@ -370,7 +370,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d देश</item>
-        <item quantity="other">%1$d देश</item>
+        <item quantity="other">%1$d देशे</item>
     </plurals>
     <string name="upsell_upgrade_again">सभी सुविधाओं का आनंद लेने के लिए फिर से अपग्रेड करें:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -448,7 +448,7 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">VPN Plus के साथ %1$s अनलॉक करें</string>
+    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
     <string name="upsell_panel_countries_title">VPN Plus के साथ सभी देश अनलॉक करें</string>
     <string name="upsell_panel_country_benefit_speed">तेज़ गति वाले सर्वर</string>
     <string name="upsell_panel_country_benefit_shows">सिर्फ विदेश में उपलब्ध शो देखें</string>
@@ -520,7 +520,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">%1$d जीबीपीएस तक की अधिक गति से ब्राउज़ करें</string>
+    <string name="upsell_card_speed_description">%1$d जीबिटपीएस तक की अधिक गति से ब्राउज़ करें</string>
     <string name="upsell_card_split_tunneling_title">स्प्लिट टनलिंग</string>
     <string name="upsell_card_split_tunneling_description">एक साथ दो लोकेशन से ब्राउज़ करें</string>
     <string name="upsell_card_streaming_title">स्ट्रीमिंग</string>
@@ -534,7 +534,7 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">%2$s में %1$s अनलॉक करें।</string>
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Plus के साथ विज्ञापन-मुक्त ब्राउज़िंग का आनंद लें</string>
     <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> के साथ विज्ञापन, ट्रैकर और मालवेयर को ब्लॉक करें।]]></string>
     <string name="upsell_tv_split_tunneling_title">Plus के साथ दोनों दुनिया का सर्वोत्तम प्राप्त करें</string>
@@ -562,8 +562,8 @@
         <item quantity="other">%1$d दिन</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d हफ्ता</item>
-        <item quantity="other">%1$d हफ्ते</item>
+        <item quantity="one">%1$d हफ़्ता</item>
+        <item quantity="other">%1$d हफ़्ते</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
         <item quantity="one">%1$d महीना</item>
@@ -612,29 +612,29 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">सदस्यता %1$s/दिन पर स्वतः नवीनीकृत होती है।</item>
-        <item quantity="other">सदस्यता हर %2$d दिन में %1$s पर स्वतः नवीनीकृत होती है।</item>
+        <item quantity="one">Subscription auto renews at %1$s/day</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">सदस्यता %1$s/हफ्ता पर स्वतः नवीनीकृत होती है।</item>
-        <item quantity="other">सदस्यता हर %2$d हफ्ते में %1$s पर स्वतः नवीनीकृत होती है।</item>
+        <item quantity="one">Subscription auto renews at %1$s/week</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">सदस्यता %1$s/माह पर स्वतः नवीनीकृत होती है।</item>
-        <item quantity="other">सदस्यता हर %2$d महीने में %1$s पर स्वतः नवीनीकृत होती है।</item>
+        <item quantity="one">सदस्यता %1$s/माह पर स्वतः नवीनीकृत होती है</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">सदस्यता %1$s/वर्ष पर स्वतः नवीनीकृत होती है।</item>
-        <item quantity="other">सदस्यता हर %2$d साल में %1$s पर स्वतः नवीनीकृत होती है।</item>
+        <item quantity="one">सदस्यता %1$s/वर्ष पर स्वतः नवीनीकृत होती है</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -642,8 +642,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="one">%1$s/दिन</item>
-        <item quantity="other">हर %2$d दिन में %1$s</item>
+        <item quantity="one">%1$s/day</item>
+        <item quantity="other">%1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -651,8 +651,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s/हफ़्ता</item>
-        <item quantity="other">हर %2$d हफ़्ते में %1$s</item>
+        <item quantity="one">%1$s/week</item>
+        <item quantity="other">%1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -660,8 +660,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/माह</item>
-        <item quantity="other">हर %2$d महीने में %1$s</item>
+        <item quantity="one">%1$s/month</item>
+        <item quantity="other">%1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -669,40 +669,40 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="one">%1$s/वर्ष</item>
-        <item quantity="other">हर %2$d साल में %1$s</item>
+        <item quantity="one">%1$s/year</item>
+        <item quantity="other">%1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">पहले दिन के लिए</item>
-        <item quantity="other">पहले %1$d दिनों के लिए</item>
+        <item quantity="one">for the first day</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">पहले हफ्ते के लिए</item>
-        <item quantity="other">पहले %1$d हफ्तों के लिए</item>
+        <item quantity="one">for the first week</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">पहले महीने के लिए</item>
-        <item quantity="other">पहले %1$d महीनों के लिए</item>
+        <item quantity="one">for the first month</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">पहले साल के लिए</item>
-        <item quantity="other">पहले %1$d सालों के लिए</item>
+        <item quantity="one">for the first year</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -710,8 +710,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">फिर %1$s/दिन पे ऑटो रिन्यू होगा</item>
-        <item quantity="other">फिर हर %2$d दिन में %1$s पे ऑटो रिन्यू होगा</item>
+        <item quantity="one">then auto renews at %1$s/day</item>
+        <item quantity="other">then auto renews at %1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -719,8 +719,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">फिर %1$s/हफ्ता पे ऑटो रिन्यू होगा</item>
-        <item quantity="other">फिर हर %2$d हफ्ते में %1$s पे ऑटो रिन्यू होगा</item>
+        <item quantity="one">then auto renews at %1$s/week</item>
+        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -728,8 +728,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">फिर %1$s/महीना पे ऑटो रिन्यू होगा</item>
-        <item quantity="other">फिर हर %2$d महीने में %1$s पे ऑटो रिन्यू होगा</item>
+        <item quantity="one">then auto renews at %1$s/month</item>
+        <item quantity="other">then auto renews at %1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -737,8 +737,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">फिर %1$s/साल पे ऑटो रिन्यू होगा</item>
-        <item quantity="other">फिर हर %2$d साल में %1$s पे ऑटो रिन्यू होगा</item>
+        <item quantity="one">then auto renews at %1$s/year</item>
+        <item quantity="other">then auto renews at %1$s every %2$d years</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -755,7 +755,7 @@
       "$19.99/year for the first 3 years, then auto renews at $24.99/year"
       "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
     -->
-    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s।</string>
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">ये टेकनोलॉजी Proton VPN को तेज़ रफ्तार और मुश्किल-से-सेवा-दे-पाने वाले देशों में सुरक्षा देने में मदद करती है।</string>
     <string name="tor_title">Tor</string>
@@ -805,14 +805,14 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">हटाएं</string>
     <string name="free_connections_info_message">Proton Free स्वचालित रूप से आपको सबसे तेज़ उपलब्ध सर्वर से जोड़ता है। यह सामान्यतः आपके स्थान का निकटतम सर्वर होगा।</string>
-    <string name="free_connections_info_server_locations">मुफ्त सर्वर स्थान (%1$d)</string>
+    <string name="free_connections_info_server_locations">Free सर्वर लोकेशन (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plus के साथ सारे देश एक्सेस करें</string>
     <string name="free_connection_info_title">मुफ्त कनेक्शन</string>
     <string name="search_upsell_banner_title">कहीं से भी स्ट्रीम करें</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">VPN Plus के साथ %1$d देश से जियोब्लॉक की गई सामग्री अनलॉक करें।</item>
-        <item quantity="other">VPN Plus के साथ %1$d देशों से जियोब्लॉक की गई सामग्री अनलॉक करें।</item>
+        <item quantity="one">VPN Plus के साथ %1$d देश से जियोब्लॉक की गई सामग्री अनलॉक करें</item>
+        <item quantity="other">VPN Plus के साथ %1$d देशों से जियोब्लॉक की गई सामग्री अनलॉक करें</item>
     </plurals>
     <string name="select_default_connection">डिफॉल्ट कनेक्शन चुनें</string>
     <string name="settings_default_connection_title">डिफॉल्ट कनेक्शन</string>
@@ -839,7 +839,7 @@
     <string name="settings_widget_selection_title">Proton VPN का विडजेट आज़माएं</string>
     <string name="settings_widget_selection_description">होम स्क्रीन से अपना कनेक्शन स्टेटस देखें और अपने पसंदीदा VPN कनेक्शन एक्सेस करें।</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">विडजेट जोड़ने के लिए, होम स्क्रीन पर कहीं भी दबाकर रखें और फिर विडजेट मेनू से %1$s चुनें।</string>
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
     <string name="settings_widget_selection_button_title">विडजेट जोड़ें</string>
     <string name="setting_widget_try_title">Proton VPN का विडजेट आज़माएं</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -1414,7 +1414,7 @@
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">यह गंतव्य देश से उन सर्वरों के माध्यम से कनेक्ट करता है जो भौतिक रूप से कहीं और स्थित हैं।</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">यह गंतव्य देश से उन सर्वरों के माध्यम से कनेक्ट करता है जो भौतिक रूप से कहीं और स्थित हैं: %1$s।</string>
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">सर्वर भौतिक रूप से %1$s में स्थित हैं, लेकिन ऐसा प्रतीत होगा कि ब्राउज़िंग %2$s से हो रही है।</string>
+    <string name="country_smart_routing_info">सर्वर भौतिक रूप से %1$s में स्थित हैं, लेकिन ऐसा प्रतीत होगा कि आप %2$s से ब्राउज़ कर रहे हैं।</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1439,9 +1439,9 @@
     <string name="connection_details_vpn_speed_description">यह ग्राफ़ वर्तमान अपलोड और डाउनलोड गतिविधि की गति दिखाता है। VPN कनेक्शन से सामान्य ऑनलाइन गतिविधि धीमी होने की संभावना नहीं है।</string>
     <string name="speed_bytes_per_second">%1$s बाइट/सेकंड</string>
     <string name="speed_kilobytes_per_second">%1$s केबी/सेकंड</string>
-    <string name="speed_megabytes_per_second">%1$s MB/सेकंड</string>
+    <string name="speed_megabytes_per_second">%1$s एमबी/सेकंड</string>
     <string name="speed_gigabytes_per_second">%1$s जीबी/सेकंड</string>
-    <string name="speed_terabytes_per_second">%1$s TB/सेकंड</string>
+    <string name="speed_terabytes_per_second">%1$s टीबी/सेकंड</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
     <string name="speed_graph_title">गति %1$s</string>
     <string name="bytes_per_second">बाइट/सेकेंड</string>
@@ -1491,9 +1491,9 @@
     </plurals>
     <string name="traffic_volume_bytes">%1$s बाइट</string>
     <string name="traffic_volume_kilobytes">%1$s केबी</string>
-    <string name="traffic_volume_megabytes">%1$s MB</string>
+    <string name="traffic_volume_megabytes">%1$s एमबी</string>
     <string name="traffic_volume_gigabytes">%1$s जीबी</string>
-    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <string name="traffic_volume_terabytes">%1$s टीबी</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
@@ -1508,7 +1508,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_minutes_shortened">%1$d मिनट</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d सेकेंड</string>
+    <string name="connection_details_seconds_shortened">%1$d सेकंड</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">कनेक्शन असफल रहा</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">यह डिवाइस VPN कनेक्शन की अनुमति नहीं देता है।</string>
     <string name="create_profile_title">प्रोफाइल बनाएँ</string>
@@ -1527,7 +1527,7 @@
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">स्टेप %1$d, %2$d में से</string>
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
     <string name="create_profile_button_next">अगला</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
@@ -1576,7 +1576,7 @@
     <string name="settings_advanced_nat_type_strict_description">नेटवर्क में प्रवेश करने वाले डेटा को प्रतिबंधित करता है। ये विकल्प अधिक सुरक्षित है, लेकिन पीयर-टू-पीयर गेमिंग कनेक्शन को अधिक कठिन बना सकता है।</string>
     <string name="settings_advanced_nat_type_moderate_description">नेटवर्क में प्रवेश करने वाले डेटा पर कुछ प्रतिबंध। ये विकल्प ऑनलाइन वीडियो गेमिंग के लिए सबसे अच्छा है।</string>
     <string name="settings_split_tunneling_description">कनेक्शन को यह तय करके अनुकूलित करें कि कौन से ऐप और IP पते VPN द्वारा सुरक्षित हैं। %1$s</string>
-    <string name="settings_protocol_description">VPN प्रोटोकॉल यह निर्धारित करता है कि VPN सर्वर और डिवाइस के बीच डेटा कैसे चलता है। %1$s</string>
+    <string name="settings_protocol_description">VPN प्रोटोकॉल यह निर्धारित करता है कि VPN सर्वर और डिवाइस के बीच डाटा कैसे चलता है। %1$s</string>
     <string name="settings_protocol_description_no_link">VPN प्रोटोकॉल यह निर्धारित करता है कि VPN सर्वर और डिवाइस के बीच डेटा कैसे चलता है।</string>
     <string name="settings_protocol_section_speed">गति (UDP)</string>
     <string name="settings_protocol_section_reliability">विश्वसनीयता (TCP)</string>
@@ -1690,7 +1690,7 @@
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
-    <string name="create_profile_copy_name">%1$s (कॉपी)</string>
+    <string name="create_profile_copy_name">%1$s (copy)</string>
     <string name="create_profile_fastest_city">सबसे तेज</string>
     <string name="create_profile_fastest_state">सबसे तेज</string>
     <string name="create_profile_fastest_server">सबसे तेज</string>
@@ -1700,19 +1700,19 @@
     <string name="profiles_button_create_profile">प्रोफाइल बनाएँ</string>
     <string name="profile_deleted_snackbar_message">प्रोफाइल मिटा दी गई</string>
     <string name="profile_connected_edit_setting">ये सेटिंग आपकी चालू प्रोफाइल से जुड़ी है। \n\n बदलाव करने के लिए अपनी प्रोफाइल एडिट करें, या अपनी सामान्य VPN सेटिंग बदलने के लिए डिस्कनेक्ट करें।</string>
-    <string name="profile_connected_dialog_title">प्रोफाइल्स में %1$s मैनेज करें</string>
+    <string name="profile_connected_dialog_title">प्रोफाइल में %1$s मैनेज करें</string>
     <string name="undo">पहले जैसा करें</string>
     <string name="profile_unavailable_dialog_title">प्रोफाइल अनुपलब्ध</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">%1$s के लिए चुना गया सर्वर अनुपलब्ध है। कोई दूसरा सर्वर चुनें या बाद में फिर प्रयास करें।</string>
-    <string name="profile_location_excluded_dialog_message"><![CDATA[<b>%1$s</b> के लिए आपका सर्वर चयन उपलब्ध नहीं है। कोई दूसरा सर्वर चुनें, अपने बहिष्कृत स्थान चेक करें या बाद में फिर प्रयास करें।]]></string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_location_excluded_dialog_message"><![CDATA[Your server selection for <b>%1$s</b> is unavailable. Select a different server, check your excluded locations or try again later.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">आइकॉन %1$d</string>
+    <string name="profile_icon_accessibility">Icon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">रंग %1$d</string>
+    <string name="profile_color_accessibility">Color %1$d</string>
     <string name="generic_info_label">जानकारी</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
@@ -1801,10 +1801,10 @@
     <string name="session_fork_qr_code_error_network">अपना नेटवर्क जांचें और दोबारा कोशिश करें</string>
     <string name="session_fork_qr_code_error_create_new_button">नया कोड बनाएं</string>
     <string name="session_fork_user_code_title">कोड स्कैन नहीं हो रहा? मैन्युअल रूप से साइन-इन करें</string>
-    <string name="session_fork_user_code_step1"><![CDATA[यहां जाएं: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">साइन-इन करें या खाता बनाएं</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[कोड दर्ज करें: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[अब भी मदद चाहिए? <b>%1$s</b> पर जाएं]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

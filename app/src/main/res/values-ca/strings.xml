@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Càrrega del servidor %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% de càrrega del servidor</string>
     <string name="tv_recently_used_servers">Servidors utilitzats recentment</string>
     <string name="tv_available_servers">Servidors disponibles</string>
     <string name="tv_locked_servers">Servidors bloquejats</string>
@@ -626,14 +626,14 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">La subscripció es renovarà automàticament a %1$s/mes</item>
+        <item quantity="one">La subscripció es renova automàticament a %1$s/mes</item>
         <item quantity="other">La subscripció es renovarà automàticament a %1$s cada %2$d mesos</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">La subscripció es renovarà automàticament a %1$s/any</item>
+        <item quantity="one">La subscripció es renova automàticament a %1$s/any</item>
         <item quantity="other">La subscripció es renovarà automàticament a %1$s cada %2$d anys</item>
     </plurals>
     <!--
@@ -1482,8 +1482,8 @@
         <item quantity="other">%1$s megabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s gigabyte</item>
-        <item quantity="other">%1$s gigabytes</item>
+        <item quantity="one">%1$s megabyte</item>
+        <item quantity="other">%1$s Gigabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
         <item quantity="one">%1$s terabyte</item>

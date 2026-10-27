@@ -39,7 +39,7 @@
     <string name="buttonConnect">Pripojiť</string>
     <string name="loaderConnectingTo">Pripája sa ku %1$s</string>
     <string name="loaderNotConnected">Nepripojené (Nechránené)</string>
-    <string name="loaderConnectedTo">Pripojené k %1$s</string>
+    <string name="loaderConnectedTo">Pripojené ku %1$s</string>
     <string name="loaderDisconnecting">Odpája sa</string>
     <string name="loaderReconnecting">Obnovuje sa pripojenie</string>
     <string name="loaderReconnectNoNetwork">Čaká sa použiteľnú sieť</string>
@@ -320,7 +320,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Zaťaženie servera %1$s%%</string>
+    <string name="tv_server_list_load">zaťaženie servera %1$s%%</string>
     <string name="tv_recently_used_servers">Nedávno použité servery</string>
     <string name="tv_available_servers">Dostupné servery</string>
     <string name="tv_locked_servers">Zamknuté servery</string>
@@ -377,10 +377,10 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d krajine</item>
-        <item quantity="few">%1$d krajina</item>
-        <item quantity="many">%1$d krajina</item>
-        <item quantity="other">%1$d krajina</item>
+        <item quantity="one">%1$d krajina</item>
+        <item quantity="few">%1$d krajiny</item>
+        <item quantity="many">%1$d krajín</item>
+        <item quantity="other">%1$d krajín</item>
     </plurals>
     <string name="upsell_upgrade_again">Znovu navýšte tarif pre využitie všetkých funkcií:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -402,7 +402,7 @@
          -->
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d krajina</item>
-        <item quantity="few">%d krajín</item>
+        <item quantity="few">%d krajiny</item>
         <item quantity="many">%d krajín</item>
         <item quantity="other">%d krajín</item>
     </plurals>
@@ -518,7 +518,7 @@
     <string name="upsell_card_customization_description">Odomknite ešte viac funkcií výkonu a ochrany súkromia</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Ochráňte %1$d zariadenie</item>
-        <item quantity="few">Ochráňte %1$d zariadení</item>
+        <item quantity="few">Ochráňte %1$d zariadenia</item>
         <item quantity="many">Ochráňte %1$d zariadení</item>
         <item quantity="other">Ochráňte %1$d zariadení</item>
     </plurals>
@@ -575,8 +575,8 @@
     <string name="payment_price_per_year">rok</string>
     <plurals name="payment_price_cycle_label_day">
         <item quantity="one">%1$d deň</item>
-        <item quantity="few">%1$d dni</item>
-        <item quantity="many">%1$d dní</item>
+        <item quantity="few">%1$d dní</item>
+        <item quantity="many">%1$d dni</item>
         <item quantity="other">%1$d dni</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
@@ -925,7 +925,7 @@
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d sekunda</item>
         <item quantity="few">%1$d sekundy</item>
-        <item quantity="many">%1$d sekundy</item>
+        <item quantity="many">%1$d sekúnd</item>
         <item quantity="other">%1$d sekúnd</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
@@ -1352,12 +1352,12 @@
     <string name="country_filter_all_list_header_free">Plus krajiny (%1$d)</string>
     <string name="country_filter_countries_list_header">Krajiny (%1$d)</string>
     <string name="country_filter_cities_list_header">Mestá (%1$d)</string>
-    <string name="country_filter_states_list_header">Štátov (%1$d)</string>
+    <string name="country_filter_states_list_header">Štáty (%1$d)</string>
     <string name="country_filter_servers_list_header">Servery</string>
     <string name="country_filter_secure_core_list_header">Krajiny so Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P krajiny (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P mestá (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P štátov (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P štáty (%1$d)</string>
     <string name="counrty_filter_p2p_servers_list_header">P2P servery</string>
     <string name="country_filter_tor_list_header">Tor krajiny (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servery</string>
@@ -1498,7 +1498,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Servery sa fyzicky nachádzajú v lokalite %1$s, ale bude to vyzerať, že surfujete z lokality %2$s.</string>
+    <string name="country_smart_routing_info">Fyzické umiestnenie serverov je %1$s, ale bude to vyzerať, že prehliadanie internetu prebieha z krajiny %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1597,8 +1597,8 @@
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d deň</item>
-        <item quantity="few">%1$d dní</item>
-        <item quantity="many">%1$d dni</item>
+        <item quantity="few">%1$d dni</item>
+        <item quantity="many">%1$d dní</item>
         <item quantity="other">%1$d dni</item>
     </plurals>
     <!-- tag(Redesign_2023) -->

@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">carga del servidor: %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% de carga del servidor</string>
     <string name="tv_recently_used_servers">Servidores usados recientemente</string>
     <string name="tv_available_servers">Servidores disponibles</string>
     <string name="tv_locked_servers">Servidores bloqueados</string>
@@ -1532,7 +1532,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Aumente la velocidad de su conexión hasta 400%% con tecnologías que mejoran el rendimiento. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Aumente la velocidad de la conexión hasta 400%% con tecnologías que mejoran el rendimiento. %1$s</string>
     <string name="settings_account_settings_title">Ajustes de la cuenta</string>
     <string name="settings_account_change_password">Cambiar la contraseña</string>
     <string name="settings_account_recovery_email">Correo electrónico de recuperación</string>

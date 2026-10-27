@@ -47,7 +47,7 @@
     <string name="quickConnect">Snabbanslut</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s %%</string>
+    <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
     <string name="dialogContinue">Fortsätt</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s %% serverbelastning</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Nyligen använda servrar</string>
     <string name="tv_available_servers">Tillgängliga servrar</string>
     <string name="tv_locked_servers">Låsta servrar</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">Serverlista</string>
     <string name="tv_server_list_action_unavailable">Inte tillgänglig</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Ansluten</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Ansluter</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Underhåll</string>
     <string name="notification_subscription_expired_title">Din Proton VPN-prenumerationspaket har löpt ut</string>
     <string name="notification_subscription_expired_content">Vi var tvungna att nedgradera ditt paket, men vi återansluter dig till den snabbaste servern som finns tillgänglig på det paketet.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Din prenumeration har nedgraderats.</string>
@@ -626,14 +626,14 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
+        <item quantity="one">Prenumerationen autoförnyas med %1$s/månad</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
+        <item quantity="one">Prenumerationen autoförnyas med %1$s/år</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
@@ -694,7 +694,7 @@
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
         <item quantity="one">för första månaden</item>
-        <item quantity="other">för första %1$d månaderna</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -702,7 +702,7 @@
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
         <item quantity="one">för första året</item>
-        <item quantity="other">för första %1$d åren</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -1098,7 +1098,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Automatiskt vald från [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Autovald från [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1106,8 +1106,8 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">Automatiskt valt från %1$d land</item>
-        <item quantity="other">Automatiskt valt från %1$d länder</item>
+        <item quantity="one">Autovald från %1$d land</item>
+        <item quantity="other">Autovald från %1$d länder</item>
     </plurals>
     <string name="connection_info_auto_selected_free_countries_plain">Automatiskt valt från gratisländer.</string>
     <!-- tag(Redesign_2023)

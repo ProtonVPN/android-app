@@ -142,13 +142,13 @@
     <string name="settings_new_label_badge">新功能</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">测试版</string>
-    <string name="settingsExcludedIPAddressesListHeader">排除的 IP 地址 (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">包含的 IP 地址 (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">排除了 IP 地址（%1$d）</string>
+    <string name="settingsIncludedIPAddressesListHeader">纳入了 IP 地址（%1$d）</string>
     <string name="settingsExcludedApps">排除的应用</string>
     <string name="settingsExcludedAppsEmpty">添加绕过 VPN 流量的应用。</string>
     <string name="settingsIncludedAppsEmpty">添加纳入 VPN 流量的应用。</string>
-    <string name="settingsExcludedAppsSelectedHeader">排除的应用 (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">包含的应用 (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">已排除的应用 (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">已包含的应用 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">所有其他常规应用 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">所有其他系统应用 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">所有其他应用 (%1$d)</string>
@@ -203,13 +203,13 @@
     <string name="troubleshootProxyFirewallProblemTitle">代理服务器或防火墙干扰</string>
     <string name="troubleshootProxyFirewallProblemDescription">关闭代理服务器和防火墙，或联系网络管理员。</string>
     <string name="troubleshootProtonDownTitle">Proton 宕机</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[检查 <a href=\"%1$s\">Proton Status</a> 以了解我们的系统状态。]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[查看我们的<a href=\"%1$s\">系统运行状态</a>。]]></string>
     <string name="troubleshootContactUsSectionTitle">仍需帮助？直接联系我们</string>
     <string name="troubleshootCustomerSupport">客服支持</string>
     <string name="settingsAllowAlternativeRoutingTitle">备用线路</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[如果 Proton 被封锁，允许应用尝试其他路径连接 Proton 服务器。<a href="%1$s">了解详情</a>。]]></string>
     <string name="troubleshootGovernmentBlockTitle">政府封锁</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[您所在的国家或地区可能封锁了 Proton。使用 <a href=\'%1$s\'>Tor</a> 连接 Proton 试试。]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[您所在的国家或地区可能禁止使用 Proton。使用 <a href=\'%1$s\'>Tor</a> 连接 Proton 试试。]]></string>
     <string name="settingsKillSwitchEnableTitle">如何启用终止开关</string>
     <string name="settingsKillSwitchEnableStep1">1. 打开您的设备设置</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -229,7 +229,7 @@
     <string name="settingsSendCrashReportsTitle">分享匿名的崩溃报告</string>
     <string name="settingsSendCrashReportsDescription">崩溃报告会帮助我们修复错误、检测防火墙并避免 VPN 阻塞。</string>
     <string name="settingsTelemetryScreenTitle">使用统计</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[这些统计数据不包含您的IP地址，且无法用于识别您的身份。我们绝不会与第三方共享这些数据。<a href="%1$s">了解详情</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[这些统计数据不包含您的 IP 地址，也无法用于识别您的身份。我们绝不会将该数据透露给第三方。<a href="%1$s">了解详情</a>]]></string>
     <string name="netshield_settings_description_not_html">保护自己免受网站和应用上的广告、恶意软件和跟踪器的侵害。%1$s</string>
     <string name="netshield_settings_description_tv">保护您免受第三方广告、跟踪器和恶意软件的侵害。NetShield 无法拦截嵌入 YouTube 和 Netflix 等流媒体服务中的广告。</string>
     <string name="netshield_settings_more_info_title_tv">NetShield 的原理</string>
@@ -279,7 +279,7 @@
     <string name="errorTorrentNotAllowed">该服务器不支持 P2P</string>
     <string name="error_profile_fallback_unavailable">连接失败。您选择的服务器配置文件不可用。</string>
     <string name="profileProtocolNotAvailable">该配置文件的 VPN 协议目前用不了。换个协议再连接试试。</string>
-    <string name="stateConnectedTo">连接至 %1$s</string>
+    <string name="stateConnectedTo">已连接至 %1$s</string>
     <string name="stateNotConnected">没连接上</string>
     <string name="nameEurope">欧洲</string>
     <string name="nameAmerica">美洲</string>
@@ -314,7 +314,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">服务器负载 %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">近期用过的服务器</string>
     <string name="tv_available_servers">供使用服务器</string>
     <string name="tv_locked_servers">被锁定服务器</string>
@@ -322,11 +322,11 @@
     <string name="tv_server_list">服务器列表</string>
     <string name="tv_server_list_action_unavailable">不可用</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">已连接</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">正在连接</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">维护</string>
     <string name="notification_subscription_expired_title">Proton VPN 套餐已到期</string>
     <string name="notification_subscription_expired_content">套餐会降级，不过我们会连接到新套餐中最快的服务器。</string>
     <string name="notification_subscription_expired_no_reconnection_content">套餐已降级。</string>
@@ -365,7 +365,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="other">%1$d 个国家/地区</item>
+        <item quantity="other">%1$d 个地域</item>
     </plurals>
     <string name="upsell_upgrade_again">再次升级以享受所有功能:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -383,7 +383,7 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="other">%d 个国家/地区</item>
+        <item quantity="other">%d 个地域</item>
     </plurals>
     <string name="upgrade_not_now_button">以后再说</string>
     <!-- Content description for plan selection list.
@@ -418,17 +418,17 @@
     <string name="upsell_panel_content_description_yes">是</string>
     <string name="upsell_panel_content_description_no">否</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_general_benefit_block_ads">屏蔽广告和追踪脚本</string>
+    <string name="upsell_panel_general_benefit_countries">可用国家/地区</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
+    <string name="upsell_panel_general_benefit_location">选择您的位置</string>
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
+    <string name="upsell_panel_general_benefit_shows">从任意国家/地区观看您的节目</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_general_benefit_speed_standard">常规</string>
+    <string name="upsell_panel_general_benefit_speed_highest">最快</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
@@ -459,7 +459,7 @@
     <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
     <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
     <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">无限制</string>
     <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
     <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
@@ -472,7 +472,7 @@
     <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">拆分隧道</string>
     <string name="upsell_panel_streaming_title">观看您喜爱的流媒体服务</string>
     <string name="upsell_panel_streaming_benefit_shows">从任意国家/地区观看节目</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -480,8 +480,8 @@
     <string name="upsell_panel_streaming_benefit_hd">无缓冲高清播放</string>
     <string name="upsell_panel_streaming_benefit_devices">同时连接的设备数</string>
     <string name="upsell_panel_streaming_footer">* 需订阅流媒体平台服务！</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
+    <string name="upsell_panel_streaming_block_title">升级以解除 VPN 屏蔽</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plus 服务器可让您畅享来自世界各地的您喜爱的电影和电视节目。</string>
     <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
     <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
@@ -492,7 +492,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d 余处服务器遍布 %2$s</string>
+    <string name="upsell_card_countries_description">%1$d 余处服务器遍布 %2$s 个地域</string>
     <string name="upsell_card_customization_title">以及更多…</string>
     <string name="upsell_card_customization_description">解锁更强性能、更多隐私</string>
     <plurals name="upsell_card_devices_title">
@@ -512,7 +512,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">浏览网速快上加快（高达 %1$d Gbps）</string>
+    <string name="upsell_card_speed_description">浏览网速快上加快（最高可达 %1$d Gbps）</string>
     <string name="upsell_card_split_tunneling_title">拆分隧道</string>
     <string name="upsell_card_split_tunneling_description">同时从两地浏览</string>
     <string name="upsell_card_streaming_title">串流中</string>
@@ -545,21 +545,21 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">天</string>
+    <string name="payment_price_per_week">周</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="other">%1$d days</item>
+        <item quantity="other">%1$d 天</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="other">%1$d 周</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="other">%1$d months</item>
+        <item quantity="other">%1$d 个月</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="other">%1$d years</item>
+        <item quantity="other">%1$d 年</item>
     </plurals>
     <string name="payment_select_your_plan">选择套餐</string>
     <!-- Label on a button for purchasing a subscription.
@@ -773,7 +773,7 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">清空</string>
     <string name="free_connections_info_message">Proton Free 自动连接到可供使用的服务器中最快的那一个。通常会是离您最近的服务器。</string>
-    <string name="free_connections_info_server_locations">免费服务器位置 (%1$d)</string>
+    <string name="free_connections_info_server_locations">免费服务器（%1$d）</string>
     <string name="free_connections_info_banner_text">通过 VPN Plus 解锁所有国家/地区的访问权限</string>
     <string name="free_connection_info_title">免费连接</string>
     <string name="search_upsell_banner_title">从任何地方串流视频</string>
@@ -828,7 +828,7 @@
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="other">%1$d 分钟</item>
+        <item quantity="other">%1$d 分</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
@@ -1240,12 +1240,12 @@
     <string name="country_filter_cities_list_header">城市（%1$d）</string>
     <string name="country_filter_states_list_header">州（%1$d）</string>
     <string name="country_filter_servers_list_header">服务器</string>
-    <string name="country_filter_secure_core_list_header">Secure Core 国家/地区 (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core 地域（%1$d）</string>
     <string name="country_filter_p2p_list_header">P2P 地域（%1$d）</string>
     <string name="country_filter_p2p_list_header_cities">P2P 城市（%1$d）</string>
-    <string name="country_filter_p2p_list_header_states">P2P 状态（%1$d）</string>
+    <string name="country_filter_p2p_list_header_states">P2P 州（%1$d）</string>
     <string name="counrty_filter_p2p_servers_list_header">P2P 服务器</string>
-    <string name="country_filter_tor_list_header">Tor 国家 / 地区（%1$d）</string>
+    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor 服务器</string>
     <string name="country_filter_info_label">提示</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
@@ -1384,7 +1384,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">服务器实际位于 %1$s，但您似乎是从 %2$s 进行浏览。</string>
+    <string name="country_smart_routing_info">服务器位于%1$s，但您看起来像是在%2$s浏览互联网。</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1483,7 +1483,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">利用性能增强技术，将连接速度最多提高 400%%。%1$s</string>
+    <string name="settings_vpn_accelerator_description">利用性能增强技术，连接速度提高达 400%%。%1$s</string>
     <string name="settings_account_settings_title">账户设置</string>
     <string name="settings_account_change_password">更改密码</string>
     <string name="settings_account_recovery_email">密保邮箱</string>
@@ -1503,7 +1503,7 @@
     <string name="settings_add_dns_duplicate_input">服务器已添加</string>
     <string name="settings_advanced_dns_description">通过自托管或第三方域名系统（DNS）连接VPN。了解详情</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">服务器 (%1$d)</string>
+    <string name="settings_dns_list_title">服务器（%1$d）</string>
     <string name="settings_dns_list_description">若您设置的自定义DNS服务器无法正常工作，系统将自动切换至Proton VPN的默认DNS服务。</string>
     <string name="settings_dns_list_description_multiple">我们将依次尝试连接这些服务器。如果所有服务器均无法连接，系统将自动启用VPN的DNS服务。</string>
     <string name="settings_changes_apply_on_reconnect_toast">更改将在您重新连接后生效</string>
@@ -1518,7 +1518,7 @@
     <string name="settings_advanced_allow_lan_title_tv">允许 LAN 连接</string>
     <string name="settings_advanced_nat_type_title">NAT 类型</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">为您的连接选择网络地址转换类型。%1$s</string>
+    <string name="settings_advanced_nat_type_description">选择 VPN 连接的网络地址转换（NAT）类型。%1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">为您的连接选择网络地址转换类型。</string>
     <string name="settings_advanced_nat_type_strict">严格（类型 3）</string>
     <string name="settings_advanced_nat_type_strict_short">类型3</string>
@@ -1641,7 +1641,7 @@
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
-    <string name="create_profile_copy_name">%1$s（已复制）</string>
+    <string name="create_profile_copy_name">%1$s ( 已复制 )</string>
     <string name="create_profile_fastest_city">最快</string>
     <string name="create_profile_fastest_state">最快</string>
     <string name="create_profile_fastest_server">最快</string>

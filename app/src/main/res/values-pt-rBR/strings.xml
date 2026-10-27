@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% carga do servidor</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Servidores usados recentemente</string>
     <string name="tv_available_servers">Servidores disponíveis</string>
     <string name="tv_locked_servers">Servidores bloqueados</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">Lista de servidores</string>
     <string name="tv_server_list_action_unavailable">Indisponível</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Conectado</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Conectando</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Manutenção</string>
     <string name="notification_subscription_expired_title">Seu plano de assinatura Proton VPN expirou</string>
     <string name="notification_subscription_expired_content">Tivemos que fazer o downgrade do seu plano, mas estamos reconectando você ao servidor mais rápido disponível nesse plano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Sua assinatura foi rebaixada.</string>
@@ -361,7 +361,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
         <item quantity="one">%1$d servidor</item>
-        <item quantity="other">%1$d servidor</item>
+        <item quantity="other">%1$d servidores</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -370,7 +370,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d país</item>
-        <item quantity="other">%1$d país</item>
+        <item quantity="other">%1$d países</item>
     </plurals>
     <string name="upsell_upgrade_again">Faça o upgrade novamente para aproveitar todos os recursos:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -678,7 +678,7 @@
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
         <item quantity="one">no primeiro dia</item>
-        <item quantity="other">nos primeiros %1$d dias</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -686,7 +686,7 @@
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
         <item quantity="one">na primeira semana</item>
-        <item quantity="other">nos primeiros %1$d semanas</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -694,7 +694,7 @@
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
         <item quantity="one">no primeiro mês</item>
-        <item quantity="other">nos primeiros %1$d meses</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -702,7 +702,7 @@
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
         <item quantity="one">no primeiro ano</item>
-        <item quantity="other">nos primeiros %1$d anos</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -1414,7 +1414,7 @@
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Conecta você ao país destinatário através de servidores localizados fisicamente em outro lugar.</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">Conecta você ao país destinatário através de servidores fisicamente localizados em outro lugar: %1$s.</string>
+    <string name="connection_feature_smart_routing_description_with_countries">Conecta você ao seu país de destino através de servidores fisicamente localizados em outros lugares: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

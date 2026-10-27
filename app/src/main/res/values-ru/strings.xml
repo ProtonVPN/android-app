@@ -39,7 +39,7 @@
     <string name="buttonConnect">Подключиться</string>
     <string name="loaderConnectingTo">Подключение к %1$s</string>
     <string name="loaderNotConnected">Не подключен (не защищен)</string>
-    <string name="loaderConnectedTo">Подключение к %1$s</string>
+    <string name="loaderConnectedTo">Подключен к %1$s</string>
     <string name="loaderDisconnecting">Отключение</string>
     <string name="loaderReconnecting">Повторное подключение</string>
     <string name="loaderReconnectNoNetwork">Ожидание доступной сети</string>
@@ -89,14 +89,14 @@
     <string name="send_report">Отправить сообщение</string>
     <string name="report_sent">Отчёт отправлен</string>
     <string name="discardChanges">Сбросить несохраненные изменения?</string>
-    <string name="discardChangesButtonDiscard">Discard changes</string>
-    <string name="discardChangesButtonKeepEditing">Keep editing</string>
+    <string name="discardChangesButtonDiscard">Сбросить изменения</string>
+    <string name="discardChangesButtonKeepEditing">Продолжить редактирование</string>
     <string name="done">ГОТОВО</string>
     <string name="add">ДОБАВИТЬ</string>
     <string name="copy_to_clipboard">Копировать</string>
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="got_it">Я понял</string>
-    <string name="exclude_locations">Exclude locations</string>
+    <string name="exclude_locations">Исключить местоположения</string>
     <string name="excluded_locations">Excluded locations</string>
     <string name="cannot_connect">Cannot connect</string>
     <string name="skip">Пропустить</string>
@@ -141,7 +141,7 @@
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">НОВОЕ</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
-    <string name="settings_beta_label_badge">BETA</string>
+    <string name="settings_beta_label_badge">БЕТА</string>
     <string name="settingsExcludedIPAddressesListHeader">Исключённые IP-адреса (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Выбранные IP-адреса (%1$d)</string>
     <string name="settingsExcludedApps">Исключенные приложения</string>
@@ -320,7 +320,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% нагрузка сервера</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Недавно использованные серверы</string>
     <string name="tv_available_servers">Доступные серверы</string>
     <string name="tv_locked_servers">Заблокированные серверы</string>
@@ -328,11 +328,11 @@
     <string name="tv_server_list">Список серверов</string>
     <string name="tv_server_list_action_unavailable">Недоступно</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Подключено</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Подключение</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Техобслуживание</string>
     <string name="notification_subscription_expired_title">Срок вашей подписки на тариф Proton VPN истек</string>
     <string name="notification_subscription_expired_content">Нам пришлось понизить ваш тариф, но мы вновь подключаем вас к самому быстрому серверу, доступному на этом тарифе.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Вы перешли на более дешевую версию подписки.</string>
@@ -390,10 +390,10 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d защищённый сервер</item>
-        <item quantity="few">%d защищённых сервера</item>
-        <item quantity="many">%d защищённых серверов</item>
-        <item quantity="other">%d защищённых сервера</item>
+        <item quantity="one">%d защищенный сервер</item>
+        <item quantity="few">%d защищенных сервера</item>
+        <item quantity="many">%d защищенных серверов</item>
+        <item quantity="other">%d защищенного сервера</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -436,10 +436,10 @@
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
     <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
+    <string name="upsell_panel_content_description_yes">Да</string>
+    <string name="upsell_panel_content_description_no">Нет</string>
     <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
+    <string name="upsell_panel_general_benefit_block_ads">Блокируйте рекламу и трекеры</string>
     <string name="upsell_panel_general_benefit_countries">Available countries</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
@@ -448,8 +448,8 @@
     <string name="upsell_panel_general_benefit_server">Choose your server</string>
     <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
     <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
+    <string name="upsell_panel_general_benefit_speed_standard">Стандартное</string>
+    <string name="upsell_panel_general_benefit_speed_highest">Наивысшая</string>
     <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
     <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
     <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
@@ -480,7 +480,7 @@
     <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
     <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
     <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Без ограничений</string>
     <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
     <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
@@ -488,12 +488,12 @@
     <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
     <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
     <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">Высокая</string>
     <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
     <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
     <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
     <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">Раздельное туннелирование</string>
     <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
     <string name="upsell_panel_streaming_benefit_shows">Watch shows from any country</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
@@ -505,7 +505,7 @@
     <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
     <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
     <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_tor_benefit_tor">Tor через VPN</string>
     <string name="upsell_card_countries_title">Всемирное покрытие</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -517,10 +517,10 @@
     <string name="upsell_card_customization_title">И многое другое…</string>
     <string name="upsell_card_customization_description">Разблокируйте ещё большую производительность и функции приватности</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Защитить %1$d устройство</item>
-        <item quantity="few">Защитить %1$d устройства</item>
-        <item quantity="many">Защитить %1$d устройств</item>
-        <item quantity="other">Защитить %1$d устройств</item>
+        <item quantity="one">Защитите %1$d устройство</item>
+        <item quantity="few">Защитите %1$d устройства</item>
+        <item quantity="many">Защитите %1$d устройств</item>
+        <item quantity="other">Защитите %1$d устройств</item>
     </plurals>
     <string name="upsell_card_devices_description">Безопасность и конфиденциальность на всех ваших устройствах</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -552,14 +552,14 @@
     -->
     <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Воспользуйтесь просмотром веб-страниц без рекламы с тарифом Plus</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[Блокируйте рекламу, трекеры и вредоносные программы с помощью <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Получите лучшее из обоих миров с Plus</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[Разделите трафик на VPN- и не-VPN-туннели с помощью <b>раздельного туннелирования</b>.]]></string>
+    <string name="upsell_tv_subscription_expired_title">Срок действия подписки истёк</string>
+    <string name="upsell_tv_subscription_expired_description">Улучшите тариф, чтобы снова получить доступ к серверам и функциям Plus.</string>
     <string name="upsell_tv_customization_title">Получите продвинутую настройку VPN с Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[Разблокируйте <b>подключения по LAN</b>, <b>пользовательский DNS</b> и более продвинутые функции VPN.]]></string>
+    <string name="upsell_tv_fallback_description">Перейдите на веб-сайт Proton VPN, чтобы улучшить ваш тариф.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
@@ -569,33 +569,33 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">день</string>
+    <string name="payment_price_per_week">неделя</string>
     <string name="payment_price_per_month">месяц</string>
     <string name="payment_price_per_year">год</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">%1$d day</item>
-        <item quantity="few">%1$d days</item>
-        <item quantity="many">%1$d days</item>
-        <item quantity="other">%1$d days</item>
+        <item quantity="one">%1$d день</item>
+        <item quantity="few">%1$d дня</item>
+        <item quantity="many">%1$d дней</item>
+        <item quantity="other">%1$d дней</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">%1$d week</item>
-        <item quantity="few">%1$d weeks</item>
-        <item quantity="many">%1$d weeks</item>
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="one">%1$d неделя</item>
+        <item quantity="few">%1$d недели</item>
+        <item quantity="many">%1$d недель</item>
+        <item quantity="other">%1$d недель</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">%1$d month</item>
-        <item quantity="few">%1$d months</item>
-        <item quantity="many">%1$d months</item>
-        <item quantity="other">%1$d months</item>
+        <item quantity="one">%1$d месяц</item>
+        <item quantity="few">%1$d месяца</item>
+        <item quantity="many">%1$d месяцев</item>
+        <item quantity="other">%1$d месяцев</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">%1$d year</item>
-        <item quantity="few">%1$d years</item>
-        <item quantity="many">%1$d years</item>
-        <item quantity="other">%1$d years</item>
+        <item quantity="one">%1$d год</item>
+        <item quantity="few">%1$d года</item>
+        <item quantity="many">%1$d лет</item>
+        <item quantity="other">%1$d лет</item>
     </plurals>
     <string name="payment_select_your_plan">Выберете себе план</string>
     <!-- Label on a button for purchasing a subscription.
@@ -662,7 +662,7 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
+        <item quantity="one">Подписка автоматически продлевается по цене %1$s в месяц.</item>
         <item quantity="few">Subscription auto renews at %1$s every %2$d months</item>
         <item quantity="many">Subscription auto renews at %1$s every %2$d months</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
@@ -671,7 +671,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
+        <item quantity="one">Подписка автоматически продлевается по цене %1$s в год.</item>
         <item quantity="few">Subscription auto renews at %1$s every %2$d years</item>
         <item quantity="many">Subscription auto renews at %1$s every %2$d years</item>
         <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
@@ -704,7 +704,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/month</item>
+        <item quantity="one">%1$s/месяц</item>
         <item quantity="few">%1$s every %2$d months</item>
         <item quantity="many">%1$s every %2$d months</item>
         <item quantity="other">%1$s every %2$d months</item>
@@ -745,7 +745,7 @@
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">for the first month</item>
+        <item quantity="one">за первый месяц</item>
         <item quantity="few">for the first %1$d months</item>
         <item quantity="many">for the first %1$d months</item>
         <item quantity="other">for the first %1$d months</item>
@@ -867,7 +867,7 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Очистить</string>
     <!-- Content description for an icon button that clears text in an input field. -->
-    <string name="clear_text_field_content_description">Clear</string>
+    <string name="clear_text_field_content_description">Очистить</string>
     <string name="free_connections_info_message">Proton Free автоматически подключает вас к самому быстрому из доступных серверов. Обычно это ближайший к вашему местоположению сервер.</string>
     <string name="free_connections_info_server_locations">Месторасположение серверов Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Access all countries with VPN Plus</string>
@@ -884,7 +884,7 @@
     <string name="settings_default_connection_title">Подключение по умолчанию</string>
     <string name="fastest_country_description">Лучший сервер на основе вашего местоположения</string>
     <string name="settings_connection_preferences_title">Connection preferences</string>
-    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Item removed</string>
+    <string name="settings_connection_preferences_snackbar_message_excluded_location_removed">Элемент удалён</string>
     <string name="settings_excluded_locations_title">Excluded locations</string>
     <string name="settings_excluded_locations_description">The selected locations will never be used when you connect to Fastest.</string>
     <string name="settings_excluded_locations_unavailable">No locations available</string>
@@ -920,7 +920,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s осталось</string>
+    <string name="offer_time_left">Осталось %1$s %2$s</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d секунда</item>
@@ -945,7 +945,7 @@
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d дня</item>
+        <item quantity="few">%1$d дня</item>
         <item quantity="many">%1$d дней</item>
         <item quantity="other">%1$d дней</item>
     </plurals>
@@ -960,7 +960,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Доступно через %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Осталось %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -968,7 +968,7 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Доступно через %1$s</string>
+    <string name="server_change_button_time_left_seconds_content_description">Осталось %1$s</string>
     <string name="server_change_progress_finished_contend_description">Доступен</string>
     <string name="not_wanted_country_title">Не та страна, которую вы хотели?</string>
     <string name="not_wanted_country_description">Улучшите для выбора любого сервера</string>
@@ -1041,12 +1041,12 @@
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">хорошо</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">отправить</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1351,21 +1351,21 @@
     <string name="country_filter_all_list_header">Все страны (%1$d)</string>
     <string name="country_filter_all_list_header_free">Страны Plus (%1$d)</string>
     <string name="country_filter_countries_list_header">Страны (%1$d)</string>
-    <string name="country_filter_cities_list_header">Городов (%1$d)</string>
+    <string name="country_filter_cities_list_header">Города (%1$d)</string>
     <string name="country_filter_states_list_header">Штаты (%1$d)</string>
     <string name="country_filter_servers_list_header">Серверы</string>
     <string name="country_filter_secure_core_list_header">Страны с серверами Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Страны P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Города P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">Страны P2P (%1$d)</string>
-    <string name="counrty_filter_p2p_servers_list_header">P2P servers</string>
+    <string name="country_filter_p2p_list_header_states">(%1$d) штатов P2P</string>
+    <string name="counrty_filter_p2p_servers_list_header">Р2Р серверы</string>
     <string name="country_filter_tor_list_header">Страны Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Серверы Tor</string>
     <string name="country_filter_info_label">Информация</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Нагрузка: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Загруженность %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1414,7 +1414,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_city">Город</string>
     <!-- Label for server location "state", as a state of the USA. -->
-    <string name="connection_details_state">State</string>
+    <string name="connection_details_state">Штат</string>
     <!-- Label for server smart routing, a country which is routed through. -->
     <string name="connection_details_smart_routing">Routed through</string>
     <!-- tag(Redesign_2023)
@@ -1498,7 +1498,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Серверы физически расположены в %1$s, но создается впечатление, что вы просматриваете сайт из %2$s.</string>
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1513,11 +1513,11 @@
     <string name="connection_details_unknown_ip">Неизвестен</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Этот график показывает скорость загрузки и скачивания в настоящий момент. Ваше подключение к VPN вряд ли замедлит нормальную работу в Интернете.</string>
-    <string name="speed_bytes_per_second">%1$s Б/c</string>
-    <string name="speed_kilobytes_per_second">%1$s КБ/c</string>
-    <string name="speed_megabytes_per_second">%1$s МБ/c</string>
-    <string name="speed_gigabytes_per_second">%1$s ГБ/c</string>
-    <string name="speed_terabytes_per_second">%1$s ТБ/c</string>
+    <string name="speed_bytes_per_second">%1$s Б/c.</string>
+    <string name="speed_kilobytes_per_second">%1$s КБ/c.</string>
+    <string name="speed_megabytes_per_second">%1$s МБ/c.</string>
+    <string name="speed_gigabytes_per_second">%1$s ГБ/c.</string>
+    <string name="speed_terabytes_per_second">%1$s ТБ/c.</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
     <string name="speed_graph_title">Скорость %1$s</string>
     <string name="bytes_per_second">Б/с</string>
@@ -1597,9 +1597,9 @@
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d дня</item>
-        <item quantity="many">%1$d дней</item>
-        <item quantity="other">%1$d дня</item>
+        <item quantity="few">%1$d дня</item>
+        <item quantity="many">%1$d дней</item>
+        <item quantity="other">%1$d дней</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d ч</string>
@@ -1612,7 +1612,7 @@
     <string name="create_profile_title">Создать профиль</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
-    <string name="edit_profile_title">Изменить %1$s</string>
+    <string name="edit_profile_title">Редактировать %1$s</string>
     <string name="edit_profile_dialog_action">Изменить профиль</string>
     <string name="create_profile_name_hint">Имя профиля</string>
     <string name="create_profile_name_error_empty">Введите имя профиля</string>
@@ -1630,7 +1630,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Увеличьте скорость подключения до 400%% с помощью технологий, повышающих производительность. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Увеличьте скорость подключения до 400 %% благодаря технологиям повышения производительности. %1$s</string>
     <string name="settings_account_settings_title">Настройки аккаунта</string>
     <string name="settings_account_change_password">Изменить пароль</string>
     <string name="settings_account_recovery_email">Резервный адрес электронной почты</string>
@@ -1699,7 +1699,7 @@
     <string name="settings_split_tunneling_included_apps">Добавленные приложения</string>
     <string name="settings_split_tunneling_included_ips">Добавленные адреса IP</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ничего</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s и ещё %3$d</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s и еще %3$d</string>
     <string name="settings_split_tunneling_already_excluded">Уже исключено</string>
     <string name="settings_split_tunneling_already_included">Уже добавлено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Удалить IP-адреса из списка?</string>
@@ -1734,7 +1734,7 @@
     <string name="info_p2p_why_description_logs">Нет журналов действий</string>
     <string name="info_p2p_why_description_hide">Скрывайте свой IP-адрес от поставщика услуг и других пользователей</string>
     <string name="info_dialog_smart_routing_description">Smart Routing allows us to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
-    <string name="notifications_channel_connection_status_name">Connection status</string>
+    <string name="notifications_channel_connection_status_name">Состояние подключения</string>
     <string name="notifications_channel_connection_status_description">Shows which server you’re connected to and your VPN speed.</string>
     <string name="notifications_channel_connection_errors_name">Connection errors</string>
     <string name="notifications_channel_connection_errors_description">Alerts you to problems that pause or stop your VPN connection.</string>
@@ -1871,15 +1871,15 @@
     <string name="no_connections_help_follow_instructions"><![CDATA[If your administrator needs help enabling VPN access, send them <a href="">these instructions</a>.]]></string>
     <string name="settings_protocol_proton_protocols">Proton protocols</string>
     <string name="settings_protocol_proton_protocols_description">Use Proton VPN’s own implementation of WireGuard. This is an experimental feature, so you may experience some instability.</string>
-    <string name="connection_preferences_smart_discovery_dialog_title">Not the country you wanted?</string>
+    <string name="connection_preferences_smart_discovery_dialog_title">Не та страна, которую вы хотели?</string>
     <string name="connection_preferences_smart_discovery_dialog_message">If there are locations you don’t want to be automatically connected to, you can exclude them from Fastest country.</string>
     <string name="excluded_locations_adoption_title">Avoid unwanted locations</string>
     <string name="excluded_locations_adoption_description"><![CDATA[You can now exclude countries and cities from <b>Fastest</b> connections.]]></string>
     <string name="session_fork_no_account_title">Sign in on Android TV</string>
     <string name="session_fork_no_account_message">Complete the sign-in on this device to start using Proton VPN on your TV</string>
-    <string name="session_fork_no_account_footnote"><![CDATA[By using this app you accept our <a href="">Terms and Conditions</a>.]]></string>
-    <string name="session_fork_no_account_signup_button">Create an account</string>
-    <string name="session_fork_no_account_signin_button">Sign in</string>
+    <string name="session_fork_no_account_footnote"><![CDATA[Используя это приложение, вы принимаете наши <a href="">Условия</a>.]]></string>
+    <string name="session_fork_no_account_signup_button">Создать аккаунт</string>
+    <string name="session_fork_no_account_signin_button">Войти</string>
     <string name="session_fork_confirmation_title">Sign in on Android TV?</string>
     <string name="session_fork_confirmation_message">This will allow the TV to access your Proton account.</string>
     <string name="session_fork_confirmation_bottom_note">Only sign in on devices you trust</string>
@@ -1895,7 +1895,7 @@
     <string name="session_fork_error_report_button">Report the issue</string>
     <string name="session_fork_qr_code_content_description">QR code</string>
     <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
+    <string name="session_fork_qr_code_trouble_button">Проблемы со входом?</string>
     <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
     <string name="session_fork_qr_code_error_network">Check your network and try again</string>
     <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>

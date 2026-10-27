@@ -142,16 +142,16 @@
     <string name="settings_new_label_badge">MPYA</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">BETA</string>
-    <string name="settingsExcludedIPAddressesListHeader">Anwani za IP zilizotengwa (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Anwani za IP zilizojumuishwa (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">Programu zilizotengwa</string>
     <string name="settingsExcludedAppsEmpty">Ongeza programu zitakazotolewa kwenye trafiki ya VPN.</string>
     <string name="settingsIncludedAppsEmpty">Ongeza programu zitakazojumuishwa kwenye trafiki ya VPN.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Programu zilizotengwa (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Programu zilizojumuishwa (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Programu zote nyingine za kawaida (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Programu zote nyingine za mfumo (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">Programu zote nyingine (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Onyesha programu za mfumo</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Onyesha programu za mfumo</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Programu hizi zimetolewa kwenye muunganisho wako wa VPN.</string>
@@ -188,8 +188,8 @@
     <string name="accessibility_action_item_delete">Futa</string>
     <string name="accessibility_action_item_move_up">Sogeza juu</string>
     <string name="accessibility_action_item_move_down">Sogeza chini</string>
-    <string name="tileConnected">Imeunganishwa: %1$s</string>
-    <string name="openUrlError">%1$s hakuweza kufunguliwa. Kivinjari cha wavuti hakikupatikana kwenye kifaa chako.</string>
+    <string name="tileConnected">Connected: %1$s</string>
+    <string name="openUrlError">%1$s could not be opened. Web browser was not detected on your device.</string>
     <string name="loaderErrorTimeout">Muda wa muunganisho umeisha. Tafadhali jaribu tena.</string>
     <string name="troubleshootButton">Tatua matatizo</string>
     <string name="activityTroubleshootTitle">Utatuzi wa matatizo</string>
@@ -197,23 +197,23 @@
     <string name="troubleshootNoInternetDescription">Tafadhali hakikisha muunganisho wako wa intaneti unafanya kazi.</string>
     <string name="troubleshootNoInternetTitle">Hakuna muunganisho wa intaneti</string>
     <string name="troubleshootIspProblemTitle">Tatizo la mtoa huduma za intaneti (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Jaribu kuunganisha kwa Proton kutoka mtandao mwingine (au tumia <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Uingiliaji kati wa antivirusi</string>
     <string name="troubleshootAntivirusProblemDescription">Zima kwa muda au ondoa programu yako ya antivirusi.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Uingiliaji kati wa mbadala/ngome</string>
     <string name="troubleshootProxyFirewallProblemDescription">Zima proksi au ngome zozote, au wasiliana na msimamizi wa mtandao wako.</string>
     <string name="troubleshootProtonDownTitle">Proton haifanyi kazi</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Angalia <a href=\"%1$s\">Proton Status</a> kwa hali ya mfumo wetu.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Check <a href=\"%1$s\">Proton Status</a> for our system status.]]></string>
     <string name="troubleshootContactUsSectionTitle">Bado unahitaji msaada? Wasiliana nasi moja kwa moja</string>
     <string name="troubleshootCustomerSupport">Huduma kwa wateja</string>
     <string name="settingsAllowAlternativeRoutingTitle">Uelekezaji mbadala</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Ikiwa Proton imezuiwa, idhinisha programu kujaribu njia mbadala za kufikia seva za Proton. <a href="%1$s">Pata maelezo zaidi</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Uzuiaji wa serikali</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Nchi yako inaweza kuzuia ufikiaji wa Proton. Jaribu kutumia <a href=\'%1$s\'>Tor</a> kufikia Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">Jinsi ya kuwasha kizima cha dharura</string>
     <string name="settingsKillSwitchEnableStep1">1. Fungua mipangilio ya kifaa chako</string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsKillSwitchEnableStep2">2. Tafuta Proton VPN kisha gusa %1$s</string>
+    <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">mipangilio</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
@@ -230,7 +230,7 @@
     <string name="settingsSendCrashReportsDescription">Ripoti za hitilafu za programu hutusaidia kutatua kasoro, kutambua ngome na kuepuka vizuizi vya VPN.</string>
     <string name="settingsTelemetryScreenTitle">Takwimu za matumizi</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Takwimu hizi hazina anwani yako ya IP, na haziwezi kutumika kukutambua. Hatutawahi kuzishiriki na upande wa tatu. <a href="%1$s">Pata maelezo zaidi</a>]]></string>
-    <string name="netshield_settings_description_not_html">Jilinde dhidi ya matangazo, programu hasidi na vifuatiliaji kwenye tovuti na programu. %1$s</string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
     <string name="netshield_settings_description_tv">Inakulinda kutoka kwa matangazo ya mhusika mwingine, vifuatiliaji, na programu hasidi. NetShield haizuii matangazo yaliyojengwa ndani ya huduma za utiririshaji kama YouTube na Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">Jinsi NetShield inavyofanya kazi</string>
     <string-array name="netshield_settings_more_info_paragraphs_tv">
@@ -238,7 +238,7 @@
         <item>Hii inamaanisha kuwa hutapokea matangazo kutoka kwa kivinjari chako au programu za bure zinazotumia huduma za matangazo za mhusika mwingine.</item>
         <item>Hata hivyo, haiwezi kuzuia matangazo kutoka kwa majukwaa ya utiririshaji kama YouTube na Netflix, kwa sababu matangazo yao yanatoka kwenye seva zao wenyewe.</item>
     </string-array>
-    <string name="settings_icon_change_description">Ficha programu ya Proton VPN kwa aikoni isiyotambulika. Arifa bado zitaonyesha jina na aikoni ya chaguo-msingi ya Proton VPN. %1$s</string>
+    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
     <string name="settings_icon_change_learn_more">Pata maelezo zaidi</string>
     <string name="learn_more">Pata maelezo zaidi</string>
     <string name="netshield_state_on" comment="Describes state, not action">Imewashwa</string>
@@ -281,7 +281,7 @@
     <string name="errorTorrentNotAllowed">P2P hairuhusiwi kwenye seva hii.</string>
     <string name="error_profile_fallback_unavailable">Muunganisho haukuweza kufanyika. Seva uliyochagua kwa wasifu haipatikani.</string>
     <string name="profileProtocolNotAvailable">Itifaki ya VPN ya wasifu huu haipatikani kwa sasa. Ili kuunganisha, jaribu kubadilisha itifaki.</string>
-    <string name="stateConnectedTo">Imeunganishwa na %1$s</string>
+    <string name="stateConnectedTo">Imeunganishwa kwenye %1$s</string>
     <string name="stateNotConnected">Hujaunganishwa</string>
     <string name="nameEurope">Ulaya</string>
     <string name="nameAmerica">Amerika</string>
@@ -292,7 +292,7 @@
     <string name="tv_card_lan_connections_label">LAN</string>
     <string name="tv_card_split_tunneling_label">Mgawanyo wa trafiki</string>
     <string name="tv_card_protocol_label">Itifaki</string>
-    <string name="tv_dialog_delete_server_title">Ufute seva %1$s?</string>
+    <string name="tv_dialog_delete_server_title">Delete server %1$s?</string>
     <string name="tv_detail_default_connection_checkbox_short">Kipendwa</string>
     <string name="tv_detail_connect_streaming">Tiririsha na Plus</string>
     <string name="tv_detail_connect">Unganisha</string>
@@ -301,7 +301,7 @@
     <string name="tv_detail_description_country_not_available">Nchi hii haipatikani. Pata machaguo zaidi ya utiririshaji kwa mpango wa Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Tiririsha video, filamu au michezo unayopenda kwa programu zako.</string>
     <string name="tv_login_title_welcome">Tiririsha maudhui ya video unayopenda</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Pata akaunti yako ya Proton VPN kwenye <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Get your Proton VPN account at <b>%1$s</b>]]></string>
     <string name="back">Nyuma</string>
     <string name="tv_vpn_error_dialog_title">Muunganisho wa VPN haukufanikiwa</string>
     <string name="tv_signout_label">Ondoka</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% mzigo wa seva</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Seva zilizotumika hivi karibuni</string>
     <string name="tv_available_servers">Seva zinazopatikana</string>
     <string name="tv_locked_servers">Seva zilizofungwa</string>
@@ -324,9 +324,9 @@
     <string name="tv_server_list">Orodha ya seva</string>
     <string name="tv_server_list_action_unavailable">Haipatikani</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Imeunganishwa</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Inaunganisha</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
     <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Mpango wako wa usajili wa Proton VPN umeshaisha muda</string>
@@ -337,8 +337,8 @@
     <string name="notification_max_sessions_title">Umefikia idadi ya juu zaidi ya vifaa vyako</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Tafadhali tengaisha kifaa kingine ili uunganishe hiki, au pandisha daraja hadi Plus ili kupata hadi kifaa %1$d kilichounganishwa kwa wakati mmoja.</item>
-        <item quantity="other">Tafadhali tengaisha kifaa kingine ili uunganishe hiki, au pandisha daraja hadi Plus ili kupata hadi vifaa %1$d vinavyounganishwa kwa wakati mmoja.</item>
+        <item quantity="one">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d device connected at the same time.</item>
+        <item quantity="other">Please disconnect another device to connect this one or upgrade to Plus to get up to %1$d devices connected at the same time.</item>
     </plurals>
     <string name="notification_max_sessions_content">Tafadhali tengaisha kifaa kingine ili uweze kuunganisha hiki.</string>
     <string name="notification_cancel_to_free">Uko kwenye mpango wa Free. Seva na vipengele vya Free vinapatikana.</string>
@@ -360,8 +360,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">seva %1$d</item>
-        <item quantity="other">seva %1$d</item>
+        <item quantity="one">%1$d server</item>
+        <item quantity="other">%1$d servers</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -369,8 +369,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">nchi %1$d</item>
-        <item quantity="other">nchi %1$d</item>
+        <item quantity="one">%1$d country</item>
+        <item quantity="other">%1$d countries</item>
     </plurals>
     <string name="upsell_upgrade_again">Pandisha daraja tena ili kufurahia vipengele vyote:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -380,8 +380,8 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d seva salama</item>
-        <item quantity="other">%d seva salama</item>
+        <item quantity="one">%d secure server</item>
+        <item quantity="other">%d secure servers</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -389,8 +389,8 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d nchi</item>
-        <item quantity="other">%d nchi</item>
+        <item quantity="one">%d country</item>
+        <item quantity="other">%d countries</item>
     </plurals>
     <string name="upgrade_not_now_button">Sio sasa</string>
     <!-- Content description for plan selection list.
@@ -448,7 +448,7 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Fungua %1$s ukitumia VPN Plus</string>
+    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
     <string name="upsell_panel_countries_title">Fungua nchi zote ukitumia VPN Plus</string>
     <string name="upsell_panel_country_benefit_speed">Seva zenye kasi ya juu</string>
     <string name="upsell_panel_country_benefit_shows">Tazama vipindi vinavyopatikana nje ya nchi tu</string>
@@ -499,12 +499,12 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">Maeneo ya seva %1$d+ katika %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
     <string name="upsell_card_customization_title">Na vipengele vingine vingi…</string>
     <string name="upsell_card_customization_description">Fungua vipengele zaidi vya utendaji na faragha</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Linda kifaa %1$d</item>
-        <item quantity="other">Linda vifaa %1$d</item>
+        <item quantity="one">Protect %1$d device</item>
+        <item quantity="other">Protect %1$d devices</item>
     </plurals>
     <string name="upsell_card_devices_description">Usalama na faragha kwenye vifaa vyako vyote</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -520,7 +520,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Vinjari kwa kasi zaidi (hadi %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">Mgawanyo wa trafiki</string>
     <string name="upsell_card_split_tunneling_description">Vinjari kutoka maeneo mawili kwa wakati mmoja</string>
     <string name="upsell_card_streaming_title">Utiririshaji</string>
@@ -534,7 +534,7 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Fungua %1$s katika %2$s.</string>
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Furahia kuvinjari bila matangazo kwa Plus</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Zuia matangazo, vifuatiliaji, na programu hasidi ukitumia <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Pata faida za pande zote mbili kwa Plus</string>
@@ -558,20 +558,20 @@
     <string name="payment_price_per_month">mwezi</string>
     <string name="payment_price_per_year">mwaka</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="one">siku %1$d</item>
-        <item quantity="other">siku %1$d</item>
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="one">wiki %1$d</item>
-        <item quantity="other">wiki %1$d</item>
+        <item quantity="one">%1$d week</item>
+        <item quantity="other">%1$d weeks</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="one">mwezi %1$d</item>
-        <item quantity="other">miezi %1$d</item>
+        <item quantity="one">%1$d month</item>
+        <item quantity="other">%1$d months</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="one">mwaka %1$d</item>
-        <item quantity="other">miaka %1$d</item>
+        <item quantity="one">%1$d year</item>
+        <item quantity="other">%1$d years</item>
     </plurals>
     <string name="payment_select_your_plan">Teua mpango wako</string>
     <!-- Label on a button for purchasing a subscription.
@@ -584,57 +584,57 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/siku.</item>
-        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila siku %2$d.</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/day</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/wiki.</item>
-        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila wiki %2$d.</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/week</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/mwezi.</item>
-        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila miezi %2$d.</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/month</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="one">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s/mwaka.</item>
-        <item quantity="other">Ofa maalum. Hujiandikisha upya kiotomatiki kwa %1$s kila miaka %2$d.</item>
+        <item quantity="one">Special offer. Auto renews at %1$s/year</item>
+        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/siku.</item>
-        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d siku.</item>
+        <item quantity="one">Subscription auto renews at %1$s/day</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/wiki.</item>
-        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d wiki.</item>
+        <item quantity="one">Subscription auto renews at %1$s/week</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/mwezi.</item>
-        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d miezi.</item>
+        <item quantity="one">Subscription auto renews at %1$s/month</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Usajili unajipya kiotomatiki kwa %1$s/mwaka.</item>
-        <item quantity="other">Usajili unajipya kiotomatiki kwa %1$s kila %2$d miaka.</item>
+        <item quantity="one">Subscription auto renews at %1$s/year</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -642,8 +642,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="one">%1$s/siku</item>
-        <item quantity="other">%1$s kila %2$d siku</item>
+        <item quantity="one">%1$s/day</item>
+        <item quantity="other">%1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -651,8 +651,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="one">%1$s/wiki</item>
-        <item quantity="other">%1$s kila %2$d wiki</item>
+        <item quantity="one">%1$s/week</item>
+        <item quantity="other">%1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -660,8 +660,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="one">%1$s/mwezi</item>
-        <item quantity="other">%1$s kila %2$d miezi</item>
+        <item quantity="one">%1$s/month</item>
+        <item quantity="other">%1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -669,40 +669,40 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="one">%1$s/mwaka</item>
-        <item quantity="other">%1$s kila %2$d miaka</item>
+        <item quantity="one">%1$s/year</item>
+        <item quantity="other">%1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="one">kwa siku ya kwanza</item>
-        <item quantity="other">kwa %1$d siku za kwanza</item>
+        <item quantity="one">for the first day</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="one">kwa wiki ya kwanza</item>
-        <item quantity="other">kwa %1$d wiki za kwanza</item>
+        <item quantity="one">for the first week</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="one">kwa mwezi wa kwanza</item>
-        <item quantity="other">kwa %1$d miezi ya kwanza</item>
+        <item quantity="one">for the first month</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="one">kwa mwaka wa kwanza</item>
-        <item quantity="other">kwa %1$d miaka ya kwanza</item>
+        <item quantity="one">for the first year</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -710,8 +710,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/siku</item>
-        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d siku</item>
+        <item quantity="one">then auto renews at %1$s/day</item>
+        <item quantity="other">then auto renews at %1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -719,8 +719,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/wiki</item>
-        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d wiki</item>
+        <item quantity="one">then auto renews at %1$s/week</item>
+        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -728,8 +728,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/mwezi</item>
-        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d miezi</item>
+        <item quantity="one">then auto renews at %1$s/month</item>
+        <item quantity="other">then auto renews at %1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -737,8 +737,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">kisha inajipya kiotomatiki kwa %1$s/mwaka</item>
-        <item quantity="other">kisha inajipya kiotomatiki kwa %1$s kila %2$d miaka</item>
+        <item quantity="one">then auto renews at %1$s/year</item>
+        <item quantity="other">then auto renews at %1$s every %2$d years</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -755,7 +755,7 @@
       "$19.99/year for the first 3 years, then auto renews at $24.99/year"
       "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
     -->
-    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s.</string>
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknolojia hii huruhusu Proton VPN kutoa kasi ya juu zaidi na usalama katika nchi ambazo ni ngumu kuhudumia.</string>
     <string name="tor_title">Tor</string>
@@ -805,14 +805,14 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Futa</string>
     <string name="free_connections_info_message">Proton Free huunganisha kiotomatiki na seva ya haraka zaidi inayopatikana. Kwa kawaida, hii itakuwa seva iliyo karibu zaidi na eneo lako.</string>
-    <string name="free_connections_info_server_locations">Maeneo ya seva za bure (%1$d)</string>
+    <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
     <string name="free_connections_info_banner_text">Fikia nchi zote kwa VPN Plus</string>
     <string name="free_connection_info_title">Miunganisho ya bure</string>
     <string name="search_upsell_banner_title">Tiririsha kutoka mahali popote</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Fungua maudhui yaliyozuiwa kijiografia kutoka nchi %1$d kwa VPN Plus.</item>
-        <item quantity="other">Fungua maudhui yaliyozuiwa kijiografia kutoka nchi %1$d kwa VPN Plus.</item>
+        <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
+        <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
     </plurals>
     <string name="select_default_connection">Teua muunganisho wako wa chaguo-msingi</string>
     <string name="settings_default_connection_title">Muunganisho wa chaguo-msingi</string>
@@ -854,26 +854,26 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s zimebaki</string>
+    <string name="offer_time_left">%1$s %2$s left</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
-        <item quantity="one">sekunde %1$d</item>
-        <item quantity="other">sekunde %1$d</item>
+        <item quantity="one">%1$d second</item>
+        <item quantity="other">%1$d seconds</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="one">dakika %1$d</item>
-        <item quantity="other">dakika %1$d</item>
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
-        <item quantity="one">saa %1$d</item>
-        <item quantity="other">saa %1$d</item>
+        <item quantity="one">%1$d hour</item>
+        <item quantity="other">%1$d hours</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="one">Siku %1$d</item>
-        <item quantity="other">Siku %1$d</item>
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <string name="server_change_max_reached">Umepeleka idadi ya mabadiliko ya seva ya bila malipo hadi kikomo kwa sasa.</string>
     <string name="server_change_upsell">Pata mabadiliko yasiyo na kikomo ukitumia VPN Plus.</string>
@@ -886,7 +886,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Inapatikana baada ya %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -894,7 +894,7 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Inapatikana baada ya %1$s</string>
+    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
     <string name="server_change_progress_finished_contend_description">Inapatikana sasa</string>
     <string name="not_wanted_country_title">Hii si nchi uliyotaka?</string>
     <string name="not_wanted_country_description">Pandisha daraja kuchagua seva yoyote</string>
@@ -1027,21 +1027,21 @@
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s kupitia Aislandi</string>
+    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s kupitia Uswidi</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s kupitia Uswisi</string>
+    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -1050,7 +1050,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s kupitia %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -1080,7 +1080,7 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">kupitia %1$s</string>
+    <string name="connection_info_secure_core_entry_other">via %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
@@ -1098,7 +1098,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Iliyochaguliwa kiotomatiki kutoka [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1106,8 +1106,8 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">Iliyochaguliwa kiotomatiki kutoka nchi %1$d</item>
-        <item quantity="other">Iliyochaguliwa kiotomatiki kutoka nchi %1$d</item>
+        <item quantity="one">Auto-selected from %1$d country</item>
+        <item quantity="other">Auto-selected from %1$d countries</item>
     </plurals>
     <string name="connection_info_auto_selected_free_countries_plain">Iliyochaguliwa kiotomatiki kutoka nchi za bila malipo.</string>
     <!-- tag(Redesign_2023)
@@ -1248,7 +1248,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Kadiria Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">Toleo la programu: %1$s</string>
+    <string name="settings_app_version">App version: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Leseni za wahusika wengine</string>
     <!-- tag(Redesign_2023) -->
@@ -1272,24 +1272,24 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">Nchi zote (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Nchi za Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Nchi (%1$d)</string>
-    <string name="country_filter_cities_list_header">Miji (%1$d)</string>
-    <string name="country_filter_states_list_header">Majimbo (%1$d)</string>
+    <string name="country_filter_all_list_header">All countries (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
+    <string name="country_filter_states_list_header">States (%1$d)</string>
     <string name="country_filter_servers_list_header">Seva</string>
-    <string name="country_filter_secure_core_list_header">Nchi za Secure Core (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core countries (%1$d)</string>
     <string name="country_filter_p2p_list_header">Nchi za P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">Miji ya P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">Majimbo ya P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
     <string name="counrty_filter_p2p_servers_list_header">Seva za P2P</string>
-    <string name="country_filter_tor_list_header">Nchi za Tor (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Seva za Tor</string>
     <string name="country_filter_info_label">Habari</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Mzigo: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1414,7 +1414,7 @@
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Inakuunganisha na nchi yako ya lengo kupitia seva zilizoko kimwili mahali pengine.</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">Inakuunganisha na nchi unayolenga kupitia seva zilizoko kimwili sehemu nyingine: %1$s.</string>
+    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Seva zipo kimwili nchini %1$s, ila utaonekana kama unatumia mtandao kutoka %2$s.</string>
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1443,51 +1443,51 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Kasi %1$s</string>
+    <string name="speed_graph_title">Speed %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s baiti kwa sekunde</item>
-        <item quantity="other">%1$s baiti kwa sekunde</item>
+        <item quantity="one">%1$s Byte per second</item>
+        <item quantity="other">%1$s Bytes per second</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s kilobaiti kwa sekunde</item>
-        <item quantity="other">%1$s kilobaiti kwa sekunde</item>
+        <item quantity="one">%1$s Kilobyte per second</item>
+        <item quantity="other">%1$s Kilobytes per second</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s megabaiti kwa sekunde</item>
-        <item quantity="other">%1$s megabaiti kwa sekunde</item>
+        <item quantity="one">%1$s Megabyte per second</item>
+        <item quantity="other">%1$s Megabytes per second</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s gigabaiti kwa sekunde</item>
-        <item quantity="other">%1$s gigabaiti kwa sekunde</item>
+        <item quantity="one">%1$s Gigabyte per second</item>
+        <item quantity="other">%1$s Gigabytes per second</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s terabaiti kwa sekunde</item>
-        <item quantity="other">%1$s terabaiti kwa sekunde</item>
+        <item quantity="one">%1$s Terabyte per second</item>
+        <item quantity="other">%1$s Terabytes per second</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s baiti</item>
-        <item quantity="other">%1$s baiti</item>
+        <item quantity="one">%1$s Byte</item>
+        <item quantity="other">%1$s Bytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s kilobaiti</item>
-        <item quantity="other">%1$s kilobaiti</item>
+        <item quantity="one">%1$s Kilobyte</item>
+        <item quantity="other">%1$s Kilobytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s megabaiti</item>
-        <item quantity="other">%1$s megabaiti</item>
+        <item quantity="one">%1$s Megabyte</item>
+        <item quantity="other">%1$s Megabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s gigabaiti</item>
-        <item quantity="other">%1$s gigabaiti</item>
+        <item quantity="one">%1$s Gigabyte</item>
+        <item quantity="other">%1$s Gigabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s terabaiti</item>
-        <item quantity="other">%1$s terabaiti</item>
+        <item quantity="one">%1$s Terabyte</item>
+        <item quantity="other">%1$s Terabytes</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
@@ -1500,21 +1500,21 @@
     <string name="error_vpn_waiting_for_network">Inasubiri mtandao</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
-        <item quantity="one">%1$d siku</item>
-        <item quantity="other">%1$d siku</item>
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d saa</string>
+    <string name="connection_details_hours_shortened">%1$d hr</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d dak</string>
+    <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sek</string>
+    <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Muunganisho haukufanikiwa</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Kifaa hiki hakiruhusu miunganisho ya VPN.</string>
     <string name="create_profile_title">Tengeneza wasifu</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
-    <string name="edit_profile_title">Hariri %1$s</string>
+    <string name="edit_profile_title">Edit %1$s</string>
     <string name="edit_profile_dialog_action">Hariri wasifu</string>
     <string name="create_profile_name_hint">Jina la wasifu</string>
     <string name="create_profile_name_error_empty">Weka jina la wasifu</string>
@@ -1527,12 +1527,12 @@
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Hatua ya %1$d kati ya %2$d</string>
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
     <string name="create_profile_button_next">Ifuatayo</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Ongeza kasi ya muunganisho wako hadi 400%% kwa kutumia teknolojia zinazoimarisha utendaji. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Mipangilio ya akaunti</string>
     <string name="settings_account_change_password">Badilisha nenosiri</string>
     <string name="settings_account_recovery_email">Barua pepe ya urejeshaji</string>
@@ -1552,7 +1552,7 @@
     <string name="settings_add_dns_duplicate_input">Seva tayari imeongezwa</string>
     <string name="settings_advanced_dns_description">Unganisha na VPN kwa kutumia mfumo wa jina la kikoa (DNS) wenyeji au wa mhusika mwingine. Pata maelezo zaidi</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Seva (%1$d)</string>
+    <string name="settings_dns_list_title">Servers (%1$d)</string>
     <string name="settings_dns_list_description">Ikiwa seva yako ya DNS maalum haifanyi kazi, DNS ya kawaida ya VPN itatumika.</string>
     <string name="settings_dns_list_description_multiple">Tutajaribu kuunganisha na seva hizi moja baada ya nyingine. Ikiwa hakuna inayofanya kazi, DNS ya VPN itatumika.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Mabadiliko yatatumika unapounganisha tena.</string>
@@ -1575,8 +1575,8 @@
     <string name="settings_advanced_nat_type_moderate_short">Aina ya 2</string>
     <string name="settings_advanced_nat_type_strict_description">Huzuia data inayoingia kwenye mtandao wako. Chaguo hili ni salama zaidi, lakini linaweza kufanya muunganisho wa michezo ya peer-to-peer kuwa mgumu zaidi.</string>
     <string name="settings_advanced_nat_type_moderate_description">Huzuia kwa sehemu data inayoingia kwenye mtandao wako. Chaguo hili ni bora zaidi kwa michezo ya video mtandaoni.</string>
-    <string name="settings_split_tunneling_description">Sanidi muunganisho wako kwa kubaini programu na anwani za IP zipi zinalindwa na VPN. %1$s</string>
-    <string name="settings_protocol_description">Itifaki ya VPN inabainisha jinsi data inavyosogea kati ya seva ya VPN na kifaa chako. %1$s</string>
+    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
+    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
     <string name="settings_protocol_description_no_link">Itifaki ya VPN inabainisha jinsi data inavyosogea kati ya seva ya VPN na kifaa chako.</string>
     <string name="settings_protocol_section_speed">Kasi (UDP)</string>
     <string name="settings_protocol_section_reliability">Uaminifu (TCP)</string>
@@ -1601,7 +1601,7 @@
     <string name="settings_split_tunneling_included_apps">Programu zilizojumuishwa</string>
     <string name="settings_split_tunneling_included_ips">Anwani za IP zilizojumuishwa</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Hakuna</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s na %3$d zaidi</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_split_tunneling_already_excluded">Imetengwa tayari</string>
     <string name="settings_split_tunneling_already_included">Imejumuishwa tayari</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Uondoe anwani ya IP kutoka kwenye orodha?</string>
@@ -1666,7 +1666,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Hii itaanzisha upya muunganisho wako.</string>
-    <string name="profile_overrides_setting">Mipangilio hii imeunganishwa na <b>%1$s</b> na inaweza kudhibitiwa tu ndani ya Wasifu.</string>
+    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">Utiririshaji nchini Marekani</string>
     <string name="initial_profile_name_work_school">Kazi/Shule</string>
     <string name="initial_profile_name_anti_censorship">Kukabiliana na udhibiti</string>
@@ -1690,7 +1690,7 @@
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
-    <string name="create_profile_copy_name">%1$s (nakala)</string>
+    <string name="create_profile_copy_name">%1$s (copy)</string>
     <string name="create_profile_fastest_city">Haraka zaidi</string>
     <string name="create_profile_fastest_state">Haraka zaidi</string>
     <string name="create_profile_fastest_server">Haraka zaidi</string>
@@ -1700,7 +1700,7 @@
     <string name="profiles_button_create_profile">Tengeneza wasifu</string>
     <string name="profile_deleted_snackbar_message">Wasifu umefutwa</string>
     <string name="profile_connected_edit_setting">Mipangilio hii imeunganishwa na wasifu wako unaoendelea. \n\nHariri wasifu wako ili kufanya mabadiliko, au tenganisha ili kuhariri mipangilio yako ya jumla ya VPN.</string>
-    <string name="profile_connected_dialog_title">Dhibiti %1$s katika Wasifu</string>
+    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
     <string name="undo">Tendua</string>
     <string name="profile_unavailable_dialog_title">Wasifu haupatikani</string>
     <!-- %1$s - profile name
@@ -1709,10 +1709,10 @@
     <string name="profile_location_excluded_dialog_message"><![CDATA[Uteuzi wako wa seva kwa <b>%1$s</b> haupatikani. Teua seva nyingine, angalia maeneo uliyoyatenga au ujaribu tena baadaye.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Aikoni %1$d</string>
+    <string name="profile_icon_accessibility">Icon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">Rangi %1$d</string>
+    <string name="profile_color_accessibility">Color %1$d</string>
     <string name="generic_info_label">Maelezo</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
@@ -1801,10 +1801,10 @@
     <string name="session_fork_qr_code_error_network">Angalia mtandao wako na ujaribu tena.</string>
     <string name="session_fork_qr_code_error_create_new_button">Tengeneza msimbo mpya</string>
     <string name="session_fork_user_code_title">Hauwezi kuchanganua msimbo? Ingia kwa mkono</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Nenda: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Ingia au fungua akaunti</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[Weka msimbo: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Bado unahitaji msaada? Tembelea <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

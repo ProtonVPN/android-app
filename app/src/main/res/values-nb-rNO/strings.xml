@@ -207,7 +207,7 @@
     <string name="troubleshootContactUsSectionTitle">Trenger du fortsatt hjelp? Kontakt oss direkte</string>
     <string name="troubleshootCustomerSupport">Kundestøtte</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativ ruting</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Hvis Proton er blokkert, tillat appen å prøve alternative stier for å nå Proton-serverne. <a href="%1$s">Lær mer</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[I tilfelle Proton er blokkert, la appen prøve alternative baner for å nå Proton-tjenere. <a href="%1$s">Lær mer</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regjeringsblokkering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Kan hende landet ditt blokkerer tilgang til Proton. Prøv å bruke <a href=\'%1$s\'>Tor</a> for å få tilgang til Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">Hvordan aktivere nødstopp</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% serverbelastning</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Nylig brukte servere</string>
     <string name="tv_available_servers">Tilgjengelige servere</string>
     <string name="tv_locked_servers">Låste servere</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">Serverliste</string>
     <string name="tv_server_list_action_unavailable">Utilgjengelig</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Tilkoblet</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Kobler til</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Vedlikehold</string>
     <string name="notification_subscription_expired_title">Proton VPN-abonnementsplanen din er utløpt</string>
     <string name="notification_subscription_expired_content">Vi måtte nedgradere planen din, men vi kobler deg til den raskeste serveren som er tilgjengelig på den planen.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Abonnementet ditt er nedgradert.</string>
@@ -360,8 +360,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d server</item>
-        <item quantity="other">%1$d servere</item>
+        <item quantity="one">%1$d tjener</item>
+        <item quantity="other">%1$d tjenere</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -380,8 +380,8 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d sikker server</item>
-        <item quantity="other">%d sikre servere</item>
+        <item quantity="one">%d sikker tjener</item>
+        <item quantity="other">%d sikre tjenere</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -499,7 +499,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ serverplasseringer i %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ tjenerplasseringer i %2$s</string>
     <string name="upsell_card_customization_title">Og mye mer…</string>
     <string name="upsell_card_customization_description">Få tilgang til enda flere ytelses- og personvernfunksjoner</string>
     <plurals name="upsell_card_devices_title">
@@ -678,7 +678,7 @@
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
         <item quantity="one">den første dagen</item>
-        <item quantity="other">for de første %1$d dagene</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -686,7 +686,7 @@
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
         <item quantity="one">den første uken</item>
-        <item quantity="other">for de første %1$d ukene</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -694,7 +694,7 @@
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
         <item quantity="one">den første måneden</item>
-        <item quantity="other">for de første %1$d månedene</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -702,7 +702,7 @@
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
         <item quantity="one">det første året</item>
-        <item quantity="other">for de første %1$d årene</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -805,7 +805,7 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Tøm</string>
     <string name="free_connections_info_message">Proton Free kobler deg automatisk til den raskeste tilgjengelige serveren. Dette vil normalt være den nærmeste serveren til din plassering.</string>
-    <string name="free_connections_info_server_locations">Gratis serverplasseringer (%1$d)</string>
+    <string name="free_connections_info_server_locations">Gratis tjenerplasseringer (%1$d)</string>
     <string name="free_connections_info_banner_text">Få tilgang til alle land med VPN Plus</string>
     <string name="free_connection_info_title">Gratis forbindelser</string>
     <string name="search_upsell_banner_title">Strøm fra hvor som helst</string>
@@ -1098,7 +1098,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Automatisk valgt fra [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1106,8 +1106,8 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">Automatisk valgt fra %1$d land</item>
-        <item quantity="other">Automatisk valgt fra %1$d land</item>
+        <item quantity="one">Auto-valgt fra %1$d land</item>
+        <item quantity="other">Auto-valgt fra %1$d land</item>
     </plurals>
     <string name="connection_info_auto_selected_free_countries_plain">Auto-valgt fra gratis land.</string>
     <!-- tag(Redesign_2023)
@@ -1289,7 +1289,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Belastning: %1$s %%</string>
+    <string name="country_filter_server_load_content_description">Belastning: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1532,7 +1532,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Øk tilkoblingshastigheten din med opptil 400%% med ytelsesforbedrende teknologier. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Øk tilkoblingshastigheten med opptil 400 %% med ytelsesforbedrende teknologier. %1$s.</string>
     <string name="settings_account_settings_title">Kontoinnstillinger</string>
     <string name="settings_account_change_password">Endre passord</string>
     <string name="settings_account_recovery_email">E-post for gjenoppretting</string>
@@ -1552,7 +1552,7 @@
     <string name="settings_add_dns_duplicate_input">Server allerede lagt til</string>
     <string name="settings_advanced_dns_description">Koble til VPN med et selvdrevet eller tredjeparts domenenavnsystem (DNS). Lær mer</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Servere (%1$d)</string>
+    <string name="settings_dns_list_title">Tjenere (%1$d)</string>
     <string name="settings_dns_list_description">Hvis din tilpassede DNS-server ikke fungerer, vil standard VPN DNS bli brukt.</string>
     <string name="settings_dns_list_description_multiple">Vi vil prøve å koble til disse serverne i rekkefølge. Hvis ingen av dem fungerer, vil VPN DNS brukes.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Endringer trer i kraft når du kobler til på nytt</string>
@@ -1576,7 +1576,7 @@
     <string name="settings_advanced_nat_type_strict_description">Begrenser dataene som kommer inn i nettverket. Dette alternativet er sikrere, men kan gjøre node-til-node-spilltilkoblinger vanskeligere.</string>
     <string name="settings_advanced_nat_type_moderate_description">Noen begrensninger på data som kommer inn i nettverket ditt. Dette alternativet er best for nettvideospill.</string>
     <string name="settings_split_tunneling_description">Tilpass tilkoblingen din ved å bestemme hvilke apper og IP-adresser som er beskyttet av VPN. %1$s.</string>
-    <string name="settings_protocol_description">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-server og enheten din. %1$s.</string>
+    <string name="settings_protocol_description">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-tjener og enheten din. %1$s.</string>
     <string name="settings_protocol_description_no_link">En VPN-protokoll bestemmer hvordan data beveger seg mellom en VPN-server og enheten din.</string>
     <string name="settings_protocol_section_speed">Hastighet (UDP)</string>
     <string name="settings_protocol_section_reliability">Pålitelighet (TCP)</string>
@@ -1705,7 +1705,7 @@
     <string name="profile_unavailable_dialog_title">Profilen er utilgjengelig</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Servervalget ditt for %1$s er ikke tilgjengelig. Velg en annen server eller prøv igjen senere.</string>
+    <string name="profile_unavailable_dialog_message">Tjenervalget ditt for %1$s er ikke tilgjengelig. Velg en annen tjener eller prøv igjen senere.</string>
     <string name="profile_location_excluded_dialog_message"><![CDATA[Valget ditt av server for <b>%1$s</b> er utilgjengelig. Velg en annen server, sjekk dine ekskluderte plasseringer eller prøv igjen senere.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->

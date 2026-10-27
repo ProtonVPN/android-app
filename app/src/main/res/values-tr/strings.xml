@@ -47,7 +47,7 @@
     <string name="quickConnect">Hızlı bağlan</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s[%1$s]</string>
+    <string name="serverLoad">%%%1$s</string>
     <string name="cancel">İptal</string>
     <string name="close">Kapat</string>
     <string name="dialogContinue">İlerle</string>
@@ -123,7 +123,7 @@
     <string name="noNotificationPermissionGrantTitle">Yakalanmayın…</string>
     <string name="noNotificationPermissionGrantDescription">Bağlantı durumunuzdaki değişikliklerle ilgili uyarılar almak için bildirimleri açın.</string>
     <string name="noNotificationPermissionGrantNowTitle">Bildirimleri aç</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için her zaman açık seçeneğini kapatın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Proton VPN tarafından bir VPN bağlantısı kurulmasını engellediğinden, lütfen Android VPN ayarlarından, tüm diğer VPN uygulamaları için hep açık seçeneğini kapatın. VPN izinleri isteyen bir pencere görürseniz VPN izinlerini verin. Çakışmaları önlemek için diğer VPN uygulamalarının kaldırılması da gerekebilir. Ardından yeniden deneyin. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="error_prepare_vpn_settings">Android VPN ayarlarına git</string>
     <string name="error_prepare_vpn_title">Hata: VPN izni sorunu</string>
     <string name="error_server_not_set">Sunucu artık kullanılamıyor</string>
@@ -149,7 +149,7 @@
     <string name="settingsIncludedAppsEmpty">VPN trafiğine katılacak uygulamaları ekleyin.</string>
     <string name="settingsExcludedAppsSelectedHeader">Katılmayacak uygulamalar (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Katılacak uygulamalar (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Tüm diğer normal ugulamalar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Tüm diğer normal uygulamalar (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Tüm diğer sistem uygulamaları (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Tüm diğer uygulamalar (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Sistem uygulamalarını görüntüle</string>
@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Sunucu yükü %1$s[%1$s]</string>
+    <string name="tv_server_list_load">Sunucu yükü %%%1$s</string>
     <string name="tv_recently_used_servers">Son kullanılan sunucular</string>
     <string name="tv_available_servers">Kullanılabilecek sunucular</string>
     <string name="tv_locked_servers">Kilitli sunucular</string>
@@ -360,8 +360,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d sunucuya</item>
-        <item quantity="other">%1$d sunucuya</item>
+        <item quantity="one">%1$d sunucu</item>
+        <item quantity="other">%1$d sunucu</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -448,7 +448,7 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">VPN Plus ile %1$s erişimi sağlayın</string>
+    <string name="upsell_panel_country_title">VPN Plus ile %1$s erişimi edinin</string>
     <string name="upsell_panel_countries_title">VPN Plus ile tüm ülkelere erişin</string>
     <string name="upsell_panel_country_benefit_speed">Yüksek hızlı sunucular</string>
     <string name="upsell_panel_country_benefit_shows">Yalnızca yurt dışında yayınlanan dizileri izleyin</string>
@@ -584,57 +584,57 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="one">Özel teklif. Günlük %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Özel teklif. Her %2$d günde bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Özel teklif. Günlük %1$s tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. %2$d günde bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="one">Özel teklif. Haftalık %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Özel teklif. Her %2$d haftada bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Özel teklif. Haftalık %1$s tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. Her %2$d haftada bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="one">Özel teklif. Aylık %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Özel teklif. Her %2$d ayda bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Özel teklif. Aylık %1$s tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. Her %2$d ayda bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="one">Özel teklif. Yıllık %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Özel teklif. Her %2$d yılda bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Özel teklif. Yıllık %1$s tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">Özel teklif. Her %2$d yılda bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="one">Abonelik günlük %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Abonelik %2$d günde bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Abonelik günlük %1$s tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">Abonelik %2$d günde bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="one">Abonelik haftalık %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Abonelik %2$d haftada bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Abonelik haftalık %1$s tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">Abonelik %2$d haftada bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="one">Abonelik aylık %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Abonelik %2$d ayda bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Abonelik %1$s/ay tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">Abonelik %2$d ayda bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="one">Abonelik yıllık %1$s karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">Abonelik %2$d yılda bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">Abonelik %1$s/yıl tutar ile otomatik yenilenir</item>
+        <item quantity="other">Abonelik %2$d yılda bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -643,7 +643,7 @@
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
         <item quantity="one">%1$s/gün</item>
-        <item quantity="other">her %2$d günde bir %1$s</item>
+        <item quantity="other">%2$d günde bir %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -652,7 +652,7 @@
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
         <item quantity="one">%1$s/hafta</item>
-        <item quantity="other">her %2$d haftada bir %1$s</item>
+        <item quantity="other">%2$d haftada bir %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -661,7 +661,7 @@
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
         <item quantity="one">%1$s/ay</item>
-        <item quantity="other">her %2$d ayda bir %1$s</item>
+        <item quantity="other">%2$d ayda bir %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -670,7 +670,7 @@
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
         <item quantity="one">%1$s/yıl</item>
-        <item quantity="other">her %2$d yılda bir %1$s</item>
+        <item quantity="other">%2$d yılda bir %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -710,8 +710,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="one">ardından %1$s/gün karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">ardından her %2$d günde bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">ardından %1$s/gün tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">ardından %2$d günde bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -719,8 +719,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="one">ardından %1$s/hafta karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">ardından her %2$d haftada bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">ardından %1$s/hafta tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">ardından %2$d haftada bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -728,8 +728,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="one">ardından %1$s/ay karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">ardından her %2$d ayda bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">ardından %1$s/ay tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">ardından %2$d ayda bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -737,8 +737,8 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="one">ardından %1$s/yıl karşılığında otomatik olarak yenilenir</item>
-        <item quantity="other">ardından her %2$d yılda bir %1$s karşılığında otomatik olarak yenilenir</item>
+        <item quantity="one">ardından %1$s/yıl tutar ile otomatik olarak yenilenir</item>
+        <item quantity="other">ardından %2$d yılda bir %1$s tutar ile otomatik olarak yenilenir</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -1289,7 +1289,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Yük: %1$s[%1$s]</string>
+    <string name="country_filter_server_load_content_description">Yük: %%%1$s</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1532,7 +1532,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Başarımı artırıcı teknolojilerle bağlantı hızınızı %%400 oranına kadar artırın. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Başarım artırıcı teknolojilerle bağlantı hızınızı %% 400 oranına kadar artırın. %1$s</string>
     <string name="settings_account_settings_title">Hesap ayarları</string>
     <string name="settings_account_change_password">Parolayı değiştir</string>
     <string name="settings_account_recovery_email">Kurtarma e-postası adresi</string>

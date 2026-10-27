@@ -39,7 +39,7 @@
     <string name="buttonConnect">Σύνδεση</string>
     <string name="loaderConnectingTo">Σύνδεση σε %1$s</string>
     <string name="loaderNotConnected">Μη συνδεδεμένο (χωρίς προστασία)</string>
-    <string name="loaderConnectedTo">Συνδεδεμένο σε %1$s</string>
+    <string name="loaderConnectedTo">Συνδέθηκε στο %1$s</string>
     <string name="loaderDisconnecting">Γίνεται Αποσύνδεση</string>
     <string name="loaderReconnecting">Επανασύνδεση</string>
     <string name="loaderReconnectNoNetwork">Αναμονή για χρησιμοποιήσιμο δίκτυο</string>
@@ -142,13 +142,13 @@
     <string name="settings_new_label_badge">ΝΕΟ</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">BETA</string>
-    <string name="settingsExcludedIPAddressesListHeader">Εξαιρούμενες διευθύνσεις IP (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Εξαιρούμενες IP διευθύνσεις (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Συμπεριλαμβανόμενες διευθύνσεις IP (%1$d)</string>
     <string name="settingsExcludedApps">Εξαιρούμενες εφαρμογές</string>
     <string name="settingsExcludedAppsEmpty">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την κίνηση του δικτύου VPN.</string>
     <string name="settingsIncludedAppsEmpty">Προσθέστε εφαρμογές που θα συμπεριληφθούν στην κίνηση VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Εξαιρούμενες εφαρμογές (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Περιλαμβανόμενες εφαρμογές (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Συμπεριλαμβανόμενες εφαρμογές (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Όλες οι άλλες κανονικές εφαρμογές (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Όλες οι άλλες εφαρμογές συστήματος (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Όλες οι άλλες εφαρμογές (%1$d)</string>
@@ -360,8 +360,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d διακομιστής</item>
-        <item quantity="other">%1$d διακομιστές</item>
+        <item quantity="one">%1$d Διακομιστής</item>
+        <item quantity="other">%1$d Διακομιστές</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -369,8 +369,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d χώρα</item>
-        <item quantity="other">%1$d χώρες</item>
+        <item quantity="one">%1$d Χώρα</item>
+        <item quantity="other">%1$d Χώρες</item>
     </plurals>
     <string name="upsell_upgrade_again">Αναβάθμιση ξανά, προς απόλαυση όλων των χαρακτηριστικών:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Οι διακομιστές βρίσκονται σε %1$s, αλλά θα φαίνεται ότι περιηγείστε από %2$s.</string>
+    <string name="country_smart_routing_info">Η φυσική τοποθεσία του διακομιστή σας: %1$s.\nΗ χώρα από την οποία περιηγείστε: %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1504,9 +1504,9 @@
         <item quantity="other">%1$d ημέρες</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d ώρ</string>
+    <string name="connection_details_hours_shortened">%1$d ώρα</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d λεπ</string>
+    <string name="connection_details_minutes_shortened">%1$d λεπτό</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d δλ</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Αποτυχία σύνδεσης</string>

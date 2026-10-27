@@ -39,7 +39,7 @@
     <string name="buttonConnect">接続</string>
     <string name="loaderConnectingTo">%1$s に接続中</string>
     <string name="loaderNotConnected">接続されていません (非保護)</string>
-    <string name="loaderConnectedTo">%1$s に接続しました</string>
+    <string name="loaderConnectedTo">%1$s に接続完了</string>
     <string name="loaderDisconnecting">切断中</string>
     <string name="loaderReconnecting">再接続中</string>
     <string name="loaderReconnectNoNetwork">利用可能なネットワークを待機中</string>
@@ -142,7 +142,7 @@
     <string name="settings_new_label_badge">新規</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">ベータ</string>
-    <string name="settingsExcludedIPAddressesListHeader">除外する IP アドレス (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">除外されたIPアドレス(%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">含まれているIPアドレス(%1$d)</string>
     <string name="settingsExcludedApps">除外するアプリ</string>
     <string name="settingsExcludedAppsEmpty">VPN トラフィックからアプリを追加して除外することができます。</string>
@@ -272,7 +272,7 @@
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">のデータを節約</string>
     <string name="netshield_setting_warning">広告やトラッカーがブロックされていると、一部の Web サイトが正しく読み込まれない場合があります。</string>
-    <string name="netshield_setting_block_adult_content">Block adult content</string>
+    <string name="netshield_setting_block_adult_content">アダルトコンテンツをブロック</string>
     <string name="dialogDontShowAgain">次回から表示しない</string>
     <string name="guestHoleNotificationContent">ネットワークの問題の回避を試みてください。これで Proton VPN にアクセスできるかもしれません。</string>
     <string name="errorTunMultiUserPermission">デュアルアプリ (例：デュアルメッセンジャー) とスプリットトンネルが競合したため、VPN の初期化が失敗しました。どちらかを無効にし、デバイスを再起動してください。</string>
@@ -314,7 +314,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">サーバー負荷 %1$s%%</string>
+    <string name="tv_server_list_load">サーバー負荷: %1$s%%</string>
     <string name="tv_recently_used_servers">最近使用したサーバー</string>
     <string name="tv_available_servers">利用可能なサーバー</string>
     <string name="tv_locked_servers">ロックされたサーバー</string>
@@ -322,11 +322,11 @@
     <string name="tv_server_list">サーバーリスト</string>
     <string name="tv_server_list_action_unavailable">使用不可</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">接続完了</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">接続中</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">メンテナンス中</string>
     <string name="notification_subscription_expired_title">Proton VPN サブスクリプションのプランの有効期限が切れました</string>
     <string name="notification_subscription_expired_content">プランをダウングレードしました、そのためこのプランで利用できる最速のサーバーに接続します。</string>
     <string name="notification_subscription_expired_no_reconnection_content">サブスクリプションはダウングレードされました。</string>
@@ -347,8 +347,8 @@
     <string name="enable">有効化</string>
     <string name="notification_smart_protocol_disabled_title">スマートプロトコルは現在無効です</string>
     <string name="notification_smart_protocol_disabled_content">現在のネットワークが VPN に接続しようとしているのを妨げるのを検出しました。スマートプロトコルを有効にするとこれらの制限を回避できる可能性があります。</string>
-    <string name="notification_streaming_blocked_title">Streaming not working?</string>
-    <string name="notification_streaming_blocked_text">Many streaming services detect and block connections from free VPN servers. Upgrade to Proton VPN Plus to bypass these blocks</string>
+    <string name="notification_streaming_blocked_title">動画配信サービスを視聴できませんか？</string>
+    <string name="notification_streaming_blocked_text">多くのストリーミングサービスは、無料 VPN サーバーからの接続を検知してブロックします。Proton VPN Plus にアップグレードして、これらのブロックを回避しましょう</string>
     <string name="upsell_advanced_features">高度な機能: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">世界中どこでも Netflix や Disney+ などのストリーミングサービスにアクセス</string>
     <!-- Number of servers available in the service.
@@ -357,7 +357,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="other">%1$d サーバー</item>
+        <item quantity="other">%1$d 台のサーバー</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -365,7 +365,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="other">%1$d カ国</item>
+        <item quantity="other">%1$d か国</item>
     </plurals>
     <string name="upsell_upgrade_again">再度すべての機能を利用するにはアップデートしてください:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -383,7 +383,7 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="other">%d カ国</item>
+        <item quantity="other">%d か国</item>
     </plurals>
     <string name="upgrade_not_now_button">後で</string>
     <!-- Content description for plan selection list.
@@ -405,7 +405,7 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_plus">Plus plan:</string>
+    <string name="upsell_panel_content_description_value_prefix_plus">Plus プラン:</string>
     <!-- Content description prefix for value in the benefits table row for the plus plan.
          The benefits table row has the following structure:<benefit description>; <value in free>; <value in plus>
          e.g.:
@@ -414,26 +414,26 @@
          For accessibility services a prefix is added before each value, e.g.:
          "Ads blocked while you browse;  free plan: No;  Plus plan: Yes"
     -->
-    <string name="upsell_panel_content_description_value_prefix_free">Free plan:</string>
-    <string name="upsell_panel_content_description_yes">Yes</string>
-    <string name="upsell_panel_content_description_no">No</string>
-    <string name="upsell_panel_table_header_plan_free">Free</string>
-    <string name="upsell_panel_general_benefit_block_ads">Block ads and trackers</string>
-    <string name="upsell_panel_general_benefit_countries">Available countries</string>
+    <string name="upsell_panel_content_description_value_prefix_free">Free プラン:</string>
+    <string name="upsell_panel_content_description_yes">はい</string>
+    <string name="upsell_panel_content_description_no">いいえ</string>
+    <string name="upsell_panel_table_header_plan_free">無料</string>
+    <string name="upsell_panel_general_benefit_block_ads">広告とトラッカーをブロック</string>
+    <string name="upsell_panel_general_benefit_countries">利用可能な国</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
     <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
-    <string name="upsell_panel_general_benefit_devices">Protected devices</string>
-    <string name="upsell_panel_general_benefit_location">Choose your location</string>
-    <string name="upsell_panel_general_benefit_server">Choose your server</string>
-    <string name="upsell_panel_general_benefit_shows">Watch your shows from any country</string>
-    <string name="upsell_panel_general_benefit_speed">Server speed</string>
-    <string name="upsell_panel_general_benefit_speed_standard">Standard</string>
-    <string name="upsell_panel_general_benefit_speed_highest">Highest</string>
-    <string name="upsell_panel_adv_customization_title">Fine-tune your connection</string>
-    <string name="upsell_panel_adv_customization_description">Allow LAN connections, set a custom DNS, and choose your NAT type. The advanced controls, all on Plus.</string>
-    <string name="upsell_panel_adv_customization_benefit_lan">Reach your printer and home devices</string>
-    <string name="upsell_panel_adv_customization_benefit_dns">Use your own DNS service</string>
-    <string name="upsell_panel_adv_customization_benefit_gaming">Better connections for gaming</string>
+    <string name="upsell_panel_general_benefit_devices">保護されたデバイス</string>
+    <string name="upsell_panel_general_benefit_location">接続先を選択</string>
+    <string name="upsell_panel_general_benefit_server">サーバーを選択</string>
+    <string name="upsell_panel_general_benefit_shows">どこからでも好きな番組を視聴</string>
+    <string name="upsell_panel_general_benefit_speed">サーバースピード</string>
+    <string name="upsell_panel_general_benefit_speed_standard">標準</string>
+    <string name="upsell_panel_general_benefit_speed_highest">最高</string>
+    <string name="upsell_panel_adv_customization_title">接続を細かくカスタマイズ</string>
+    <string name="upsell_panel_adv_customization_description">LAN 接続の許可、カスタム DNS の設定、NAT タイプの選択など、高度なコントロール機能のすべてを Plus プランでご利用いただけます。</string>
+    <string name="upsell_panel_adv_customization_benefit_lan">プリンターや自宅のデバイスにアクセス</string>
+    <string name="upsell_panel_adv_customization_benefit_dns">カスタム DNS サービスを利用する</string>
+    <string name="upsell_panel_adv_customization_benefit_gaming">ゲームにより適した接続</string>
     <!--
         %1$s - country name in nominative
 
@@ -441,50 +441,50 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
-    <string name="upsell_panel_countries_title">Unlock all countries with VPN Plus</string>
-    <string name="upsell_panel_country_benefit_speed">High-speed servers</string>
-    <string name="upsell_panel_country_benefit_shows">Watch shows only available abroad</string>
-    <string name="upsell_panel_devices_title">Protect every device you own</string>
-    <string name="upsell_panel_devices_description">Your phone, laptop, TV, and everything in between.</string>
-    <string name="upsell_panel_netshield_title">Browse without interruptions</string>
-    <string name="upsell_panel_netshield_benefit_ads">Ads blocked while you browse</string>
-    <string name="upsell_panel_netshield_benefit_trackers">Stop trackers from following you</string>
-    <string name="upsell_panel_netshield_benefit_malware">Malware and phishing protection</string>
-    <string name="upsell_panel_netshield_benefit_load_speed">Pages load faster </string>
-    <string name="upsell_panel_onboarding_title">Get more with VPN Plus</string>
-    <string name="upsell_panel_p2p_title">Downloads at full speed</string>
-    <string name="upsell_panel_p2p_description">Servers built for file sharing, with your usual torrent client.</string>
-    <string name="upsell_panel_p2p_benefit_p2p">P2P file sharing</string>
-    <string name="upsell_panel_profiles_title">Streaming, gaming, work: a profile for each</string>
-    <string name="upsell_panel_profiles_description">Set up your connections your way, then reconnect to any of them in one tap.</string>
-    <string name="upsell_panel_profiles_benefit_profiles">Saved profiles</string>
-    <string name="upsell_panel_profiles_benefit_profiles_unlimited">Unlimited</string>
-    <string name="upsell_panel_secure_core_title">Two layers of encryption between you and the web</string>
-    <string name="upsell_panel_secure_core_description">Routed through a Proton server in Switzerland, Iceland, or Sweden before your chosen country.</string>
+    <string name="upsell_panel_country_title">VPN Plus で %1$s をロック解除</string>
+    <string name="upsell_panel_countries_title">VPN Plus ですべての国を利用可能に</string>
+    <string name="upsell_panel_country_benefit_speed">高速サーバー</string>
+    <string name="upsell_panel_country_benefit_shows">海外限定の番組も視聴可能</string>
+    <string name="upsell_panel_devices_title">お持ちのすべてのデバイスを保護</string>
+    <string name="upsell_panel_devices_description">スマートフォン、ノート PC、テレビ、その他あらゆるデバイスに対応。</string>
+    <string name="upsell_panel_netshield_title">邪魔されることなく快適にブラウジング</string>
+    <string name="upsell_panel_netshield_benefit_ads">閲覧中の広告をブロック</string>
+    <string name="upsell_panel_netshield_benefit_trackers">トラッカーによる追跡をブロック</string>
+    <string name="upsell_panel_netshield_benefit_malware">マルウェアとフィッシング対策</string>
+    <string name="upsell_panel_netshield_benefit_load_speed">ページの読み込みがより高速に </string>
+    <string name="upsell_panel_onboarding_title">VPN Plus でさらに多くの機能を手に入れましょう</string>
+    <string name="upsell_panel_p2p_title">フルスピードでダウンロード</string>
+    <string name="upsell_panel_p2p_description">普段お使いの Torrent クライアントでファイル共有を行えるよう最適化されたサーバーです。</string>
+    <string name="upsell_panel_p2p_benefit_p2p">P2P ファイル共有</string>
+    <string name="upsell_panel_profiles_title">動画視聴、ゲーム、仕事: 用途に応じたプロファイルを作成</string>
+    <string name="upsell_panel_profiles_description">自分好みの接続設定を作成しておけば、ワンタップでいつでもその接続に切り替えられます。</string>
+    <string name="upsell_panel_profiles_benefit_profiles">保存されたプロファイル</string>
+    <string name="upsell_panel_profiles_benefit_profiles_unlimited">無制限</string>
+    <string name="upsell_panel_secure_core_title">あなたと Web の間に2重の暗号化レイヤーを</string>
+    <string name="upsell_panel_secure_core_description">選択した接続先の国の前に、スイス、アイスランド、またはスウェーデンにある強固な Proton サーバーを経由します。</string>
     <string name="upsell_panel_secure_core_benefit_secure_core">Secure Core</string>
-    <string name="upsell_panel_speed_title">Stream, game, and download faster</string>
-    <string name="upsell_panel_speed_benefit_servers">High-speed servers</string>
-    <string name="upsell_panel_speed_benefit_gaming">Response time while gaming</string>
-    <string name="upsell_panel_speed_benefit_gaming_slow">Slow</string>
-    <string name="upsell_panel_speed_benefit_gaming_fast">Fast</string>
-    <string name="upsell_panel_speed_benefit_video">Video streams without buffering</string>
-    <string name="upsell_panel_speed_benefit_p2p">P2P downloads supported</string>
-    <string name="upsell_panel_split_tunneling_title">Choose which apps use the VPN</string>
-    <string name="upsell_panel_split_tunneling_description">Your browser through the VPN, your banking app around it. You choose, app by app.</string>
-    <string name="upsell_panel_split_tunneling_benefit_split">Split tunneling</string>
-    <string name="upsell_panel_streaming_title">Watch your favorite streaming services</string>
-    <string name="upsell_panel_streaming_benefit_shows">Watch shows from any country</string>
+    <string name="upsell_panel_speed_title">動画視聴、ゲーム、ダウンロードをさらに高速に</string>
+    <string name="upsell_panel_speed_benefit_servers">高速サーバー</string>
+    <string name="upsell_panel_speed_benefit_gaming">ゲームプレイ時の応答速度（Ping）</string>
+    <string name="upsell_panel_speed_benefit_gaming_slow">低速</string>
+    <string name="upsell_panel_speed_benefit_gaming_fast">高速</string>
+    <string name="upsell_panel_speed_benefit_video">バッファリングなしで動画を快適にストリーミング</string>
+    <string name="upsell_panel_speed_benefit_p2p">P2P ダウンロード対応</string>
+    <string name="upsell_panel_split_tunneling_title">VPN を使用するアプリを選択</string>
+    <string name="upsell_panel_split_tunneling_description">ブラウザは VPN 経由で接続し、銀行アプリは直接接続する。アプリごとに思い通りの設定が可能です。</string>
+    <string name="upsell_panel_split_tunneling_benefit_split">スプリットトンネル</string>
+    <string name="upsell_panel_streaming_title">お気に入りのストリーミングサービスを視聴</string>
+    <string name="upsell_panel_streaming_benefit_shows">世界中の番組を視聴</string>
     <!-- The asterisk points to upsell_panel_streaming_footer -->
-    <string name="upsell_panel_streaming_benefit_platforms">All major streaming platforms supported *</string>
-    <string name="upsell_panel_streaming_benefit_hd">Stream in HD without buffering</string>
-    <string name="upsell_panel_streaming_benefit_devices">Devices connected at once</string>
-    <string name="upsell_panel_streaming_footer">* Streaming platform subscription required.</string>
-    <string name="upsell_panel_streaming_block_title">Upgrade to bypass VPN blocks</string>
-    <string name="upsell_panel_streaming_block_description">VPN Plus servers let you enjoy your favorite movies and TV shows from around the world.</string>
-    <string name="upsell_panel_tor_title">Onion sites, no Tor Browser needed</string>
-    <string name="upsell_panel_tor_description">Reach .onion sites in the browser you already use.</string>
-    <string name="upsell_panel_tor_benefit_tor">Tor over VPN</string>
+    <string name="upsell_panel_streaming_benefit_platforms">主要なすべてのストリーミングプラットフォームに対応 *</string>
+    <string name="upsell_panel_streaming_benefit_hd">バッファリングなしで HD 高画質ストリーミング</string>
+    <string name="upsell_panel_streaming_benefit_devices">同時接続デバイス数</string>
+    <string name="upsell_panel_streaming_footer">* 各ストリーミングプラットフォームへの個別のご登録・契約が必要です。</string>
+    <string name="upsell_panel_streaming_block_title">VPNブロックを回避するためにアップグレード</string>
+    <string name="upsell_panel_streaming_block_description">VPN Plusサーバーを利用して、お気に入りの映画やテレビ番組を世界中からお楽しみください。</string>
+    <string name="upsell_panel_tor_title">Tor Browser 不要で Onion サイトにアクセス</string>
+    <string name="upsell_panel_tor_description">普段お使いのブラウザのままで、.onion サイトにアクセスできます。</string>
+    <string name="upsell_panel_tor_benefit_tor">VPN経由Tor</string>
     <string name="upsell_card_countries_title">世界中をカバー</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -526,16 +526,16 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
+    <string name="upsell_tv_all_countries_description">%2$s の %1$s をロック解除。</string>
     <string name="upsell_tv_netshield_title">Plus で広告なしのブラウジングを体験</string>
-    <string name="upsell_tv_netshield_description"><![CDATA[Block ads, trackers, and malware with <b>NetShield</b>.]]></string>
+    <string name="upsell_tv_netshield_description"><![CDATA[<b>NetShield</b> で広告、トラッカー、マルウェアをブロック。]]></string>
     <string name="upsell_tv_split_tunneling_title">Plusで両方の利点を最大限に活用</string>
-    <string name="upsell_tv_split_tunneling_description"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upsell_tv_subscription_expired_title">Subscription expired</string>
-    <string name="upsell_tv_subscription_expired_description">Upgrade to get access to Plus servers and features again.</string>
+    <string name="upsell_tv_split_tunneling_description"><![CDATA[<b>スプリットトンネル</b>を使用して、トラフィックを VPN トンネルと非 VPN トンネルに分割します。]]></string>
+    <string name="upsell_tv_subscription_expired_title">サブスクリプションの有効期限が切れました</string>
+    <string name="upsell_tv_subscription_expired_description">アップグレードすると、Plus サーバーと機能に再度アクセスできるようになります。</string>
     <string name="upsell_tv_customization_title">Plusで高度なVPNカスタマイズを利用</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
-    <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <string name="upsell_tv_customization_description"><![CDATA[<b>LAN 接続</b>、<b>カスタム DNS</b>、その他の高度な VPN 機能をロック解除。]]></string>
+    <string name="upsell_tv_fallback_description">Proton VPNのウェブサイトでプランをアップグレードしましょう。</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
@@ -545,21 +545,21 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s/%2$s</string>
-    <string name="payment_price_per_day">day</string>
-    <string name="payment_price_per_week">week</string>
+    <string name="payment_price_per_day">日</string>
+    <string name="payment_price_per_week">週</string>
     <string name="payment_price_per_month">月</string>
     <string name="payment_price_per_year">年</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="other">%1$d days</item>
+        <item quantity="other">%1$d 日</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="other">%1$d weeks</item>
+        <item quantity="other">%1$d週間</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="other">%1$d months</item>
+        <item quantity="other">%1$d か月</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="other">%1$d years</item>
+        <item quantity="other">%1$d 年</item>
     </plurals>
     <string name="payment_select_your_plan">プランを選択してください</string>
     <!-- Label on a button for purchasing a subscription.
@@ -572,49 +572,49 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="other">特別オファー。%2$d 日ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="other">特別オファー。%2$d 週間ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="other">特別オファー。%2$d か月ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="other">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="other">特別オファー。%2$d 年ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="other">サブスクリプションは %2$d 日ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="other">サブスクリプションは %2$d 週間ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
+        <item quantity="other">サブスクリプションは %2$d か月ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
+        <item quantity="other">サブスクリプションは %2$d 年ごとに %1$s で自動更新されます</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -622,7 +622,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="other">%1$s every %2$d days</item>
+        <item quantity="other">%2$d 日ごとに %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -630,7 +630,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="other">%1$s every %2$d weeks</item>
+        <item quantity="other">%2$d 週間ごとに %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -638,7 +638,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="other">%1$s every %2$d months</item>
+        <item quantity="other">%2$d か月ごとに %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -646,35 +646,35 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="other">%1$s every %2$d years</item>
+        <item quantity="other">%2$d 年ごとに %1$s</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="other">for the first %1$d days</item>
+        <item quantity="other">最初の %1$d 日間</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="other">for the first %1$d weeks</item>
+        <item quantity="other">最初の %1$d 週間</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="other">最初の %1$d か月間</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="other">最初の %1$d 年間</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -682,7 +682,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="other">then auto renews at %1$s every %2$d days</item>
+        <item quantity="other">その後は %2$d 日ごとに %1$s で自動更新されます</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -690,7 +690,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="other">その後は %2$d 週間ごとに %1$s で自動更新されます</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -698,7 +698,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="other">then auto renews at %1$s every %2$d months</item>
+        <item quantity="other">その後は %2$d か月ごとに %1$s で自動更新されます</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -706,7 +706,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="other">then auto renews at %1$s every %2$d years</item>
+        <item quantity="other">その後は %2$d 年ごとに %1$s で自動更新されます</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -723,7 +723,7 @@
       "$19.99/year for the first 3 years, then auto renews at $24.99/year"
       "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
     -->
-    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
+    <string name="payment_multi_renewal_template">%1$s %2$s、%3$s</string>
     <string name="smart_routing_title">スマートルーティング</string>
     <string name="smart_routing_description">この技術は Proton VPN の提供が困難な国で高速な速度とセキュリティを提供します。</string>
     <string name="tor_title">Tor</string>
@@ -771,9 +771,9 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">クリア</string>
     <!-- Content description for an icon button that clears text in an input field. -->
-    <string name="clear_text_field_content_description">Clear</string>
+    <string name="clear_text_field_content_description">クリア</string>
     <string name="free_connections_info_message">Proton Freeでは、利用可能な最速のサーバーに自動的に接続されます。これは通常、あなたの所在地に最も近いサーバーとなります。</string>
-    <string name="free_connections_info_server_locations">無料のサーバーの場所 (%1$d)</string>
+    <string name="free_connections_info_server_locations">無料サーバーの場所 (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plusですべての国にアクセス</string>
     <string name="free_connection_info_title">無料接続</string>
     <string name="search_upsell_banner_title">どこからでもストリーミング</string>
@@ -870,7 +870,7 @@
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_unlimited_title">Proton Unlimitedへようこそ</string>
-    <string name="welcome_unlimited_description">You unlocked all premium Proton VPN, Mail, Calendar, Drive, Pass, and Wallet features.</string>
+    <string name="welcome_unlimited_description">Proton VPN、Mail、Calendar、Drive、Pass、Wallet のすべてのプレミアム機能が利用可能になりました。</string>
     <string name="welcome_generic_title">おめでとうございます！</string>
     <string name="welcome_generic_description">サブスクリプションをアップグレードしました。高度なプライバシー機能と次世代のパフォーマンスをお楽しみください。</string>
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
@@ -925,17 +925,17 @@
      Text added to clickable elements that provide negative feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_negative">not good</string>
+    <string name="accessibility_feedback_negative">良くない</string>
     <!--
      Text added to clickable elements that provide positive feedback when clicking on it.
      Only used by accessibility services.
     -->
-    <string name="accessibility_feedback_positive">good</string>
+    <string name="accessibility_feedback_positive">いい</string>
     <!--
      Text added to clickable elements that allows to submit either positive or negative feedback.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_submit_feedback">submit</string>
+    <string name="accessibility_action_submit_feedback">送信</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1133,7 +1133,7 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">無料接続に関する詳細情報</string>
-    <string name="connection_card_label_connection_feedback">How is your connection?</string>
+    <string name="connection_card_label_connection_feedback">接続状況はいかがですか？</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1242,7 +1242,7 @@
     <string name="country_filter_servers_list_header">サーバー</string>
     <string name="country_filter_secure_core_list_header">Secure Core の国 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P対応国 (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P 都市 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P 対応都市 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P 対応州 (%1$d)</string>
     <string name="counrty_filter_p2p_servers_list_header">P2Pサーバー</string>
     <string name="country_filter_tor_list_header">Tor対応国 (%1$d)</string>
@@ -1302,7 +1302,7 @@
     <!-- Label for server location "state", as a state of the USA. -->
     <string name="connection_details_state">州</string>
     <!-- Label for server smart routing, a country which is routed through. -->
-    <string name="connection_details_smart_routing">Routed through</string>
+    <string name="connection_details_smart_routing">経由地</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1376,7 +1376,7 @@
     <string name="connection_feature_smart_routing_title">スマートルーティング</string>
     <string name="connection_feature_smart_routing_description">物理的に別の場所にあるサーバーを経由して、目的の国に接続します。</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">Connects you to your destination country through servers physically located elsewhere: %1$s.</string>
+    <string name="connection_feature_smart_routing_description_with_countries">物理的に別の場所に設置されたサーバーを経由して、目的の国に接続します: %1$s。</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1478,12 +1478,12 @@
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">ステップ %1$d/%2$d</string>
+    <string name="create_profile_steps">ステップ %1$d / %2$d</string>
     <string name="create_profile_button_next">次へ</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">パフォーマンス強化テクノロジーにより、接続速度が最大 400 %% 向上します。 %1$s</string>
+    <string name="settings_vpn_accelerator_description">パフォーマンス強化テクノロジーにより、接続速度が最大 400%% 向上します。 %1$s</string>
     <string name="settings_account_settings_title">アカウントの設定</string>
     <string name="settings_account_change_password">パスワードを変更する</string>
     <string name="settings_account_recovery_email">回復用メールアドレス</string>
@@ -1556,7 +1556,7 @@
     <string name="settings_split_tunneling_already_excluded">既に除外されています</string>
     <string name="settings_split_tunneling_already_included">すでに含まれています</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
-    <string name="settings_split_tunneling_ip_removed_message">IP address removed</string>
+    <string name="settings_split_tunneling_ip_removed_message">IP アドレスを削除しました</string>
     <string name="settings_theme_title">テーマ</string>
     <string name="settings_theme_value_auto">デバイスのテーマ</string>
     <string name="settings_theme_value_light">ライト</string>
@@ -1735,7 +1735,7 @@
     <string name="session_fork_confirmation_title">Android TVでサインインしますか？</string>
     <string name="session_fork_confirmation_message">これにより、テレビがお客様のProtonアカウントにアクセスできるようになります。</string>
     <string name="session_fork_confirmation_bottom_note">信頼できるデバイスでのみサインインしてください</string>
-    <string name="session_fork_confirmation_too_soon_toast">Please review before continuing</string>
+    <string name="session_fork_confirmation_too_soon_toast">続行する前に内容をご確認ください</string>
     <string name="session_fork_success_title">サインイン完了</string>
     <string name="session_fork_success_message">テレビでサインインしました。</string>
     <string name="session_fork_error_expired_title">コードは有効期限切れ</string>
@@ -1745,17 +1745,17 @@
     <string name="session_fork_error_network_message">ネットワークを確認し、再度お試しください。</string>
     <string name="session_fork_error_try_fallback_message">テレビで「サインインでお困りですか？」をクリックして、別の手順に従ってください。</string>
     <string name="session_fork_error_report_button">問題を報告</string>
-    <string name="session_fork_qr_code_content_description">QR code</string>
-    <string name="session_fork_qr_code_message">Scan the QR code to sign in or create an account.</string>
-    <string name="session_fork_qr_code_trouble_button">Trouble signing in?</string>
-    <string name="session_fork_qr_code_error_expired">For security reasons the validation code has expired</string>
-    <string name="session_fork_qr_code_error_network">Check your network and try again</string>
-    <string name="session_fork_qr_code_error_create_new_button">Create a new code</string>
-    <string name="session_fork_user_code_title">Can’t scan the code? Sign in manually</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
-    <string name="session_fork_user_code_step2">Sign in or create an account</string>
+    <string name="session_fork_qr_code_content_description">QRコード</string>
+    <string name="session_fork_qr_code_message">QR コードをスキャンしてサインインするか、アカウントを作成してください。</string>
+    <string name="session_fork_qr_code_trouble_button">サインインに問題がある場合</string>
+    <string name="session_fork_qr_code_error_expired">セキュリティ上の理由により、認証コードの有効期限が切れました</string>
+    <string name="session_fork_qr_code_error_network">ネットワーク接続を確認してから、もう一度お試しください</string>
+    <string name="session_fork_qr_code_error_create_new_button">新しいコードを作成</string>
+    <string name="session_fork_user_code_title">コードをスキャンできませんか？手動でサインイン</string>
+    <string name="session_fork_user_code_step1"><![CDATA[アクセス先: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step2">サインインまたはアカウント作成</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[コードを入力: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[お困りの場合は、<b>%1$s</b> をご覧ください]]></string>
 </resources>

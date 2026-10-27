@@ -142,7 +142,7 @@
     <string name="settings_new_label_badge">НОВЕ</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">БЕТА</string>
-    <string name="settingsExcludedIPAddressesListHeader">Винятки IP-адрес (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Виключені IP-адреси (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Включені IP-адреси (%1$d)</string>
     <string name="settingsExcludedApps">Винятки програм</string>
     <string name="settingsExcludedAppsEmpty">Додайте програми, які потрібно виключити з вашого трафіку VPN.</string>
@@ -320,7 +320,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Навантаження сервера %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Недавно використані сервери</string>
     <string name="tv_available_servers">Доступні сервери</string>
     <string name="tv_locked_servers">Заблоковані сервери</string>
@@ -328,11 +328,11 @@
     <string name="tv_server_list">Список серверів</string>
     <string name="tv_server_list_action_unavailable">Недоступно</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Під\'єднано</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">З\'єднання</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Обслуговування</string>
     <string name="notification_subscription_expired_title">Ваша передплата тарифного плану Proton VPN завершилася</string>
     <string name="notification_subscription_expired_content">Нам довелося понизити ваш тарифний план, але ми знову з\'єднуємо вас із найшвидшим сервером, доступним у цьому тарифному плані.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Ваша передплата була понижена.</string>
@@ -341,10 +341,10 @@
     <string name="notification_max_sessions_title">Ви досягли обмеження кількості пристроїв</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристрою.</item>
-        <item quantity="few">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристроїв.</item>
-        <item quantity="many">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристроїв.</item>
-        <item quantity="other">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристроїв.</item>
+        <item quantity="one">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристрою.</item>
+        <item quantity="few">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
+        <item quantity="many">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
+        <item quantity="other">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
     </plurals>
     <string name="notification_max_sessions_content">Від\'єднайте інший пристрій, щоб під\'єднати цей.</string>
     <string name="notification_cancel_to_free">У вас зараз тарифний план Free. Доступні сервери та функції Free.</string>
@@ -517,10 +517,10 @@
     <string name="upsell_card_customization_title">І багато іншого…</string>
     <string name="upsell_card_customization_description">Користуйтеся розширеними функціями швидкодії та приватності</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Захист %1$d пристрою</item>
-        <item quantity="few">Захист %1$d пристроїв</item>
-        <item quantity="many">Захист %1$d пристроїв</item>
-        <item quantity="other">Захист %1$d пристроїв</item>
+        <item quantity="one">Захистіть %1$d пристрій</item>
+        <item quantity="few">Захистіть %1$d пристрої</item>
+        <item quantity="many">Захистіть %1$d пристроїв</item>
+        <item quantity="other">Захистіть %1$d пристроїв</item>
     </plurals>
     <string name="upsell_card_devices_description">Безпека і приватність на всіх ваших пристроях</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -536,7 +536,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Користуйтеся інтернетом з більшою швидкістю (до %1$d Гбіт/с)</string>
+    <string name="upsell_card_speed_description">Користуйтеся інтернетом зі ще вищою швидкістю (до %1$d Гбіт/с)</string>
     <string name="upsell_card_split_tunneling_title">Роздільне тунелювання</string>
     <string name="upsell_card_split_tunneling_description">Виходьте в інтернет одночасно з двох розташувань</string>
     <string name="upsell_card_streaming_title">Потокова трансляція</string>
@@ -575,9 +575,9 @@
     <string name="payment_price_per_year">рік</string>
     <plurals name="payment_price_cycle_label_day">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d дні</item>
-        <item quantity="many">%1$d днів</item>
-        <item quantity="other">%1$d днів</item>
+        <item quantity="few">%1$d днів</item>
+        <item quantity="many">%1$d дні</item>
+        <item quantity="other">%1$d дні</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
         <item quantity="one">%1$d тиждень</item>
@@ -587,15 +587,15 @@
     </plurals>
     <plurals name="payment_price_cycle_label_month">
         <item quantity="one">%1$d місяць</item>
-        <item quantity="few">%1$d місяці</item>
-        <item quantity="many">%1$d місяців</item>
-        <item quantity="other">%1$d місяців</item>
+        <item quantity="few">%1$d місяців</item>
+        <item quantity="many">%1$d місяці</item>
+        <item quantity="other">%1$d місяці</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
         <item quantity="one">%1$d рік</item>
-        <item quantity="few">%1$d роки</item>
-        <item quantity="many">%1$d років</item>
-        <item quantity="other">%1$d років</item>
+        <item quantity="few">%1$d років</item>
+        <item quantity="many">%1$d роки</item>
+        <item quantity="other">%1$d роки</item>
     </plurals>
     <string name="payment_select_your_plan">Оберіть тарифний план</string>
     <!-- Label on a button for purchasing a subscription.
@@ -726,9 +726,9 @@
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
         <item quantity="one">за перший день</item>
-        <item quantity="few">за перші %1$d дні</item>
-        <item quantity="many">за перші %1$d днів</item>
-        <item quantity="other">за перші %1$d днів</item>
+        <item quantity="few">for the first %1$d days</item>
+        <item quantity="many">for the first %1$d days</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -736,9 +736,9 @@
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
         <item quantity="one">за перший тиждень</item>
-        <item quantity="few">за перші %1$d тижні</item>
-        <item quantity="many">за перші %1$d тижнів</item>
-        <item quantity="other">за перші %1$d тижнів</item>
+        <item quantity="few">for the first %1$d weeks</item>
+        <item quantity="many">for the first %1$d weeks</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -746,9 +746,9 @@
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
         <item quantity="one">за перший місяць</item>
-        <item quantity="few">за перші %1$d місяці</item>
-        <item quantity="many">за перші %1$d місяців</item>
-        <item quantity="other">за перші %1$d місяців</item>
+        <item quantity="few">for the first %1$d months</item>
+        <item quantity="many">for the first %1$d months</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -756,9 +756,9 @@
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
         <item quantity="one">за перший рік</item>
-        <item quantity="few">за перші %1$d роки</item>
-        <item quantity="many">за перші %1$d років</item>
-        <item quantity="other">за перші %1$d років</item>
+        <item quantity="few">for the first %1$d years</item>
+        <item quantity="many">for the first %1$d years</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -875,10 +875,10 @@
     <string name="search_upsell_banner_title">Дивіться трансляції звідусіль</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Отримайте доступ до географічно заблокованого вмісту в %1$d країні з VPN Plus</item>
-        <item quantity="few">Отримайте доступ до географічно заблокованого вмісту в %1$d країнах з VPN Plus</item>
-        <item quantity="many">Отримайте доступ до географічно заблокованого вмісту в %1$d країнах з VPN Plus</item>
-        <item quantity="other">Отримайте доступ до географічно заблокованого вмісту в %1$d країнах з VPN Plus</item>
+        <item quantity="one">Отримайте доступ до географічно заблокованих матеріалів у %1$d країні з VPN Plus</item>
+        <item quantity="few">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
+        <item quantity="many">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
+        <item quantity="other">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
     </plurals>
     <string name="select_default_connection">Виберіть типове з\'єднання</string>
     <string name="settings_default_connection_title">Типове з\'єднання</string>
@@ -1630,7 +1630,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Збільште швидкість вашого з\'єднання до 400%% завдяки технологіям підвищення продуктивності. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Збільште швидкість з\'єднання до 400%% завдяки технологіям підвищення продуктивності. %1$s</string>
     <string name="settings_account_settings_title">Налаштування облікового запису</string>
     <string name="settings_account_change_password">Змінити пароль</string>
     <string name="settings_account_recovery_email">Резервна е-пошта</string>
@@ -1665,7 +1665,7 @@
     <string name="settings_advanced_allow_lan_title_tv">Дозволити LAN-з\'єднання</string>
     <string name="settings_advanced_nat_type_title">NAT Type</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Виберіть тип трансляції мережевої адреси для свого з\'єднання. %1$s</string>
+    <string name="settings_advanced_nat_type_description">Виберіть тип перекладу мережевої адреси для свого з\'єднання. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Виберіть тип трансляції мережевої адреси для свого з\'єднання.</string>
     <string name="settings_advanced_nat_type_strict">Суворий (тип 3)</string>
     <string name="settings_advanced_nat_type_strict_short">Тип 3</string>
@@ -1673,7 +1673,7 @@
     <string name="settings_advanced_nat_type_moderate_short">Тип 2</string>
     <string name="settings_advanced_nat_type_strict_description">Обмежує дані, що входять до вашої мережі. Цей параметр безпечніший, але може ускладнити ігрові з\'єднання peer-to-peer.</string>
     <string name="settings_advanced_nat_type_moderate_description">Обмеження щодо даних, які входять до вашої мережі. Цей параметр найкраще використовувати для відеоігор онлайн.</string>
-    <string name="settings_split_tunneling_description">Налаштуйте своє з\'єднання, визначивши програми та IP-адреси, які захищаються VPN. %1$s</string>
+    <string name="settings_split_tunneling_description">Налаштуйте з\'єднання, вирішивши, які програми та IP-адреси захищаються VPN. %1$s</string>
     <string name="settings_protocol_description">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм. %1$s</string>
     <string name="settings_protocol_description_no_link">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм.</string>
     <string name="settings_protocol_section_speed">Швидкість (UDP)</string>

@@ -37,9 +37,9 @@
     <string name="dialogLearnMore">معرفة المزيد</string>
     <string name="connected">مُتصل</string>
     <string name="buttonConnect">اتصال</string>
-    <string name="loaderConnectingTo">يتم الاتصال بخادم %1$s</string>
+    <string name="loaderConnectingTo">جارٍ التوصيل بـ %1$s</string>
     <string name="loaderNotConnected">غير متصل (بدون حماية)</string>
-    <string name="loaderConnectedTo">متصل بخادم %1$s</string>
+    <string name="loaderConnectedTo">متّصل بـ %1$s</string>
     <string name="loaderDisconnecting">يتم إيقاف الاتصال</string>
     <string name="loaderReconnecting">يتم إعادة الاتصال</string>
     <string name="loaderReconnectNoNetwork">بانتظار شبكة مستقرة</string>
@@ -74,7 +74,7 @@
     <string name="error_server_unreachable">تعذر الاتصال بـ VPN. يُرجى التحقق من اتصالك والمحاولة مرة أخرى.</string>
     <string name="error_auth_failed">فشل مصادقة المستخدم.</string>
     <string name="error_generic">حدث خطأ غير معروف أثناء الاتصال.</string>
-    <string name="error_generic_with_reason">تعذر على Proton VPN إنشاء اتصال. يُرجى المحاولة مرة أخرى بعد ثواني قليلة.<br/><br/> التفاصيل: %1$s</string>
+    <string name="error_generic_with_reason">لم يستطع Proton VPN تأسيس اتصال VPN. الرجاء المحاول مجدداً بعد لحظات.<br/><br/>التفاصيل: %1$s</string>
     <string name="reconnect">إعادة الاتصال</string>
     <string name="reconnect_now">إعادة الاتصال الآن</string>
     <string name="try_reconnecting">حاول إعادة الاتصال</string>
@@ -108,7 +108,7 @@
     <string name="menu_option_move_down" comment="command used to move an item one position down in the list">نقل للأسفل</string>
     <string name="remove">إزالة</string>
     <string name="saveButton">حفظ</string>
-    <string name="ipWithPlaceholder">عنوان IP: %1$s</string>
+    <string name="ipWithPlaceholder">اي بي:%1$s</string>
     <string name="activityLicensesTitle">ترخيص الطرف الثالث</string>
     <string name="stateFragmentUnknownIp">غير معروف</string>
     <string name="noVpnPermissionMainTitle">إجراء مطلوب للاتصال بـ VPN</string>
@@ -123,7 +123,7 @@
     <string name="noNotificationPermissionGrantTitle">كن على اطلاع دائم...</string>
     <string name="noNotificationPermissionGrantDescription">فعل الإشعارات لتبقى على اطلاع دائم بحالة حمايتك وتنبيهك في حال انقطع الاتصال.</string>
     <string name="noNotificationPermissionGrantNowTitle">تفعيل الإشعارات</string>
-    <string name="error_prepare_vpn_description"><![CDATA[يُرجى تعطيل وضع الاتصال الدائم لجميع تطبيقات VPN الأخرى في إعدادات VPN الخاصة بنظام Android، حيث يمنع ذلك Proton VPN من إنشاء الاتصال. يُرجى منح صلاحيات VPN المطلوبة عند ظهور نافذة تطلب منك ذلك. قد يتطلب الأمر إلغاء تثبيت تطبيقات VPN الأخرى لتجنب التعارض. بعد ذلك، يُرجى المحاولة مرة أخرى. <a href="%1$s">معرفة المزيد</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[يرجى إبطال خِيار " VPN يعمل دائمًا" لكل تطبيقات VPN من على إعدادات النظام الخاصة بVPN، لان ذلك يمنع تطبيق Proton VPN من إنشاء اتصال VPN.يُرجى أيضًا منح السماح إذا ظهرت نافذة طلب السماح للVPN، قد تضطر لحذف تطبيقاتVPN أخرى لتفادي التعارض بينها. بعد ذلك، يُرجى المحاولة مجددًا. <a href="%1$s">اعلم اكثر</a>]]></string>
     <string name="error_prepare_vpn_settings">الانتقال إلى إعدادات VPN لنظام Android</string>
     <string name="error_prepare_vpn_title">خطأ: مشكلة في إذن VPN</string>
     <string name="error_server_not_set">الخادم غير متوفر</string>
@@ -142,15 +142,15 @@
     <string name="settings_new_label_badge">جديد</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">تجريبي</string>
-    <string name="settingsExcludedIPAddressesListHeader">عناوين IP المستبعدة (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">عناوين IP المضافة (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">عناوين IP مستثناة (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">عناوين IP المضمنة (%1$d)</string>
     <string name="settingsExcludedApps">التطبيقات المستبعدة</string>
     <string name="settingsExcludedAppsEmpty">أضف التطبيقات التي تريد أن تستبعداها من اتصال VPN.</string>
     <string name="settingsIncludedAppsEmpty">أضف التطبيقات التي تريد أن تشملها في اتصال VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">التطبيقات المستبعدة (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">التطبيقات المدرجة (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">جميع تطبيقات المستخدم (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">جميع تطبيقات النظام (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">جميع التطبيقات العادية الأخرى (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">جميع تطبيقات النظام الأخرى (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">جميع التطبيقات الأخرى (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">إظهار تطبيقات النظام</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">إظهار تطبيقات النظام</string>
@@ -188,8 +188,8 @@
     <string name="accessibility_action_item_delete">حذف</string>
     <string name="accessibility_action_item_move_up">تحريك للأعلى</string>
     <string name="accessibility_action_item_move_down">تحريك للأسفل</string>
-    <string name="tileConnected">مُتصل: %1$s</string>
-    <string name="openUrlError">تعذر فتح %1$s. لم يتم العثور على متصفح مثبت على جهازك.</string>
+    <string name="tileConnected">متصل: %1$s</string>
+    <string name="openUrlError">تعذر فتح %1$s. لم يتم العثور على أي متصفح للويب على جهازك.</string>
     <string name="loaderErrorTimeout">انتهت مهلة الاتصال. يُرجى المحاولة مرة أخرى.</string>
     <string name="troubleshootButton">استكشاف الأخطاء</string>
     <string name="activityTroubleshootTitle">استكشاف الأخطاء</string>
@@ -197,23 +197,23 @@
     <string name="troubleshootNoInternetDescription">يُرجى التأكد من أن اتصالك بالإنترنت يعمل.</string>
     <string name="troubleshootNoInternetTitle">لا يوجد اتصال بالإنترنت</string>
     <string name="troubleshootIspProblemTitle">مشكلة في مزود خدمة الإنترنت (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[حاول الاتصال بـ Proton عبر شبكة مختلفة (أو استخدم <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[جرب الاتصال ب Proton من شبكة مختلفة (أو استخدم <a href=\'%1$s\'>تور</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">تعارض مع برامج مكافحة الفيروسات</string>
     <string name="troubleshootAntivirusProblemDescription">عطل برامج مكافحة الفيروسات مؤقتاً أو قم بإزالتها.</string>
     <string name="troubleshootProxyFirewallProblemTitle">تعارض مع البروكسي أو جدار الحماية</string>
     <string name="troubleshootProxyFirewallProblemDescription">عطل البروكسي أو جدار الحماية، أو تواصل مع مسؤول الشبكة.</string>
     <string name="troubleshootProtonDownTitle">Proton خارج الخدمة</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[تابع أداء نظامنا من خلال صفحة <a href=\"%1$s\">حالة Proton</a>.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[تحقق من <a href=\"%1$s\">حالة Proton</a> لأجل وضعية نظامنا.]]></string>
     <string name="troubleshootContactUsSectionTitle">هل تحتاج لمساعدة إضافية؟ تواصل معنا مباشرة.</string>
     <string name="troubleshootCustomerSupport">فريق الدعم</string>
     <string name="settingsAllowAlternativeRoutingTitle">التوجيه البديل</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[في حال حظر Proton، سيحاول التطبيق استخدام مسارات بديلة للوصول إلى خوادم Proton. <a href="%1$s">معرفة المزيد</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[في حالة كون Proton محظور، اسمح للتطبيق بالاتصال بخوادم Proton بطرق مختلفة. <a href="%1$s"> لمعرفة اكثر</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">حظر من جانب الحكومة</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[قد تحظر دولتك الوصول إلى خدمات Proton؛ لذا حاول استخدام شبكة <a href=\'%1$s\'>Tor</a> للوصول إليها.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[قد تقوم دولتك بحظر الوصول إلى Proton. حاول استخدام <a href=\'%1$s\'>تور</a> للوصول إلى Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">كيفية تفعيل مفتاح الإيقاف أو Kill Switch</string>
     <string name="settingsKillSwitchEnableStep1">1. افتح إعدادات جهازك</string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsKillSwitchEnableStep2">2. ابحث عن Proton VPN واضغط على %1$s</string>
+    <string name="settingsKillSwitchEnableStep2">2. حدد Proton VPN و انقر %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">الإعدادات</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
@@ -229,8 +229,8 @@
     <string name="settingsSendCrashReportsTitle">مشاركة تقارير الأعطال بشكل مجهول</string>
     <string name="settingsSendCrashReportsDescription">تُساهم تقارير الأعطال في معالجة الأخطاء، ورصد جدران الحماية، وتفادي قيود حظر VPN.</string>
     <string name="settingsTelemetryScreenTitle">بيانات الاستخدام</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[لا تتضمن هذه البيانات عنوان IP الخاص بك، ولا تكشف عن هويتك بأي حال. نلتزم بعدم مشاركتها مع أي أطراف ثالثة. <a href="%1$s">معرفة المزيد</a>
-]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[هذه البيانات لا تحوي عنوان IP، ولا يمكن استخدامها للتعرّف عليك.
+لن نقوم أبدا بمشاركة بياناتك مع أطراف أخرى. <a href="%1$s">اعرف أكثر</a>]]></string>
     <string name="netshield_settings_description_not_html">احمي خصوصيتك بحظر الإعلانات والبرامج الضارة وأدوات التتبع عبر المواقع والتطبيقات. %1$s</string>
     <string name="netshield_settings_description_tv">يوفر حماية من إعلانات الطرف الثالث، وأدوات التتبع، والبرامج الضارة. علماً بأن NetShield لا يحظر الإعلانات المدمجة برمجياً في محتوى منصات المشاهدة مثل YouTube و Netflix.</string>
     <string name="netshield_settings_more_info_title_tv">كيف يعمل NetShield</string>
@@ -239,7 +239,7 @@
         <item>وهذا يعني أنك لن تتلقى إعلانات عبر متصفحك أو في التطبيقات المجانية التي تعتمد على مزودي إعلانات الطرف ثالثة.</item>
         <item>إلا أن الحظر لا يشمل إعلانات منصات المشاهدة مثل YouTube و Netflix؛ نظراً لأن هذه الإعلانات تصدر مباشرة من خوادمها الخاصة وليس عبر أطراف ثالثة.</item>
     </string-array>
-    <string name="settings_icon_change_description">قم بإخفاء تطبيق Proton VPN باستخدام أيقونة غير ملفتة. لكن ستظل الإشعارات تعرض اسم وأيقونة Proton VPN الافتراضية. %1$s</string>
+    <string name="settings_icon_change_description">إخفاء تطبيق Proton VPN باستخدام أيقونة سريّة. ستظل الإشعارات تعرض اسم ورمز Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">معرفة المزيد</string>
     <string name="learn_more">معرفة المزيد</string>
     <string name="netshield_state_on" comment="Describes state, not action">مفعل</string>
@@ -290,7 +290,7 @@
     <string name="errorTorrentNotAllowed">اتصالات P2P غير مسموح بها عبر هذا الخادم</string>
     <string name="error_profile_fallback_unavailable">تعذر الاتصال لأن الخادم المُحدد في ملف الاتصال غير متاح حاليًا.</string>
     <string name="profileProtocolNotAvailable">بروتوكول VPN المُحدد في ملف الاتصال غير متاح حاليًا. لتتمكن من الاتصال، حاول تغيير البروتوكول.</string>
-    <string name="stateConnectedTo">متصل بخادم %1$s</string>
+    <string name="stateConnectedTo">متّصل بـ %1$s</string>
     <string name="stateNotConnected">غير متصل بـ VPN</string>
     <string name="nameEurope">أوروبا</string>
     <string name="nameAmerica">أمريكا</string>
@@ -310,7 +310,7 @@
     <string name="tv_detail_description_country_not_available">هذه الدولة غير متوفرة. استمتع بخيارات مشاهدة أوسع مع باقة Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">استمتع بمشاهدة فيديوهاتك، وأفلامك، ومبارياتك المفضلة عبر تطبيقاتك.</string>
     <string name="tv_login_title_welcome">استمتع بمشاهدة محتوى الفيديو المفضل لديك.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[أنشئ حسابك في Proton VPN من خلال <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[احصل على حساب Proton VPN من <b>%1$s</b>]]></string>
     <string name="back">رجوع</string>
     <string name="tv_vpn_error_dialog_title">تعذر الاتصال بـ VPN</string>
     <string name="tv_signout_label">تسجيل الخروج</string>
@@ -325,7 +325,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">الضغط على الخادم %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">الخوادم المستخدمة مؤخرًا</string>
     <string name="tv_available_servers">الخوادم المتاحة</string>
     <string name="tv_locked_servers">الخوادم المقفلة</string>
@@ -333,11 +333,11 @@
     <string name="tv_server_list">قائمة الخوادم</string>
     <string name="tv_server_list_action_unavailable">غير متاح</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">مُتصل</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">يتم الاتصال الآن</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">تحت الصيانة</string>
     <string name="notification_subscription_expired_title">انتهت صلاحية اشتراكك في Proton VPN</string>
     <string name="notification_subscription_expired_content">تم تغيير باقتك، ونعمل على إعادة توصيلك بأسرع خادم متاح لك الآن.</string>
     <string name="notification_subscription_expired_no_reconnection_content">تم تعديل فئة اشتراكك.</string>
@@ -346,12 +346,12 @@
     <string name="notification_max_sessions_title">لقد بلغت الحد الأقصى للأجهزة المسموح به</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="zero">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="one">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="two">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="few">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d أجهزة.</item>
-        <item quantity="many">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
-        <item quantity="other">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز، أو الترقية إلى باقة Plus لرفع حد أجهزتك إلى %1$d جهاز.</item>
+        <item quantity="zero">رجاءاً قم بفصل أيّ جهاز آخر لتستطيع الاتصال بهذا الجهاز أو قم بالترقية لاشتراك Plus ليمكنك الاشتراك ب %1$d جهاز في نفس الوقت.</item>
+        <item quantity="one">رجاءاً قم بفصل أيّ جهاز آخر لتستطيع الاتصال بهذا الجهاز أو قم بالترقية لاشتراك Plus ليمكنك الاشتراك ب %1$d جهاز في نفس الوقت.</item>
+        <item quantity="two">رجاءاً قم بفصل أيّ جهاز آخر لتستطيع الاتصال بهذا الجهاز أو قم بالترقية لاشتراك Plus ليمكنك الاشتراك ب %1$d جهاز في نفس الوقت.</item>
+        <item quantity="few">رجاءاً قم بفصل أيّ جهاز آخر لتستطيع الاتصال بهذا الجهاز أو قم بالترقية لاشتراك Plus ليمكنك الاشتراك ب %1$d جهاز في نفس الوقت.</item>
+        <item quantity="many">رجاءاً قم بفصل أيّ جهاز آخر لتستطيع الاتصال بهذا الجهاز أو قم بالترقية لاشتراك Plus ليمكنك الاشتراك ب %1$d جهاز في نفس الوقت.</item>
+        <item quantity="other">رجاءا اوقف اي جهاز اخر للاتصال بهذا الجهاز او قم بالترقية للاشتراك المدفوع لتحصل لغاية %1$d من الاجهزة المتصلة في نفس الوقت</item>
     </plurals>
     <string name="notification_max_sessions_content">يُرجى قطع اتصال أحد الأجهزة لتوصيل هذا الجهاز.</string>
     <string name="notification_cancel_to_free">أنت الآن على الباقة المجانية، وتتوفر لك الخوادم والمميزات المجانية.</string>
@@ -373,12 +373,12 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="zero">%1$d خادم</item>
+        <item quantity="zero">خوادم %1$d</item>
         <item quantity="one">%1$d خادم</item>
-        <item quantity="two">%1$d خادم</item>
-        <item quantity="few">%1$d خوادم</item>
-        <item quantity="many">%1$d خادم</item>
-        <item quantity="other">%1$d خادم</item>
+        <item quantity="two">خوادم %1$d</item>
+        <item quantity="few">خوادم %1$d</item>
+        <item quantity="many">خوادم %1$d</item>
+        <item quantity="other">خوادم %1$d</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -389,9 +389,9 @@
         <item quantity="zero">%1$d دولة</item>
         <item quantity="one">%1$d دولة</item>
         <item quantity="two">%1$d دولة</item>
-        <item quantity="few">%1$d دول</item>
-        <item quantity="many">%1$d دولة</item>
-        <item quantity="other">%1$d دولة</item>
+        <item quantity="few">دول %1$d</item>
+        <item quantity="many">%1$d دول</item>
+        <item quantity="other">بلدان %1$d</item>
     </plurals>
     <string name="upsell_upgrade_again">اشترك مجدداً لاستعادة جميع المميزات:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -401,12 +401,12 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="zero">%d خادم آمن</item>
-        <item quantity="one">%d خادم آمن</item>
-        <item quantity="two">%d خادم آمن</item>
-        <item quantity="few">%d خوادم آمنة</item>
-        <item quantity="many">%d خادم آمن</item>
-        <item quantity="other">%d خادم آمن</item>
+        <item quantity="zero">%d خادم أمن</item>
+        <item quantity="one">%d خادم أمن</item>
+        <item quantity="two">%d خادم أمن</item>
+        <item quantity="few">%d خادم أمن</item>
+        <item quantity="many">%d خادم أمن</item>
+        <item quantity="other">خوادم آمنة %d</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -417,9 +417,9 @@
         <item quantity="zero">%d دولة</item>
         <item quantity="one">%d دولة</item>
         <item quantity="two">%d دولة</item>
-        <item quantity="few">%d دول</item>
+        <item quantity="few">%d دولة</item>
         <item quantity="many">%d دولة</item>
-        <item quantity="other">%d دولة</item>
+        <item quantity="other">دول %d</item>
     </plurals>
     <string name="upgrade_not_now_button">ليس الآن</string>
     <!-- Content description for plan selection list.
@@ -457,7 +457,7 @@
     <string name="upsell_panel_general_benefit_block_ads">حظر الإعلانات والمتتبعين</string>
     <string name="upsell_panel_general_benefit_countries">الدول المتاحة</string>
     <!-- %1$s - number of countries rounded to full tens. Example: 120+, 130+, 140+ -->
-    <string name="upsell_panel_general_benefit_countries_rounded">أكثر من %1$d</string>
+    <string name="upsell_panel_general_benefit_countries_rounded">%1$d+</string>
     <string name="upsell_panel_general_benefit_devices">الأجهزة المحمية</string>
     <string name="upsell_panel_general_benefit_location">اختر موقعك</string>
     <string name="upsell_panel_general_benefit_server">اختر خادمك</string>
@@ -528,16 +528,16 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">تشمل أكثر من %1$d خادم عبر %2$s دولة</string>
+    <string name="upsell_card_countries_description">أكثر من %1$d موقع للخوادم في %2$s</string>
     <string name="upsell_card_customization_title">وغيرها الكثير…</string>
     <string name="upsell_card_customization_description">ارتقي بمستوى الأداء والخصوصية بمزايا متقدمة</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="zero">تأمين %1$d جهاز</item>
-        <item quantity="one">تأمين %1$d جهاز</item>
-        <item quantity="two">تأمين %1$d جهاز</item>
-        <item quantity="few">حماية %1$d أجهزة</item>
-        <item quantity="many">تأمين %1$d جهاز</item>
-        <item quantity="other">تأمين %1$d جهاز</item>
+        <item quantity="zero">احمي %1$d أجهزة</item>
+        <item quantity="one">احمي %1$d جهاز</item>
+        <item quantity="two">احمي %1$d أجهزة</item>
+        <item quantity="few">احمي %1$d أجهزة</item>
+        <item quantity="many">احمي %1$d أجهزة</item>
+        <item quantity="other">احمي %1$d أجهزة</item>
     </plurals>
     <string name="upsell_card_devices_description">أمان وخصوصية لكل أجهزتك</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -553,7 +553,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">استمتع بسرعات تصفح استثنائية (تصل حتى %1$d ج/ث)</string>
+    <string name="upsell_card_speed_description">تصفّح الويب بسرعات أعلى (تصل إلى %1$d جيجابت في الثانية)</string>
     <string name="upsell_card_split_tunneling_title">تقسيم الاتصال</string>
     <string name="upsell_card_split_tunneling_description">تصفح بموقعك الحقيقي والافتراضي في وقت واحد</string>
     <string name="upsell_card_streaming_title">منصات المشاهدة</string>
@@ -575,7 +575,7 @@
     <string name="upsell_tv_subscription_expired_title">انتهاء صلاحية الاشتراك</string>
     <string name="upsell_tv_subscription_expired_description">قم بالترقية للوصول إلى خوادم ومزايا الـ Plus مرة أخرى.</string>
     <string name="upsell_tv_customization_title">إعدادات مخصصة ومتقدمة للـ VPN مع باقة Plus</string>
-    <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
+    <string name="upsell_tv_customization_description"><![CDATA[إتاحة الوصول إلى <b>اتصالات LAN</b> و<b>DNS المخصص</b> والمزيد من مزايا الـ VPN المتقدمة.]]></string>
     <string name="upsell_tv_fallback_description">تفضل بزيارة موقع Proton VPN لترقية اشتراكك.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
@@ -591,35 +591,35 @@
     <string name="payment_price_per_month">شهرياً</string>
     <string name="payment_price_per_year">سنوياً</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="zero">%1$d days</item>
-        <item quantity="one">%1$d day</item>
-        <item quantity="two">%1$d days</item>
-        <item quantity="few">%1$d days</item>
-        <item quantity="many">%1$d days</item>
+        <item quantity="zero">%1$d يوم</item>
+        <item quantity="one">%1$d يوم</item>
+        <item quantity="two">%1$d أيام</item>
+        <item quantity="few">%1$d يوم</item>
+        <item quantity="many">%1$d يوم</item>
         <item quantity="other">%1$d يوم</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="zero">%1$d weeks</item>
-        <item quantity="one">%1$d week</item>
-        <item quantity="two">%1$d weeks</item>
-        <item quantity="few">%1$d weeks</item>
-        <item quantity="many">%1$d weeks</item>
+        <item quantity="zero">%1$d أسبوع</item>
+        <item quantity="one">%1$d أسبوع</item>
+        <item quantity="two">%1$d أسبوع</item>
+        <item quantity="few">%1$d أسبوع</item>
+        <item quantity="many">%1$d أسبوع</item>
         <item quantity="other">%1$d أسبوع</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="zero">%1$d months</item>
-        <item quantity="one">%1$d month</item>
-        <item quantity="two">%1$d months</item>
-        <item quantity="few">%1$d months</item>
-        <item quantity="many">%1$d months</item>
+        <item quantity="zero">%1$d شهر</item>
+        <item quantity="one">%1$d شهر</item>
+        <item quantity="two">%1$d شهر</item>
+        <item quantity="few">%1$d شهر</item>
+        <item quantity="many">%1$d شهر</item>
         <item quantity="other">%1$d شهر</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="zero">%1$d years</item>
-        <item quantity="one">%1$d year</item>
-        <item quantity="two">%1$d years</item>
-        <item quantity="few">%1$d years</item>
-        <item quantity="many">%1$d years</item>
+        <item quantity="zero">%1$d سنة</item>
+        <item quantity="one">%1$d سنة</item>
+        <item quantity="two">%1$d سنة</item>
+        <item quantity="few">%1$d سنة</item>
+        <item quantity="many">%1$d سنة</item>
         <item quantity="other">%1$d سنة</item>
     </plurals>
     <string name="payment_select_your_plan">اختر باقتك</string>
@@ -633,88 +633,88 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_discount_renewal_price_message_daily">
-        <item quantity="zero">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="zero">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
         <item quantity="one">Special offer. Auto renews at %1$s/day</item>
-        <item quantity="two">Special offer. Auto renews at %1$s every %2$d days</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d days</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d days</item>
+        <item quantity="two">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
+        <item quantity="few">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
+        <item quantity="many">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
         <item quantity="other">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_discount_renewal_price_message_weekly">
-        <item quantity="zero">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="zero">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
         <item quantity="one">Special offer. Auto renews at %1$s/week</item>
-        <item quantity="two">Special offer. Auto renews at %1$s every %2$d weeks</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d weeks</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d weeks</item>
+        <item quantity="two">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
+        <item quantity="few">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
+        <item quantity="many">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
         <item quantity="other">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_discount_renewal_price_message_monthly">
-        <item quantity="zero">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="zero">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
         <item quantity="one">Special offer. Auto renews at %1$s/month</item>
-        <item quantity="two">Special offer. Auto renews at %1$s every %2$d months</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d months</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d months</item>
+        <item quantity="two">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
+        <item quantity="few">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
+        <item quantity="many">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
         <item quantity="other">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_discount_renewal_price_message_yearly">
-        <item quantity="zero">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="zero">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
         <item quantity="one">Special offer. Auto renews at %1$s/year</item>
-        <item quantity="two">Special offer. Auto renews at %1$s every %2$d years</item>
-        <item quantity="few">Special offer. Auto renews at %1$s every %2$d years</item>
-        <item quantity="many">Special offer. Auto renews at %1$s every %2$d years</item>
+        <item quantity="two">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
+        <item quantity="few">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
+        <item quantity="many">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
         <item quantity="other">عرض خاص. يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="zero">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="zero">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d يوم</item>
         <item quantity="one">Subscription auto renews at %1$s/day</item>
-        <item quantity="two">Subscription auto renews at %1$s every %2$d days</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d days</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d days</item>
+        <item quantity="two">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d يوم</item>
+        <item quantity="few">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d يوم</item>
+        <item quantity="many">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d يوم</item>
         <item quantity="other">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d يوم</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="zero">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="zero">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
         <item quantity="one">Subscription auto renews at %1$s/week</item>
-        <item quantity="two">Subscription auto renews at %1$s every %2$d weeks</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d weeks</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d weeks</item>
+        <item quantity="two">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
+        <item quantity="few">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
+        <item quantity="many">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
         <item quantity="other">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="zero">Subscription auto renews at %1$s every %2$d months</item>
-        <item quantity="one">Subscription auto renews at %1$s/month</item>
-        <item quantity="two">Subscription auto renews at %1$s every %2$d months</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d months</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d months</item>
+        <item quantity="zero">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d شهر</item>
+        <item quantity="one">تجديد الاشتراك التلقائي في %1$s/شهر</item>
+        <item quantity="two">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d شهر</item>
+        <item quantity="few">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d شهر</item>
+        <item quantity="many">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d شهر</item>
         <item quantity="other">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d شهر</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="zero">Subscription auto renews at %1$s every %2$d years</item>
-        <item quantity="one">Subscription auto renews at %1$s/year</item>
-        <item quantity="two">Subscription auto renews at %1$s every %2$d years</item>
-        <item quantity="few">Subscription auto renews at %1$s every %2$d years</item>
-        <item quantity="many">Subscription auto renews at %1$s every %2$d years</item>
+        <item quantity="zero">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d سنة</item>
+        <item quantity="one">تجديد الاشتراك التلقائي في %1$s/سنة</item>
+        <item quantity="two">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d سنة</item>
+        <item quantity="few">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d سنة</item>
+        <item quantity="many">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d سنة</item>
         <item quantity="other">يتجدد الاشتراك تلقائيًا بسعر %1$s كل %2$d سنة</item>
     </plurals>
     <!--
@@ -723,11 +723,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="zero">%1$s every %2$d days</item>
+        <item quantity="zero">%1$s كل %2$d يوم</item>
         <item quantity="one">%1$s/day</item>
-        <item quantity="two">%1$s every %2$d days</item>
-        <item quantity="few">%1$s every %2$d days</item>
-        <item quantity="many">%1$s every %2$d days</item>
+        <item quantity="two">%1$s كل %2$d يوم</item>
+        <item quantity="few">%1$s كل %2$d يوم</item>
+        <item quantity="many">%1$s كل %2$d يوم</item>
         <item quantity="other">%1$s كل %2$d يوم</item>
     </plurals>
     <!--
@@ -736,11 +736,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="zero">%1$s every %2$d weeks</item>
+        <item quantity="zero">%1$s كل %2$d أسبوع</item>
         <item quantity="one">%1$s/week</item>
-        <item quantity="two">%1$s every %2$d weeks</item>
-        <item quantity="few">%1$s every %2$d weeks</item>
-        <item quantity="many">%1$s every %2$d weeks</item>
+        <item quantity="two">%1$s كل %2$d أسبوع</item>
+        <item quantity="few">%1$s كل %2$d أسبوع</item>
+        <item quantity="many">%1$s كل %2$d أسبوع</item>
         <item quantity="other">%1$s كل %2$d أسبوع</item>
     </plurals>
     <!--
@@ -749,11 +749,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="zero">%1$s every %2$d months</item>
+        <item quantity="zero">%1$s كل %2$d شهر</item>
         <item quantity="one">%1$s/month</item>
-        <item quantity="two">%1$s every %2$d months</item>
-        <item quantity="few">%1$s every %2$d months</item>
-        <item quantity="many">%1$s every %2$d months</item>
+        <item quantity="two">%1$s كل %2$d شهر</item>
+        <item quantity="few">%1$s كل %2$d شهر</item>
+        <item quantity="many">%1$s كل %2$d شهر</item>
         <item quantity="other">%1$s كل %2$d شهر</item>
     </plurals>
     <!--
@@ -762,11 +762,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="zero">%1$s every %2$d years</item>
+        <item quantity="zero">%1$s كل %2$d سنة</item>
         <item quantity="one">%1$s/year</item>
-        <item quantity="two">%1$s every %2$d years</item>
-        <item quantity="few">%1$s every %2$d years</item>
-        <item quantity="many">%1$s every %2$d years</item>
+        <item quantity="two">%1$s كل %2$d سنة</item>
+        <item quantity="few">%1$s كل %2$d سنة</item>
+        <item quantity="many">%1$s كل %2$d سنة</item>
         <item quantity="other">%1$s كل %2$d سنة</item>
     </plurals>
     <!--
@@ -774,11 +774,11 @@
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="zero">for the first %1$d days</item>
+        <item quantity="zero">لأول %1$d يوم</item>
         <item quantity="one">for the first day</item>
-        <item quantity="two">for the first %1$d days</item>
-        <item quantity="few">for the first %1$d days</item>
-        <item quantity="many">for the first %1$d days</item>
+        <item quantity="two">لأول %1$d يوم</item>
+        <item quantity="few">لأول %1$d يوم</item>
+        <item quantity="many">لأول %1$d يوم</item>
         <item quantity="other">لأول %1$d يوم</item>
     </plurals>
     <!--
@@ -786,11 +786,11 @@
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="zero">for the first %1$d weeks</item>
+        <item quantity="zero">لأول %1$d أسبوع</item>
         <item quantity="one">for the first week</item>
-        <item quantity="two">for the first %1$d weeks</item>
-        <item quantity="few">for the first %1$d weeks</item>
-        <item quantity="many">for the first %1$d weeks</item>
+        <item quantity="two">لأول %1$d أسبوع</item>
+        <item quantity="few">لأول %1$d أسبوع</item>
+        <item quantity="many">لأول %1$d أسبوع</item>
         <item quantity="other">لأول %1$d أسبوع</item>
     </plurals>
     <!--
@@ -798,11 +798,11 @@
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="zero">for the first %1$d months</item>
+        <item quantity="zero">لأول %1$d شهر</item>
         <item quantity="one">for the first month</item>
-        <item quantity="two">for the first %1$d months</item>
-        <item quantity="few">for the first %1$d months</item>
-        <item quantity="many">for the first %1$d months</item>
+        <item quantity="two">لأول %1$d شهر</item>
+        <item quantity="few">لأول %1$d شهر</item>
+        <item quantity="many">لأول %1$d شهر</item>
         <item quantity="other">لأول %1$d شهر</item>
     </plurals>
     <!--
@@ -810,11 +810,11 @@
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="zero">for the first %1$d years</item>
+        <item quantity="zero">لأول %1$d سنة</item>
         <item quantity="one">for the first year</item>
-        <item quantity="two">for the first %1$d years</item>
-        <item quantity="few">for the first %1$d years</item>
-        <item quantity="many">for the first %1$d years</item>
+        <item quantity="two">لأول %1$d سنة</item>
+        <item quantity="few">لأول %1$d سنة</item>
+        <item quantity="many">لأول %1$d سنة</item>
         <item quantity="other">لأول %1$d سنة</item>
     </plurals>
     <!--
@@ -823,11 +823,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="zero">then auto renews at %1$s every %2$d days</item>
+        <item quantity="zero">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
         <item quantity="one">then auto renews at %1$s/day</item>
-        <item quantity="two">then auto renews at %1$s every %2$d days</item>
-        <item quantity="few">then auto renews at %1$s every %2$d days</item>
-        <item quantity="many">then auto renews at %1$s every %2$d days</item>
+        <item quantity="two">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
+        <item quantity="few">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
+        <item quantity="many">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
         <item quantity="other">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d يوم</item>
     </plurals>
     <!--
@@ -836,11 +836,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="zero">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="zero">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
         <item quantity="one">then auto renews at %1$s/week</item>
-        <item quantity="two">then auto renews at %1$s every %2$d weeks</item>
-        <item quantity="few">then auto renews at %1$s every %2$d weeks</item>
-        <item quantity="many">then auto renews at %1$s every %2$d weeks</item>
+        <item quantity="two">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
+        <item quantity="few">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
+        <item quantity="many">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
         <item quantity="other">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d أسبوع</item>
     </plurals>
     <!--
@@ -849,11 +849,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="zero">then auto renews at %1$s every %2$d months</item>
+        <item quantity="zero">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
         <item quantity="one">then auto renews at %1$s/month</item>
-        <item quantity="two">then auto renews at %1$s every %2$d months</item>
-        <item quantity="few">then auto renews at %1$s every %2$d months</item>
-        <item quantity="many">then auto renews at %1$s every %2$d months</item>
+        <item quantity="two">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
+        <item quantity="few">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
+        <item quantity="many">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
         <item quantity="other">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d شهر</item>
     </plurals>
     <!--
@@ -862,11 +862,11 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="zero">then auto renews at %1$s every %2$d years</item>
+        <item quantity="zero">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
         <item quantity="one">then auto renews at %1$s/year</item>
-        <item quantity="two">then auto renews at %1$s every %2$d years</item>
-        <item quantity="few">then auto renews at %1$s every %2$d years</item>
-        <item quantity="many">then auto renews at %1$s every %2$d years</item>
+        <item quantity="two">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
+        <item quantity="few">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
+        <item quantity="many">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
         <item quantity="other">ثم يتجدد تلقائيًا بسعر %1$s كل %2$d سنة</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
@@ -934,18 +934,18 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">امحُ</string>
     <string name="free_connections_info_message">يختار لك Proton Free أسرع الخوادم المتاحة ويربطك بها تلقائياً، مع إعطاء الأولوية للخادم الأقرب لموقعك الجغرافي.</string>
-    <string name="free_connections_info_server_locations">المواقع المجانية المتاحة (%1$d)</string>
+    <string name="free_connections_info_server_locations">عدد مواقع الخادم المجانية (%1$d)</string>
     <string name="free_connections_info_banner_text">وصول غير محدود لجميع خوادمنا مع باقة VPN Plus</string>
     <string name="free_connection_info_title">الخوادم المجانية</string>
     <string name="search_upsell_banner_title">مشاهدة بلا حدود أينما كنت</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="zero">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دولة مع باقة VPN Plus</item>
-        <item quantity="one">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دولة مع باقة VPN Plus</item>
-        <item quantity="two">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دولة مع باقة VPN Plus</item>
-        <item quantity="few">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دول مع باقة VPN Plus</item>
-        <item quantity="many">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دولة مع باقة VPN Plus</item>
-        <item quantity="other">تجاوز الحظر المفروض في منطقتك على المحتوى عبر %1$d دولة مع باقة VPN Plus</item>
+        <item quantity="zero">فتح المحتوى المحظور جغرافيا من %1$d دولة باستخدام VPN Plus</item>
+        <item quantity="one">فتح المحتوى المحظور جغرافيا من %1$d دولة باستخدام VPN Plus</item>
+        <item quantity="two">فتح المحتوى المحظور جغرافيا من %1$d دولة باستخدام VPN Plus</item>
+        <item quantity="few">فتح المحتوى المحظور جغرافيا من %1$d دولة باستخدام VPN Plus</item>
+        <item quantity="many">فتح المحتوى المحظور جغرافيا من %1$d دولة باستخدام VPN Plus</item>
+        <item quantity="other">فتح المحتوى المحظور جغرافيا من %1$d دولة باستخدام VPN Plus</item>
     </plurals>
     <string name="select_default_connection">طريقة الاتصال المفضلة</string>
     <string name="settings_default_connection_title">الاتصال الافتراضي</string>
@@ -987,42 +987,42 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">متبقي %1$s و %2$s</string>
+    <string name="offer_time_left">باقي %1$s %2$s</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
-        <item quantity="zero">%1$d ثانية</item>
+        <item quantity="zero">%1$d ثواني</item>
         <item quantity="one">%1$d ثانية</item>
-        <item quantity="two">%1$d ثانية</item>
+        <item quantity="two">%1$d ثواني</item>
         <item quantity="few">%1$d ثواني</item>
-        <item quantity="many">%1$d ثانية</item>
-        <item quantity="other">%1$d ثانية</item>
+        <item quantity="many">%1$d ثواني</item>
+        <item quantity="other">%1$d ثواني</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="zero">%1$d دقيقة</item>
+        <item quantity="zero">%1$d دقائق</item>
         <item quantity="one">%1$d دقيقة</item>
-        <item quantity="two">%1$d دقيقة</item>
+        <item quantity="two">%1$d دقائق</item>
         <item quantity="few">%1$d دقائق</item>
-        <item quantity="many">%1$d دقيقة</item>
-        <item quantity="other">%1$d دقيقة</item>
+        <item quantity="many">%1$d دقائق</item>
+        <item quantity="other">%1$d دقائق</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
-        <item quantity="zero">%1$d ساعة</item>
+        <item quantity="zero">%1$d ساعات</item>
         <item quantity="one">%1$d ساعة</item>
-        <item quantity="two">%1$d ساعة</item>
+        <item quantity="two">%1$d ساعات</item>
         <item quantity="few">%1$d ساعات</item>
-        <item quantity="many">%1$d ساعة</item>
-        <item quantity="other">%1$d ساعة</item>
+        <item quantity="many">%1$d ساعات</item>
+        <item quantity="other">%1$d ساعات</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="zero">%1$d يوم</item>
+        <item quantity="zero">%1$d أيام</item>
         <item quantity="one">%1$d يوم</item>
         <item quantity="two">%1$d يوم</item>
         <item quantity="few">%1$d أيام</item>
-        <item quantity="many">%1$d يوم</item>
-        <item quantity="other">%1$d يوم</item>
+        <item quantity="many">%1$d أيام</item>
+        <item quantity="other">%1$d أيام</item>
     </plurals>
     <string name="server_change_max_reached">انتهت محاولات التبديل بين الخوادم المجانية المتاحة لك حالياً.</string>
     <string name="server_change_upsell">وداعاً للقيود.. استمتع بتبديل خوادم غير محدود مع باقة VPN Plus.</string>
@@ -1035,7 +1035,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">سيتوفر خلال %1$s و %2$s</string>
+    <string name="server_change_button_time_left_content_description">متاح في %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -1043,7 +1043,7 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">سيتوفر خلال %1$s</string>
+    <string name="server_change_button_time_left_seconds_content_description">متاح في %1$s</string>
     <string name="server_change_progress_finished_contend_description">متاح الآن</string>
     <string name="not_wanted_country_title">هل تبحث عن دولة مختلفة؟</string>
     <string name="not_wanted_country_description">قرارك بيدك.. اختر خادمك المفضل عند ترقية حسابك</string>
@@ -1247,7 +1247,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">محدد تلقائيًا من [flags] بالإضافة إلى %1$d أخرى</string>
+    <string name="connection_info_auto_selected_free_countries_more">تم الاختيار التقائي من [flags] و %1$d آخرين</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1255,12 +1255,12 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="zero">محدد تلقائيًا من %1$d دولة</item>
-        <item quantity="one">محدد تلقائيًا من %1$d دولة</item>
-        <item quantity="two">محدد تلقائيًا من %1$d دولة</item>
-        <item quantity="few">محدد تلقائيًا من %1$d دول</item>
-        <item quantity="many">محدد تلقائيًا من %1$d دولة</item>
-        <item quantity="other">محدد تلقائيًا من %1$d دولة</item>
+        <item quantity="zero">تم الاختيار التقائي من %1$d دول</item>
+        <item quantity="one">تم الاختيار التقائي من %1$d دولة</item>
+        <item quantity="two">تم الاختيار التقائي من %1$d دول</item>
+        <item quantity="few">تم الاختيار التقائي من %1$d دول</item>
+        <item quantity="many">تم الاختيار التقائي من %1$d دول</item>
+        <item quantity="other">تم الاختيار التقائي من %1$d دول</item>
     </plurals>
     <string name="connection_info_auto_selected_free_countries_plain">محدد تلقائيًا من الخوادم المجانية</string>
     <!-- tag(Redesign_2023)
@@ -1401,7 +1401,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">تقييم Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">إصدار التطبيق: %1$s</string>
+    <string name="settings_app_version">إصدار التطبيق : %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">تراخيص الجهات الخارجية</string>
     <!-- tag(Redesign_2023) -->
@@ -1425,13 +1425,13 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">كل الدول (%1$d)</string>
+    <string name="country_filter_all_list_header">جميع الدول (%1$d)</string>
     <string name="country_filter_all_list_header_free">دول Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">الدول (%1$d)</string>
+    <string name="country_filter_countries_list_header">البلدان (%1$d)</string>
     <string name="country_filter_cities_list_header">المدن (%1$d)</string>
     <string name="country_filter_states_list_header">الولايات (%1$d)</string>
     <string name="country_filter_servers_list_header">الخوادم</string>
-    <string name="country_filter_secure_core_list_header">دول Secure Core (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">بلدان النواة الآمنة (%1$d)</string>
     <string name="country_filter_p2p_list_header">دول P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">مدن P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">ولايات P2P (%1$d)</string>
@@ -1442,7 +1442,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">ضغط الخادم: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">الحمل: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1575,7 +1575,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">الموقع الجغرافي للخادم هو %1$s، لكن موقع الاتصال الظاهر هو %2$s.</string>
+    <string name="country_smart_routing_info">الخوادم موجودة فعليا في %1$s، ولكن ستبدو أنك ستتصفح من %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1596,7 +1596,7 @@
     <string name="speed_gigabytes_per_second">%1$s ج.ب/ث</string>
     <string name="speed_terabytes_per_second">%1$s ت.ب/ث</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">السرعة (%1$s)</string>
+    <string name="speed_graph_title">السرعة %1$s</string>
     <string name="bytes_per_second">ب/ث</string>
     <string name="kilobytes_per_second">ك.ب/ث</string>
     <string name="megabytes_per_second">م.ب/ث</string>
@@ -1619,28 +1619,28 @@
         <item quantity="other">%1$s كيلوبايت في الثانية</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="zero">%1$s ميجابايت في ثانية</item>
-        <item quantity="one">%1$s ميجابايت في ثانية</item>
-        <item quantity="two">%1$s ميجابايت في ثانية</item>
-        <item quantity="few">%1$s ميجابايت في ثانية</item>
-        <item quantity="many">%1$s ميجابايت في ثانية</item>
-        <item quantity="other">%1$s ميجابايت في ثانية</item>
+        <item quantity="zero">%1$s ميغابايت في الثانية</item>
+        <item quantity="one">%1$s ميغابايت في الثانية</item>
+        <item quantity="two">%1$s ميغابايت في الثانية</item>
+        <item quantity="few">%1$s ميغابايت في الثانية</item>
+        <item quantity="many">%1$s ميغابايت في الثانية</item>
+        <item quantity="other">%1$s ميغابايت في الثانية</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="zero">%1$s جيجابايت في ثانية</item>
-        <item quantity="one">%1$s جيجابايت في ثانية</item>
-        <item quantity="two">%1$s جيجابايت في ثانية</item>
-        <item quantity="few">%1$s جيجابايت في ثانية</item>
-        <item quantity="many">%1$s جيجابايت في ثانية</item>
-        <item quantity="other">%1$s جيجابايت في ثانية</item>
+        <item quantity="zero">%1$s جيجابايت في الثانية</item>
+        <item quantity="one">%1$s جيجابايت في الثانية</item>
+        <item quantity="two">%1$s جيجابايت في الثانية</item>
+        <item quantity="few">%1$s جيجابايت في الثانية</item>
+        <item quantity="many">%1$s جيجابايت في الثانية</item>
+        <item quantity="other">%1$s جيجابايت في الثانية</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="zero">%1$s تيرابايت في ثانية</item>
-        <item quantity="one">%1$s تيرابايت في ثانية</item>
-        <item quantity="two">%1$s تيرابايت في ثانية</item>
-        <item quantity="few">%1$s تيرابايت في ثانية</item>
-        <item quantity="many">%1$s تيرابايت في ثانية</item>
-        <item quantity="other">%1$s تيرابايت في ثانية</item>
+        <item quantity="zero">%1$s تيرابايت في الثانية</item>
+        <item quantity="one">%1$s تيرابايت في الثانية</item>
+        <item quantity="two">%1$s تيرابايت في الثانية</item>
+        <item quantity="few">%1$s تيرابايت في الثانية</item>
+        <item quantity="many">%1$s تيرابايت في الثانية</item>
+        <item quantity="other">%1$s تيرابايت في الثانية</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="zero">%1$s بايت</item>
@@ -1659,12 +1659,12 @@
         <item quantity="other">%1$s كيلوبايت</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="zero">%1$s ميجابايت</item>
-        <item quantity="one">%1$s ميجابايت</item>
-        <item quantity="two">%1$s ميجابايت</item>
-        <item quantity="few">%1$s ميجابايت</item>
-        <item quantity="many">%1$s ميجابايت</item>
-        <item quantity="other">%1$s ميجابايت</item>
+        <item quantity="zero">%1$s ميغابايت</item>
+        <item quantity="one">%1$s ميغابايت</item>
+        <item quantity="two">%1$s ميغابايت</item>
+        <item quantity="few">%1$s ميغابايت</item>
+        <item quantity="many">%1$s ميغابايت</item>
+        <item quantity="other">%1$s ميغابايت</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
         <item quantity="zero">%1$s جيجابايت</item>
@@ -1693,12 +1693,12 @@
     <string name="error_vpn_waiting_for_network">بانتظار الشبكة</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
-        <item quantity="zero">%1$d يوم</item>
+        <item quantity="zero">%1$d أيام</item>
         <item quantity="one">%1$d يوم</item>
-        <item quantity="two">%1$d يوم</item>
+        <item quantity="two">%1$d أيام</item>
         <item quantity="few">%1$d أيام</item>
-        <item quantity="many">%1$d يوم</item>
-        <item quantity="other">%1$d يوم</item>
+        <item quantity="many">%1$d أيام</item>
+        <item quantity="other">%1$d أيام</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d س</string>
@@ -1729,7 +1729,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">ارفع سرعة اتصالك بنسبة تصل إلى 400%% باستخدام تقنيات تعزيز الأداء. %1$s</string>
+    <string name="settings_vpn_accelerator_description">زيادة سرعة الاتصال بنسبة تصل إلى 400%% مع تقنيات تحسين الأداء. %1$s</string>
     <string name="settings_account_settings_title">إعدادات الحساب</string>
     <string name="settings_account_change_password">تغيير كلمة السر</string>
     <string name="settings_account_recovery_email">بريد استرداد الحساب</string>
@@ -1764,7 +1764,7 @@
     <string name="settings_advanced_allow_lan_title_tv">الاتصال بالشبكة المحلية - LAN</string>
     <string name="settings_advanced_nat_type_title">نوع اتصال NAT</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">ضبط قيود اتصال NAT لضمان أفضل أداء وتوافق لشبكتك مع الأجهزة الخارجية. %1$s</string>
+    <string name="settings_advanced_nat_type_description">اختر نوع ترجمة عنوان شبكة للاتصال. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">ضبط قيود اتصال NAT لضمان أفضل أداء وتوافق لشبكتك مع الأجهزة الخارجية.</string>
     <string name="settings_advanced_nat_type_strict">مقيد (النوع 3)</string>
     <string name="settings_advanced_nat_type_strict_short">النوع 3</string>
@@ -1772,8 +1772,8 @@
     <string name="settings_advanced_nat_type_moderate_short">النوع 2</string>
     <string name="settings_advanced_nat_type_strict_description">يفرض قيوداً مشددة على البيانات الواردة لشبكتك؛ مما يوفر أقصى درجات الأمان، ولكن قد يؤثر على اتصالات الألعاب المباشرة (P2P).</string>
     <string name="settings_advanced_nat_type_moderate_description">يفرض قيوداً أقل على البيانات الواردة لشبكتك؛ مما يجعله الخيار الأنسب لتحسين أداء وتوافق ألعاب الفيديو عبر الإنترنت.</string>
-    <string name="settings_split_tunneling_description">تخصيص تجربة اتصالك عبر اختيار التطبيقات وعناوين IP المُراد حماية وتشفير بياناتها عبر الـ VPN. %1$s</string>
-    <string name="settings_protocol_description">يحدد بروتوكول الـ VPN معايير التشفير وآلية تبادل البيانات بين جهازك والخادم. %1$s</string>
+    <string name="settings_split_tunneling_description">تعديل إعدادات اتصالك عن طريق تحديد التطبيقات وعناوين IP التي يحميها VPN. %1$s</string>
+    <string name="settings_protocol_description">يحدد بروتوكول VPN كيفية انتقال البيانات بين جهازك وخادم VPN. %1$s</string>
     <string name="settings_protocol_description_no_link">يحدد بروتوكول الـ VPN معايير التشفير وآلية تبادل البيانات بين جهازك والخادم.</string>
     <string name="settings_protocol_section_speed">السرعة (UDP)</string>
     <string name="settings_protocol_section_reliability">الموثوقية (TCP)</string>
@@ -1798,7 +1798,7 @@
     <string name="settings_split_tunneling_included_apps">التطبيقات المدرجة</string>
     <string name="settings_split_tunneling_included_ips">عناوين IP المدرجة</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">بدون</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s و %2$s و %3$d آخرين</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s، %2$s و %3$d آخرون</string>
     <string name="settings_split_tunneling_already_excluded">مستبعد بالفعل</string>
     <string name="settings_split_tunneling_already_included">مدرج بالفعل</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">هل تود إزالة عنوان IP من القائمة؟</string>
@@ -1863,7 +1863,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">سيؤدي هذا الإجراء إلى إعادة تشغيل اتصالك</string>
-    <string name="profile_overrides_setting">ترتبط هذه الإعدادات بملف اتصال <b>%1$s</b>؛ يمكنك تعديلها فقط من خلال قسم ملفات الاتصال.</string>
+    <string name="profile_overrides_setting">هذه الإعدادات متصلة بـ <b>%1$s</b> ولا يمكن إدارتها إلا في الملفات الشخصية.</string>
     <string name="initial_profile_name_streaming_us">منصات المشاهدة الأمريكية</string>
     <string name="initial_profile_name_work_school">العمل والدراسة</string>
     <string name="initial_profile_name_anti_censorship">مكافحة الرقابة</string>

@@ -39,7 +39,7 @@
     <string name="buttonConnect">So ó pọ̀</string>
     <string name="loaderConnectingTo">Ó ń so pọ̀ mọ́ %1$s</string>
     <string name="loaderNotConnected">A kò so pọ̀ (Àìàbò)</string>
-    <string name="loaderConnectedTo">Ó ti so pọ̀ mọ́ %1$s</string>
+    <string name="loaderConnectedTo">A ti so pọ̀ mọ́ %1$s</string>
     <string name="loaderDisconnecting">Ó ń tú ìsopọ̀</string>
     <string name="loaderReconnecting">Ó ń tún so mọ́</string>
     <string name="loaderReconnectNoNetwork">Ó ń rétí nẹ́tíwọ́ọ̀kì tí ó leè ṣiṣẹ́</string>
@@ -142,16 +142,16 @@
     <string name="settings_new_label_badge">TUNTUN</string>
     <!-- Displayed as a badge next to setting item ("Proton protocols [BETA]") -->
     <string name="settings_beta_label_badge">BẸ́TÀ</string>
-    <string name="settingsExcludedIPAddressesListHeader">Àwọn àdírẹ́sì IP tí a yọ kúrò (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Àwọn àdírẹ́sì IP tí a fi kún (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">Àwọn áàpù tí a yọ kúrò</string>
     <string name="settingsExcludedAppsEmpty">Fi àwọn áàpù tí yóò jáde nínú lílọ bíbọ̀ VPN kún un.</string>
     <string name="settingsIncludedAppsEmpty">Fi àwọn áàpù tí yóò wà nínú lílọ bíbọ̀ VPN kún un.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Àwọn áàpù tí a yọ kúrò (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Àwọn áàpù tí a fi kún (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Gbogbo àwọn áàpù deède tí ó kù (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Gbogbo àwọn áàpù ẹ̀rọ tí ó kù (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">Gbogbo àwọn áàpù tí ó kù (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Fi àwọn áàpù ẹ̀rọ hàn</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Fi àwọn áàpù ẹ̀rọ hàn</string>
     <string name="settingsSplitTunnelingExcludedAppsList">A ti yọ àwọn áàpù wọ̀nyí kúrò ní àsopọ̀ VPN yín.</string>
@@ -203,7 +203,7 @@
     <string name="troubleshootProxyFirewallProblemTitle">Ìdààmú láti ọ̀dọ̀ aṣojú/ààbò orí kọ̀mpútà</string>
     <string name="troubleshootProxyFirewallProblemDescription">Paná próksì tàbí ààbò orí kọ̀mpútà tí ó bá wà, tàbí kí ẹ kàn sí olùṣàkóso nẹ́tíwọ́ọ̀kì yín.</string>
     <string name="troubleshootProtonDownTitle">Proton kò ṣiṣẹ́</string>
-    <string name="troubleshootProtonDownDescription"><![CDATA[Ẹ wo <a href=\"%1$s\">Proton Status</a> láti mọ ìpò àwọn ètò wa.]]></string>
+    <string name="troubleshootProtonDownDescription"><![CDATA[Check <a href=\"%1$s\">Proton Status</a> for our system status.]]></string>
     <string name="troubleshootContactUsSectionTitle">Ṣé ẹ sì lọ̀ọ́ nílò ìrànlọ́wọ́? Ẹ kàn sí wa tààrà</string>
     <string name="troubleshootCustomerSupport">Ẹ̀ka àtìlẹ́yìn oníbàárà</string>
     <string name="settingsAllowAlternativeRoutingTitle">Yíyan ipa ọ̀nà míràn</string>
@@ -279,7 +279,7 @@
     <string name="errorTorrentNotAllowed">Wọ́n kò gbà P2P lórí sáfà yìí.</string>
     <string name="error_profile_fallback_unavailable">Àsopọ̀ kò ṣeéṣe. Sáfà tí ẹ yàn fún prófáìlì kò wà.</string>
     <string name="profileProtocolNotAvailable">Prótòkọ́lù VPN fún prófáìlì yìí kò wà nìísìí. Láti so pọ̀, ẹ gbìyànjú yí prótòkọ́lù padà.</string>
-    <string name="stateConnectedTo">Ó ti so pọ̀ mọ́ %1$s</string>
+    <string name="stateConnectedTo">A ti so pọ̀ mọ́ %1$s</string>
     <string name="stateNotConnected">Ẹ kò tíì so pọ̀</string>
     <string name="nameEurope">Yúróòpù</string>
     <string name="nameAmerica">Amẹ́ríkà</string>
@@ -299,7 +299,7 @@
     <string name="tv_detail_description_country_not_available">Orílẹ̀-èdè yìí kò sí. Ẹ gba àwọn àṣàyàn gbígbé sórí afẹ́fẹ́ mìíràn pẹ̀lú Ètò Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Gbé àwọn fídíò, fíìmù tàbí eré ìdárayá yín sórí afẹ́fẹ́ pẹ̀lú àwọn áàpù yín.</string>
     <string name="tv_login_title_welcome">Gbé àwọn fídíò ayọ̀kẹ́fẹ́ yín sórí afẹ́fẹ́</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Gba àkántì Proton VPN yín ní <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Get your Proton VPN account at <b>%1$s</b>]]></string>
     <string name="back">Padà</string>
     <string name="tv_vpn_error_dialog_title">Àsopọ̀ VPN kò ṣeéṣe</string>
     <string name="tv_signout_label">Jáde</string>
@@ -314,7 +314,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Àpilẹ̀ṣẹ̀ sáfà %1$s%%</string>
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Àwọn sáfà tí a lo ṣẹ̀ṣẹ́</string>
     <string name="tv_available_servers">Àwọn sáfà tí ó wà</string>
     <string name="tv_locked_servers">Àwọn sáfà tí a ti dẹ́kun</string>
@@ -322,9 +322,9 @@
     <string name="tv_server_list">Àkójọ sáfà</string>
     <string name="tv_server_list_action_unavailable">Kò wà</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Ti so pọ̀</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Ó ń so pọ̀</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
     <string name="tv_country_tile_maintenance">Maintenance</string>
     <string name="notification_subscription_expired_title">Ètò ìforúkọsílẹ̀ Proton VPN yín ti wá sí òpin</string>
@@ -357,7 +357,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="other">àwọn sáfà %1$d</item>
+        <item quantity="other">%1$d servers</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -365,7 +365,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="other">àwọn orílẹ̀-èdè %1$d</item>
+        <item quantity="other">%1$d countries</item>
     </plurals>
     <string name="upsell_upgrade_again">Ẹ gbé e ga lẹ́ẹ̀kansi kí ẹ lè gbádùn gbogbo àwọn àbùdá:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -375,7 +375,7 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="other">%d àwọn sáfà tí ó ní ààbò</item>
+        <item quantity="other">%d secure servers</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -383,7 +383,7 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="other">%d àwọn orílẹ̀-èdè</item>
+        <item quantity="other">%d countries</item>
     </plurals>
     <string name="upgrade_not_now_button">Ìgbà mìíràn</string>
     <!-- Content description for plan selection list.
@@ -441,7 +441,7 @@
         For inflicted languages translate the following phrase instead:
         Get VPN Plus to access: %1$s
         -->
-    <string name="upsell_panel_country_title">Ẹ ṣí %1$s pẹ̀lú VPN Plus</string>
+    <string name="upsell_panel_country_title">Unlock %1$s with VPN Plus</string>
     <string name="upsell_panel_countries_title">Ẹ ṣí gbogbo orílẹ̀-èdè pẹ̀lú VPN Plus</string>
     <string name="upsell_panel_country_benefit_speed">Àwọn sáfà ìyára gíga</string>
     <string name="upsell_panel_country_benefit_shows">Wo àwọn eré tí a kò rí àyàfi ní òkè-òkun</string>
@@ -492,7 +492,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">Tó %1$d+ ibùdó sáfà ní %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
     <string name="upsell_card_customization_title">Àti àwọn ẹ̀ya mìíràn púpọ̀…</string>
     <string name="upsell_card_customization_description">Ṣí ọ̀pọ̀lọpọ̀ àwọn àbùdá iṣẹ́ ṣiṣe àti àṣírí sílẹ̀</string>
     <plurals name="upsell_card_devices_title">
@@ -512,7 +512,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Ẹ kiri ayélujára ní ìyára tó ga jù (títí dé %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">Ìkáàkiri tí a pín</string>
     <string name="upsell_card_split_tunneling_description">Ẹ kiri ayélujára láti ibùdó méjì ní ìgbà kan náà.</string>
     <string name="upsell_card_streaming_title">Gbígbé sórí afẹ́fẹ́</string>
@@ -526,7 +526,7 @@
 
         Example: Unlock 16821 secure servers in 127 countries. Go to the Proton VPN website to upgrade your plan.
     -->
-    <string name="upsell_tv_all_countries_description">Ẹ gbà wọlé sí %1$s ní %2$s.</string>
+    <string name="upsell_tv_all_countries_description">Unlock %1$s in %2$s.</string>
     <string name="upsell_tv_netshield_title">Ẹ gbádùn ìṣàwákiri tí kò ní ìpolówó pẹ̀lú Plus</string>
     <string name="upsell_tv_netshield_description"><![CDATA[Ẹ dènà ìpolówó, àwọn olùtọpa àti máálweà pẹ̀lú <b>NetShield</b>.]]></string>
     <string name="upsell_tv_split_tunneling_title">Ẹ gba ohun tó dára jùlọ láti ẹgbẹ́ méjèèjì pẹ̀lú Plus</string>
@@ -550,16 +550,16 @@
     <string name="payment_price_per_month">oṣù</string>
     <string name="payment_price_per_year">ọdún</string>
     <plurals name="payment_price_cycle_label_day">
-        <item quantity="other">%1$d ọjọ́</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <plurals name="payment_price_cycle_label_week">
-        <item quantity="other">%1$d ọ̀sẹ̀</item>
+        <item quantity="other">%1$d weeks</item>
     </plurals>
     <plurals name="payment_price_cycle_label_month">
-        <item quantity="other">%1$d oṣù</item>
+        <item quantity="other">%1$d months</item>
     </plurals>
     <plurals name="payment_price_cycle_label_year">
-        <item quantity="other">%1$d ọdún</item>
+        <item quantity="other">%1$d years</item>
     </plurals>
     <string name="payment_select_your_plan">Ẹ yan ètò yín</string>
     <!-- Label on a button for purchasing a subscription.
@@ -567,7 +567,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Ẹ gba %1$s</string>
+    <string name="payment_button_get_plan">Gba %1$s</string>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
@@ -596,25 +596,25 @@
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of days -->
     <plurals name="payment_renewal_price_message_daily">
-        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọjọ́.</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d days</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_renewal_price_message_weekly">
-        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọ̀sẹ̀.</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!-- Parameters:
          %1$s - replaced with price (e.g. "CHF 100")
          %2$d - replaced with number of months -->
     <plurals name="payment_renewal_price_message_monthly">
-        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d oṣù.</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d months</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_renewal_price_message_yearly">
-        <item quantity="other">Ìforúkọsílẹ̀ náà máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọdún.</item>
+        <item quantity="other">Subscription auto renews at %1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -622,7 +622,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_daily">
-        <item quantity="other">%1$s ní ìgbà gbogbo %2$d ọjọ́</item>
+        <item quantity="other">%1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -630,7 +630,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_weekly">
-        <item quantity="other">%1$s ní ìgbà gbogbo %2$d ọ̀sẹ̀</item>
+        <item quantity="other">%1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -638,7 +638,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_monthly">
-        <item quantity="other">%1$s ní ìgbà gbogbo %2$d oṣù</item>
+        <item quantity="other">%1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -646,35 +646,35 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_yearly">
-        <item quantity="other">%1$s ní ìgbà gbogbo %2$d ọdún</item>
+        <item quantity="other">%1$s every %2$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
-        <item quantity="other">fún %1$d ọjọ́ àkọ́kọ́</item>
+        <item quantity="other">for the first %1$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
-        <item quantity="other">fún %1$d ọ̀sẹ̀ àkọ́kọ́</item>
+        <item quantity="other">for the first %1$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
-        <item quantity="other">fún %1$d oṣù àkọ́kọ́</item>
+        <item quantity="other">for the first %1$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
      Parameters:
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
-        <item quantity="other">fún %1$d ọdún àkọ́kọ́</item>
+        <item quantity="other">for the first %1$d years</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -682,7 +682,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_rest_daily">
-        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọjọ́</item>
+        <item quantity="other">then auto renews at %1$s every %2$d days</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -690,7 +690,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_rest_weekly">
-        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọ̀sẹ̀</item>
+        <item quantity="other">then auto renews at %1$s every %2$d weeks</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -698,7 +698,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_rest_monthly">
-        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d oṣù</item>
+        <item quantity="other">then auto renews at %1$s every %2$d months</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -706,7 +706,7 @@
      %1$s - replaced with price (e.g. "CHF 100")
      %2$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_rest_yearly">
-        <item quantity="other">lẹ́yìn náà, ó máa ń fọwọ́sí ara rẹ̀ ní %1$s ní ìgbà gbogbo %2$d ọdún</item>
+        <item quantity="other">then auto renews at %1$s every %2$d years</item>
     </plurals>
     <!-- Explains renewal cycle when first there's a discount price for several periods
      (e.g. 2 months) and then the subscription renews at full price.
@@ -723,7 +723,7 @@
       "$19.99/year for the first 3 years, then auto renews at $24.99/year"
       "$3.99 every 2 months for the first 4 months, then auto renews at 5.99 every 2 months"
     -->
-    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s.</string>
+    <string name="payment_multi_renewal_template">%1$s %2$s, %3$s</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ìmọ̀-ẹ̀rọ yìí jẹ́ kí Proton VPN lè pèsè ìyára tó ga àti ààbò ní àwọn orílẹ̀-èdè tí kò ṣe rọ̀rùn láti fọwọ́ sí.</string>
     <string name="tor_title">Tor</string>
@@ -773,13 +773,13 @@
     <!-- Content description for an icon button that clears text in an input field. -->
     <string name="clear_text_field_content_description">Kó ọ̀rọ̀ náà kúrò</string>
     <string name="free_connections_info_message">Proton Free á so yín mọ́ sáfà tí ó yára jù láti ara àwọn sáfà tí ó wà. Àsìkò gbogbo, sáfà tí ó súnmọ́ ibùdó yín jù ni èyí máa ń jẹ́.</string>
-    <string name="free_connections_info_server_locations">Àwọn ibùdó sáfà ọ̀fẹ́ (%1$d)</string>
+    <string name="free_connections_info_server_locations">Free server locations (%1$d)</string>
     <string name="free_connections_info_banner_text">Ní ìráàyèsí sí gbogbo orílẹ̀-èdè pẹ̀lú VPN Plus</string>
     <string name="free_connection_info_title">Àwọn àsopọ̀ ọ̀fẹ́</string>
     <string name="search_upsell_banner_title">Gbé fídíò sórí afẹ́fẹ́ láti ibi tí ó bá wù yín</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="other">Ṣí àwọn ohun tí ìpo orílẹ̀-èdè dè ní %1$d orílẹ̀-èdè pẹ̀lú VPN Plus</item>
+        <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
     </plurals>
     <string name="select_default_connection">Yàn àsopọ̀ yín bí ó ti wà</string>
     <string name="settings_default_connection_title">Àsopọ̀ bí ó ti wà</string>
@@ -821,22 +821,22 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s ṣe kù</string>
+    <string name="offer_time_left">%1$s %2$s left</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
-        <item quantity="other">%1$d ìṣẹ́jú àáyà</item>
+        <item quantity="other">%1$d seconds</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
-        <item quantity="other">%1$d ìṣẹ́jú</item>
+        <item quantity="other">%1$d minutes</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
-        <item quantity="other">%1$d wákàtí</item>
+        <item quantity="other">%1$d hours</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
-        <item quantity="other">%1$d ọjọ́</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <string name="server_change_max_reached">Ẹ ti dé iye àyípadà sáfà Free tí ó pọ̀ jùlọ fún ìgbà yìí.</string>
     <string name="server_change_upsell">Gba àyípadà tí kò ní èèwọ̀ pẹ̀lú VPN Plus.</string>
@@ -849,7 +849,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Yóò wà ní ọ̀fẹ́ lẹ́yìn %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -857,7 +857,7 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Yóò wà ní ọ̀fẹ́ lẹ́yìn %1$s</string>
+    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
     <string name="server_change_progress_finished_contend_description">Ó wà ní ọ̀fẹ́</string>
     <string name="not_wanted_country_title">Kì í ṣe orílẹ̀-èdè tí ẹ fẹ́?</string>
     <string name="not_wanted_country_description">Gbé e ga láti yan sáfà èyíkéyìí</string>
@@ -990,21 +990,21 @@
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s nípasẹ̀ Ìslándì</string>
+    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s nípasẹ̀ Swídìn</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s nípasẹ̀ Switzerland</string>
+    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -1013,7 +1013,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s nípasẹ̀ %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -1043,7 +1043,7 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">nípasẹ̀ %1$s</string>
+    <string name="connection_info_secure_core_entry_other">via %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
@@ -1061,7 +1061,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">A yàn án lára [flags]+%1$d láìbára</string>
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1069,7 +1069,7 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="other">A yàn án lára àwọn orílẹ̀-èdè %1$d láìbára</item>
+        <item quantity="other">Auto-selected from %1$d countries</item>
     </plurals>
     <string name="connection_info_auto_selected_free_countries_plain">A yàn án lára àwọn orílẹ̀-èdè ọ̀fẹ́ láìbára.</string>
     <!-- tag(Redesign_2023)
@@ -1210,7 +1210,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Ẹ fún Proton VPN ní àwòkọ́</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">Ẹ̀dà áàpù: %1$s</string>
+    <string name="settings_app_version">App version: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Àwọn ìfúnniláṣẹ́ ẹgbẹ́ kẹta</string>
     <!-- tag(Redesign_2023) -->
@@ -1234,24 +1234,24 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">Gbogbo àwọn orílẹ̀-èdè (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Àwọn orílẹ̀-èdè Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Àwọn orílẹ̀-èdè (%1$d)</string>
-    <string name="country_filter_cities_list_header">Àwọn ìlú (%1$d)</string>
-    <string name="country_filter_states_list_header">Àwọn ìpínlẹ̀ (%1$d)</string>
+    <string name="country_filter_all_list_header">All countries (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
+    <string name="country_filter_states_list_header">States (%1$d)</string>
     <string name="country_filter_servers_list_header">Àwọn sáfà</string>
-    <string name="country_filter_secure_core_list_header">Àwọn orílẹ̀-èdè Secure Core (%1$d)</string>
-    <string name="country_filter_p2p_list_header">Àwọn orílẹ̀-èdè P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">Àwọn ìlú P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">Àwọn ìpínlẹ̀ P2P (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core countries (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
     <string name="counrty_filter_p2p_servers_list_header">Àwọn sáfà P2P</string>
-    <string name="country_filter_tor_list_header">Àwọn orílẹ̀-èdè Tor (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Àwọn sáfà Tor</string>
     <string name="country_filter_info_label">Àlàyé</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Erú: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1376,7 +1376,7 @@
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Ó ń so yín mọ́ orílẹ̀-èdè tí ẹ ń lọ sí nípasẹ̀ àwọn sáfà tí wọ́n wà ní odidi ní ààyè mìíràn.</string>
     <!-- Placeholder will be replaced by a list of country names separated by commas, e.g, Connects you to your destination country through servers physically located elsewhere: Canada, Mexico, United States.  -->
-    <string name="connection_feature_smart_routing_description_with_countries">Ó ń so yín mọ́ orílẹ̀-èdè tí ẹ fẹ́ dé nípasẹ̀ àwọn sáfà tí wọ́n wà ní odidi ní ààyè mìíràn: %1$s.</string>
+    <string name="connection_feature_smart_routing_description_with_countries">Ó so yín mọ́ orílẹ̀ èdè tí ẹ̀yin ń lọ sí nípasẹ̀ àwọn sáfà tí wọ́n wà ní ààyè mìíràn lára: %1$s.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1384,7 +1384,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Àwọn sáfà wà ní odidi ní %1$s, ṣùgbọ́n yóò dà bí i tí ẹ bá ń wákiri ayélujára láti %2$s.</string>
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1405,41 +1405,41 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Ìyára %1$s</string>
+    <string name="speed_graph_title">Speed %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="other">%1$s báìtì ní ìṣẹ́jú kan</item>
+        <item quantity="other">%1$s Bytes per second</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="other">%1$s kìlóbáìtì ní ìṣẹ́jú kan</item>
+        <item quantity="other">%1$s Kilobytes per second</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="other">%1$s megabáìtì ní ìṣẹ́jú kan</item>
+        <item quantity="other">%1$s Megabytes per second</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="other">%1$s gigabáìtì ní ìṣẹ́jú kan</item>
+        <item quantity="other">%1$s Gigabytes per second</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="other">%1$s terabáìtì ní ìṣẹ́jú kan</item>
+        <item quantity="other">%1$s Terabytes per second</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="other">%1$s báìtì</item>
+        <item quantity="other">%1$s Bytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="other">%1$s kìlóbáìtì</item>
+        <item quantity="other">%1$s Kilobytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="other">%1$s megabáìtì</item>
+        <item quantity="other">%1$s Megabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="other">%1$s gigabáìtì</item>
+        <item quantity="other">%1$s Gigabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="other">%1$s terabáìtì</item>
+        <item quantity="other">%1$s Terabytes</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
@@ -1452,14 +1452,14 @@
     <string name="error_vpn_waiting_for_network">Ó ń dùró de nẹ́tíwọ́ọ̀kì.</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
-        <item quantity="other">%1$d ọjọ́</item>
+        <item quantity="other">%1$d days</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d wákàtí</string>
+    <string name="connection_details_hours_shortened">%1$d hr</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d ìṣẹ́jú</string>
+    <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sẹ́kọ́ndì</string>
+    <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Àsopọ̀ kò ṣeéṣe</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Irin iṣẹ́ yìí kò fàyè láti so mọ́ VPN.</string>
     <string name="create_profile_title">Ṣẹ̀dá pọ́fáìlì</string>
@@ -1478,12 +1478,12 @@
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Ìgbésẹ̀ %1$d nínú %2$d</string>
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
     <string name="create_profile_button_next">Tẹ̀síwájú</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Mu iyara ìsomọ́ yín pọ̀ títí dé 400%% pẹ̀lú àwọn ìmọ̀-ẹ̀rọ tí ó ń mú iṣẹ́ ṣiṣe ga. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Àwọn ààtò àkántì</string>
     <string name="settings_account_change_password">Yí ọ̀rọ̀ ìgbaniwọlé padà</string>
     <string name="settings_account_recovery_email">Ímeèlì ìmúbọ̀sípò</string>
@@ -1503,7 +1503,7 @@
     <string name="settings_add_dns_duplicate_input">A ti fi sáfà náà kún</string>
     <string name="settings_advanced_dns_description">So pọ̀ mọ́ VPN pẹ̀lú DNS tí ẹ gbé kalẹ̀ fún ara yín tàbí ti alàgàta. Mọ̀ síi</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Àwọn sáfà (%1$d)</string>
+    <string name="settings_dns_list_title">Servers (%1$d)</string>
     <string name="settings_dns_list_description">Bí sáfà DNS àkànṣe yín kò bá ṣiṣẹ́, wọ́n yóò lo DNS VPN ìpìlẹ̀.</string>
     <string name="settings_dns_list_description_multiple">A yóò gbìyànjú láti so pọ̀ mọ́ àwọn sáfà wọ̀nyí lẹ́yìn ara wọn. Bí ẹnìkan nínú wọn kò bá ṣiṣẹ́, wọ́n yóò lo DNS VPN náà.</string>
     <string name="settings_changes_apply_on_reconnect_toast">A ó ṣe àmúlò àwọn ìyípadà nígbà tí ẹ bá tún so pọ̀.</string>
@@ -1552,7 +1552,7 @@
     <string name="settings_split_tunneling_included_apps">Àwọn áàpù tí a fi sinú</string>
     <string name="settings_split_tunneling_included_ips">Àwọn àdírẹ́sì IP tí a fi sinú</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Kò sí</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s àti %3$d mìíràn</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_split_tunneling_already_excluded">Ó ti wà nínú àkójọ àwọn tí a ti kọ́ sílẹ̀.</string>
     <string name="settings_split_tunneling_already_included">Ó ti wà nínú àkójọ náà tẹ́lẹ̀.</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Ṣe kí a yọ àdírẹ́sì IP kúrò nínú àkójọ náà?</string>
@@ -1641,7 +1641,7 @@
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
-    <string name="create_profile_copy_name">%1$s (àdàkọ)</string>
+    <string name="create_profile_copy_name">%1$s (copy)</string>
     <string name="create_profile_fastest_city">Tí ó yára jùlọ</string>
     <string name="create_profile_fastest_state">Tí ó yára jùlọ</string>
     <string name="create_profile_fastest_server">Tí ó yára jùlọ</string>
@@ -1651,7 +1651,7 @@
     <string name="profiles_button_create_profile">Ṣẹ̀dá prófáìlì</string>
     <string name="profile_deleted_snackbar_message">A ti pa prófáìlì náà rẹ́.</string>
     <string name="profile_connected_edit_setting">Ààtò yìí so pọ̀ mọ́ prófáìlì tí ń ṣiṣẹ́ yín. \n\nẸ ṣe àtúkọ prófáìlì yín láti ṣe àtúnṣe, tàbí kí ẹ tú ìsopọ̀ láti ṣe àtúkọ àwọn ààtò VPN àpapọ̀ yín.</string>
-    <string name="profile_connected_dialog_title">Bójú tó %1$s ní Prófáìlì</string>
+    <string name="profile_connected_dialog_title">Bójú tó %1$s nínú Àwọn Pọ́fáìlì</string>
     <string name="undo">Yí i padà</string>
     <string name="profile_unavailable_dialog_title">Prófáìlì kò sí</string>
     <!-- %1$s - profile name
@@ -1660,10 +1660,10 @@
     <string name="profile_location_excluded_dialog_message"><![CDATA[Ìyàn sáfà yín fún <b>%1$s</b> kò sí. Ẹ yan sáfà mìíràn, ẹ ṣe àyẹ̀wò àwọn ibùdó tí ẹ kọ̀ sílẹ̀ tàbí ẹ gbiyànjú nígbà mìíràn.]]></string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Ìwòran ààmì %1$d</string>
+    <string name="profile_icon_accessibility">Icon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">Àwọ̀ %1$d</string>
+    <string name="profile_color_accessibility">Color %1$d</string>
     <string name="generic_info_label">Àlàyé</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
@@ -1752,10 +1752,10 @@
     <string name="session_fork_qr_code_error_network">Ẹ ṣàyẹ̀wò nẹ́tíwọ́ọ̀kì yín kí ẹ sì tún gbìyànjú.</string>
     <string name="session_fork_qr_code_error_create_new_button">Ṣẹ̀dá kóòdù tuntun</string>
     <string name="session_fork_user_code_title">Ṣíṣe àyẹ̀wò kóòdù náà ṣòro? Wọlé ní ọwọ́</string>
-    <string name="session_fork_user_code_step1"><![CDATA[Lọ sí: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step1"><![CDATA[Go to: <b>%1$s</b>]]></string>
     <string name="session_fork_user_code_step2">Wọlé tàbí ṣẹ̀dá àkántì</string>
     <!-- Parameter: 8 character alphanumeric code, e.g. "AB12 CD34" -->
-    <string name="session_fork_user_code_step3"><![CDATA[Tẹ̀ kóòdù náà: <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_step3"><![CDATA[Enter the code: <b>%1$s</b>]]></string>
     <!-- Parameter: web address for the support website, e.g. "protonvpn.com/support" -->
-    <string name="session_fork_user_code_support"><![CDATA[Ṣé ẹ sì lọ̀ọ́ nílò ìrànlọ́wọ́? Ṣàbẹ̀wọ̀ sí <b>%1$s</b>]]></string>
+    <string name="session_fork_user_code_support"><![CDATA[Still need help? Visit <b>%1$s</b>]]></string>
 </resources>

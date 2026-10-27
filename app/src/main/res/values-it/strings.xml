@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">Caricamento server %1$s%%</string>
+    <string name="tv_server_list_load">server carico al %1$s%%</string>
     <string name="tv_recently_used_servers">Server usati di recente</string>
     <string name="tv_available_servers">Server disponibili</string>
     <string name="tv_locked_servers">Server bloccati</string>
@@ -324,11 +324,11 @@
     <string name="tv_server_list">Lista dei server</string>
     <string name="tv_server_list_action_unavailable">Non disponibile</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
-    <string name="tv_country_tile_connected">Connected</string>
+    <string name="tv_country_tile_connected">Connesso</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
-    <string name="tv_country_tile_connecting">Connecting</string>
+    <string name="tv_country_tile_connecting">Connessione in corso</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
-    <string name="tv_country_tile_maintenance">Maintenance</string>
+    <string name="tv_country_tile_maintenance">Manutenzione</string>
     <string name="notification_subscription_expired_title">Il tuo piano di abbonamento Proton VPN è scaduto</string>
     <string name="notification_subscription_expired_content">Abbiamo dovuto eseguire il downgrade del tuo piano, ma ti stiamo riconnettendo al server più veloce disponibile con quel piano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Il tuo abbonamento è stato declassato.</string>
@@ -369,8 +369,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d Paese</item>
-        <item quantity="other">%1$d paese</item>
+        <item quantity="one">%1$d paese</item>
+        <item quantity="other">%1$d paesi</item>
     </plurals>
     <string name="upsell_upgrade_again">Aggiorna di nuovo per godere di tutte le funzionalità:</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
@@ -1289,7 +1289,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Carico: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Carico: %1$s %%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1422,7 +1422,7 @@
         For INFLECTED languages, translate the following phrase instead:
         "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">I server si trovano fisicamente in %1$s, ma sembrerà che tu stia navigando da %2$s.</string>
+    <string name="country_smart_routing_info">I server sono situati fisicamente in %1$s, ma sembrerà che tu stia navigando da %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1532,7 +1532,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Aumenta la velocità della tua connessione fino al 400%% con tecnologie che migliorano le prestazioni. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Aumenta la velocità della tua connessione fino al 400%% con tecnologie di miglioramento delle prestazioni. %1$s</string>
     <string name="settings_account_settings_title">Impostazioni dell\'account</string>
     <string name="settings_account_change_password">Cambia la password</string>
     <string name="settings_account_recovery_email">Indirizzo email di recupero</string>
