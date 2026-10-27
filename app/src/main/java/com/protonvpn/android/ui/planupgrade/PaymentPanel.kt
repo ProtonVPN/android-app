@@ -47,6 +47,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMapNotNull
@@ -83,7 +85,9 @@ fun PaymentPanel(
         return
 
     Column(
-        modifier = modifier.testTag("paymentPanel")
+        modifier = modifier
+            .semantics { testTagsAsResourceId = true } // Enables UI Automator tests.
+            .testTag("paymentPanel")
     ) {
         val selectPlanText = @Composable {
             Text(
