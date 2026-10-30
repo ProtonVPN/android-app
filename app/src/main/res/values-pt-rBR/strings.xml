@@ -316,7 +316,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% server load -->
-    <string name="tv_server_list_load">%1$s%% server load</string>
+    <string name="tv_server_list_load">%1$s%% carga do servidor</string>
     <string name="tv_recently_used_servers">Servidores usados recentemente</string>
     <string name="tv_available_servers">Servidores disponíveis</string>
     <string name="tv_locked_servers">Servidores bloqueados</string>
@@ -329,6 +329,24 @@
     <string name="tv_country_tile_connecting">Conectando</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
     <string name="tv_country_tile_maintenance">Manutenção</string>
+    <!-- Label below a focused country flag on the TV home screen, the number of cities with servers in that country. -->
+    <plurals name="tv_country_tile_cities">
+        <item quantity="one">%1$d cidade</item>
+        <item quantity="other">%1$d cidades</item>
+    </plurals>
+    <!-- Label below a focused country flag on the TV home screen, the number of states with servers in that country (e.g. in the US). -->
+    <plurals name="tv_country_tile_states">
+        <item quantity="one">%1$d estado</item>
+        <item quantity="other">%1$d estados</item>
+    </plurals>
+    <!-- Title above the grid of all country flags on the TV home screen. -->
+    <string name="tv_countries_grid_all_countries_title">Todos os países</string>
+    <!-- Option in the TV country menu (opened with a long press on a country flag) that connects to the fastest server in the country. -->
+    <string name="tv_country_menu_fastest">Mais rápido</string>
+    <!-- Option in the TV country menu (opened with a long press on a country flag) that connects to a random server in the country. -->
+    <string name="tv_country_menu_random">Aleatório</string>
+    <!-- Shown below a city or state name in the TV country menu when all of its servers are under maintenance. -->
+    <string name="tv_country_menu_in_maintenance">Em manutenção</string>
     <string name="notification_subscription_expired_title">Seu plano de assinatura Proton VPN expirou</string>
     <string name="notification_subscription_expired_content">Tivemos que fazer o downgrade do seu plano, mas estamos reconectando você ao servidor mais rápido disponível nesse plano.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Sua assinatura foi rebaixada.</string>
@@ -678,7 +696,7 @@
      %1$d - replaced with number of days -->
     <plurals name="payment_multi_renewal_discount_for_days">
         <item quantity="one">no primeiro dia</item>
-        <item quantity="other">for the first %1$d days</item>
+        <item quantity="other">nos primeiros %1$d dias</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -686,7 +704,7 @@
      %1$d - replaced with number of weeks -->
     <plurals name="payment_multi_renewal_discount_for_weeks">
         <item quantity="one">na primeira semana</item>
-        <item quantity="other">for the first %1$d weeks</item>
+        <item quantity="other">nos primeiros %1$d semanas</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -694,7 +712,7 @@
      %1$d - replaced with number of months -->
     <plurals name="payment_multi_renewal_discount_for_months">
         <item quantity="one">no primeiro mês</item>
-        <item quantity="other">for the first %1$d months</item>
+        <item quantity="other">nos primeiros %1$d meses</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -702,7 +720,7 @@
      %1$d - replaced with number of years -->
     <plurals name="payment_multi_renewal_discount_for_years">
         <item quantity="one">no primeiro ano</item>
-        <item quantity="other">for the first %1$d years</item>
+        <item quantity="other">nos primeiros %1$d anos</item>
     </plurals>
     <!--
      See payment_multi_renewal_template for explanation.
@@ -953,6 +971,17 @@
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
     <string name="accessibility_action_upgrade">fazer upgrade</string>
+    <!-- Name of the click action on items that end the current VPN connection, e.g. the option
+         the user is connected with in the TV country menu.
+         Only used by accessibility services.
+        -->
+    <string name="accessibility_action_disconnect">desconectar</string>
+    <!-- Name of the long press action on a country on the TV home screen. The action opens a menu
+         with ways to connect to that country (fastest server, random server, a specific city).
+         Only used by accessibility services, they read it as part of the hint for the long press
+         action.
+        -->
+    <string name="accessibility_action_show_connection_options">mostrar opções da conexão</string>
     <!-- tag(Redesign_2023)
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.

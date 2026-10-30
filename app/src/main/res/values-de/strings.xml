@@ -329,6 +329,24 @@
     <string name="tv_country_tile_connecting">Verbindung wird hergestellt</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
     <string name="tv_country_tile_maintenance">Wartungsarbeiten</string>
+    <!-- Label below a focused country flag on the TV home screen, the number of cities with servers in that country. -->
+    <plurals name="tv_country_tile_cities">
+        <item quantity="one">%1$d Stadt</item>
+        <item quantity="other">%1$d Städte</item>
+    </plurals>
+    <!-- Label below a focused country flag on the TV home screen, the number of states with servers in that country (e.g. in the US). -->
+    <plurals name="tv_country_tile_states">
+        <item quantity="one">%1$d Bundesstaat</item>
+        <item quantity="other">%1$d Bundesstaaten</item>
+    </plurals>
+    <!-- Title above the grid of all country flags on the TV home screen. -->
+    <string name="tv_countries_grid_all_countries_title">Alle Länder</string>
+    <!-- Option in the TV country menu (opened with a long press on a country flag) that connects to the fastest server in the country. -->
+    <string name="tv_country_menu_fastest">Am schnellsten</string>
+    <!-- Option in the TV country menu (opened with a long press on a country flag) that connects to a random server in the country. -->
+    <string name="tv_country_menu_random">Zufällig</string>
+    <!-- Shown below a city or state name in the TV country menu when all of its servers are under maintenance. -->
+    <string name="tv_country_menu_in_maintenance">Wartungsarbeiten</string>
     <string name="notification_subscription_expired_title">Dein Proton VPN-Abonnement ist abgelaufen</string>
     <string name="notification_subscription_expired_content">Dein Abonnement musste herabgestuft werden, aber du wirst dennoch mit dem schnellsten Server verbunden, der in diesem Abonnement verfügbar ist.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Dein Abonnement wurde herabgestuft.</string>
@@ -953,6 +971,17 @@
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
     <string name="accessibility_action_upgrade">upgraden</string>
+    <!-- Name of the click action on items that end the current VPN connection, e.g. the option
+         the user is connected with in the TV country menu.
+         Only used by accessibility services.
+        -->
+    <string name="accessibility_action_disconnect">Getrennt</string>
+    <!-- Name of the long press action on a country on the TV home screen. The action opens a menu
+         with ways to connect to that country (fastest server, random server, a specific city).
+         Only used by accessibility services, they read it as part of the hint for the long press
+         action.
+        -->
+    <string name="accessibility_action_show_connection_options">Verbindungsoptionen anzeigen</string>
     <!-- tag(Redesign_2023)
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.

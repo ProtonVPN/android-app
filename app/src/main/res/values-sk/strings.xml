@@ -333,6 +333,28 @@
     <string name="tv_country_tile_connecting">Pripájanie</string>
     <!-- Status label below a country flag on the TV home screen when all servers in the country are under maintenance. -->
     <string name="tv_country_tile_maintenance">Údržba</string>
+    <!-- Label below a focused country flag on the TV home screen, the number of cities with servers in that country. -->
+    <plurals name="tv_country_tile_cities">
+        <item quantity="one">%1$d mesto</item>
+        <item quantity="few">%1$d mestá</item>
+        <item quantity="many">%1$d miest</item>
+        <item quantity="other">%1$d miest</item>
+    </plurals>
+    <!-- Label below a focused country flag on the TV home screen, the number of states with servers in that country (e.g. in the US). -->
+    <plurals name="tv_country_tile_states">
+        <item quantity="one">%1$d štát</item>
+        <item quantity="few">%1$d štáty</item>
+        <item quantity="many">%1$d štátov</item>
+        <item quantity="other">%1$d štátov</item>
+    </plurals>
+    <!-- Title above the grid of all country flags on the TV home screen. -->
+    <string name="tv_countries_grid_all_countries_title">Všetky krajiny</string>
+    <!-- Option in the TV country menu (opened with a long press on a country flag) that connects to the fastest server in the country. -->
+    <string name="tv_country_menu_fastest">Najrýchlejší</string>
+    <!-- Option in the TV country menu (opened with a long press on a country flag) that connects to a random server in the country. -->
+    <string name="tv_country_menu_random">Náhodný</string>
+    <!-- Shown below a city or state name in the TV country menu when all of its servers are under maintenance. -->
+    <string name="tv_country_menu_in_maintenance">V údržbe</string>
     <string name="notification_subscription_expired_title">Vaše predplatné Proton VPN vypršalo</string>
     <string name="notification_subscription_expired_content">Váš plán sme museli znížiť, ale znovu vás pripájame k najrýchlejšiemu dostupnému serveru v rámci tohto plánu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaše predplatné bolo znížené.</string>
@@ -1027,6 +1049,17 @@
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
     <string name="accessibility_action_upgrade">navýšiť predplatné</string>
+    <!-- Name of the click action on items that end the current VPN connection, e.g. the option
+         the user is connected with in the TV country menu.
+         Only used by accessibility services.
+        -->
+    <string name="accessibility_action_disconnect">odpojiť</string>
+    <!-- Name of the long press action on a country on the TV home screen. The action opens a menu
+         with ways to connect to that country (fastest server, random server, a specific city).
+         Only used by accessibility services, they read it as part of the hint for the long press
+         action.
+        -->
+    <string name="accessibility_action_show_connection_options">zobraziť možnosti pripojenia</string>
     <!-- tag(Redesign_2023)
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
