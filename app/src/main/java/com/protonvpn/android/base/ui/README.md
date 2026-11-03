@@ -28,6 +28,13 @@ stay in sync (e.g. `CollapsedDrawerWidth` used by the TV drawer and the
 content padding). A value used once doesn't need a name; if its purpose isn't
 obvious, add a short comment next to it instead.
 
+Images
+------
+
+To add raster assets exported from Figma, use
+`scripts/figma_export_to_webp.py <export.zip>` (see its docstring for the
+export settings).
+
 Accessibility
 -------------
 
