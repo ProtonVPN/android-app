@@ -327,6 +327,14 @@
     <string name="tv_other_servers">Другие серверы</string>
     <string name="tv_server_list">Список серверов</string>
     <string name="tv_server_list_action_unavailable">Недоступно</string>
+    <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
+    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
+    <string name="tv_vpn_status_connecting">Connecting</string>
+    <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
+    <string name="tv_vpn_status_protected">Protected</string>
+    <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
+    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Подключено</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
