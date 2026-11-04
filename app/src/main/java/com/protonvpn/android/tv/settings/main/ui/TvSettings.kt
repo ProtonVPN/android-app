@@ -30,9 +30,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -153,15 +154,13 @@ internal fun TvSettings(
 }
 
 @Composable
-private fun TvSettingRow(
-    item: TvSettingItem,
+private fun TvSettingsSelectableRow(
     onClick: () -> Unit,
+    clickLabel: String?,
     modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable RowScope.() -> Unit,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isFocused by interactionSource.collectIsFocusedAsState()
-    val isRestricted = item.value == TvSettingValue.Restricted
-    val clickLabel = if (isRestricted) stringResource(R.string.accessibility_action_upgrade) else null
     Surface(
         onClick = onClick,
         interactionSource = interactionSource,
@@ -178,40 +177,71 @@ private fun TvSettingRow(
         // Only adds the label, the action comes from Surface's own semantics.
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
             .semantics { if (clickLabel != null) onClick(label = clickLabel, action = null) },
     ) {
-        val labelColor = if (isRestricted && !isFocused) ProtonTheme.colors.textWeak else LocalContentColor.current
-        val textStyle = ProtonTheme.typography.body2Regular.copy(fontSize = 15.sp)
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
+        Box(
+            contentAlignment = Alignment.CenterStart,
+            modifier = Modifier
+                .heightIn(min = 56.dp)
         ) {
-            Icon(
-                painter = painterResource(item.setting.iconRes()),
-                contentDescription = null,
-                tint = if (isRestricted && !isFocused) ProtonTheme.colors.iconWeak else LocalContentColor.current,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    // Vertical padding is smaller than in designs to account for text being larger
+                    // than in Figma which doesn't support sp units.
+                    // Min height is set on the container above.
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
+                content = content
             )
-            Text(
-                stringResource(item.setting.labelRes()),
-                style = textStyle,
-                color = labelColor,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f)
-            )
-            when (val value = item.value) {
-                is TvSettingValue.Text ->
-                    Text(
-                        stringResource(value.res),
-                        style = textStyle,
-                        color = if (isFocused) LocalContentColor.current else ProtonTheme.colors.textWeak,
-                        maxLines = 1,
-                    )
-                TvSettingValue.Restricted -> PlusBadgeTv()
-                TvSettingValue.None -> Unit
-            }
+        }
+    }
+}
+
+@Composable
+private fun TvSettingRow(
+    item: TvSettingItem,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val isRestricted = item.value == TvSettingValue.Restricted
+    val clickLabel = if (isRestricted) stringResource(R.string.accessibility_action_upgrade) else null
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    TvSettingsSelectableRow(
+        onClick = onClick,
+        clickLabel = clickLabel,
+        interactionSource = interactionSource,
+        modifier = modifier,
+    ) {
+        val labelColor =
+            if (isRestricted && !isFocused) ProtonTheme.colors.textWeak else LocalContentColor.current
+        val textStyle = ProtonTheme.typography.body2Regular.copy(fontSize = 15.sp)
+
+        Icon(
+            painter = painterResource(item.setting.iconRes()),
+            contentDescription = null,
+            tint = if (isRestricted && !isFocused) ProtonTheme.colors.iconWeak else LocalContentColor.current,
+        )
+        Text(
+            stringResource(item.setting.labelRes()),
+            style = textStyle,
+            color = labelColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f)
+        )
+        when (val value = item.value) {
+            is TvSettingValue.Text ->
+                Text(
+                    stringResource(value.res),
+                    style = textStyle,
+                    color = if (isFocused) LocalContentColor.current else ProtonTheme.colors.textWeak,
+                    maxLines = 1,
+                )
+
+            TvSettingValue.Restricted -> PlusBadgeTv()
+            TvSettingValue.None -> Unit
         }
     }
 }

@@ -128,6 +128,10 @@ internal fun TvMainScreen(
                     TvMainTarget.entries.forEach { target ->
                         val isSelected = target == currentTarget
                         val interactionSource = remember { MutableInteractionSource() }
+                        // TODO: NavigationDrawerItem has some bad behaviors:
+                        //  - icon padding changes on expand leading to poor animation
+                        //  - testing shows it has hardcoded height, cutting off text at large text settings
+                        //  Reimplement it with our own composables, it shouldn't be much effort.
                         NavigationDrawerItem(
                             modifier = Modifier.optional(
                                 predicate = { target == selectedTarget },
