@@ -26,7 +26,7 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.robots.tv.TvCountryListRobot
+import com.protonvpn.robots.tv.TvMainScreenRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
@@ -74,19 +74,20 @@ class LogoutTestsMocked(
         .around(TvMainScreenRedesignRule(protonHiltRule, isTvMainScreenRedesign, TestUser.plusUser))
         .around(activityRule)
 
-    private lateinit var homeRobot: TvCountryListRobot
+    private lateinit var mainScreenRobot: TvMainScreenRobot
     private lateinit var userDataHelper: UserDataHelper
 
     @Before
     fun setUp() {
-        homeRobot = TvCountryListRobot()
+        mainScreenRobot = TvMainScreenRobot()
         userDataHelper = UserDataHelper()
         activityRule.scenario
     }
 
     @Test
     fun logoutHappyPath() {
-        homeRobot
+        mainScreenRobot
+            .openSettings()
             .signOut()
             .confirmSignOut()
             .verify { signInMessageIsDisplayed() }

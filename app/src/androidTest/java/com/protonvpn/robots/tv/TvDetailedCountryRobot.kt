@@ -24,6 +24,7 @@ package com.protonvpn.robots.tv
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.protonvpn.base.BaseRobot
+import com.protonvpn.base.BaseVerify
 import com.protonvpn.android.R
 
 /**
@@ -35,11 +36,18 @@ class TvDetailedCountryRobot : BaseRobot(){
     fun disconnectFromCountry() : TvDetailedCountryRobot = clickElementByText(R.string.disconnect)
     fun openServerList() : TvServerListRobot = clickElementByText(R.string.tv_server_list)
     fun addServerToFavourites() : TvDetailedCountryRobot = clickElementById(R.id.defaultConnection)
-    fun goBackToCountryListView() : TvCountryListRobot = pressBack(R.id.container)
+    fun goBackToCountryListView() : TvHomeRobot = pressBack(R.id.container)
     fun getCountryName() : String = getText(onView(withId(R.id.countryName)))
 
-    class Verify : ConnectionVerify(){
-        fun userIsDisconnectedStreaming() = checkIfElementIsDisplayedById(R.id.connectStreaming)
+    class Verify : BaseVerify() {
+        fun disconnectButtonIsDisplayed() {
+            view.withId(R.id.disconnect).withText(R.string.disconnect).checkDisplayed()
+        }
+
+        fun connectButtonIsDisplayed() {
+            checkIfElementIsDisplayedById(R.id.connectStreaming)
+            checkIfElementIsNotDisplayedById(R.id.disconnect)
+        }
     }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)

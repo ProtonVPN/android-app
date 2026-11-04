@@ -26,9 +26,11 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.android.servers.api.LogicalsResponse
 import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.tv.main.TvMainActivity
+import com.protonvpn.android.tv.main_screen.IsTvMainScreenRedesignEnabled
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.robots.tv.TvCountryListRobot
+import com.protonvpn.robots.tv.TvHomeRobot
+import com.protonvpn.robots.tv.TvMainScreenRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createLogicalServer
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -37,8 +39,10 @@ import com.protonvpn.testRules.TV_MAIN_SCREEN_REDESIGN_VARIANTS
 import com.protonvpn.testRules.TvMainScreenRedesignRule
 import com.protonvpn.testsHelper.ServerManagerHelper
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Rule
@@ -46,6 +50,7 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import javax.inject.Inject
 
 /**
  * [ConnectionTestsMocked] Contains all tests related to Connection actions.
@@ -95,11 +100,18 @@ class ConnectionTestsMocked(
         .around(TvMainScreenRedesignRule(protonHiltRule, isTvMainScreenRedesign, TestUser.plusUser))
         .around(activityRule)
 
-    private val homeRobot = TvCountryListRobot()
+    @Inject lateinit var isTvMainScreenRedesignEnabled: IsTvMainScreenRedesignEnabled
+
+    private val homeRobot = TvHomeRobot()
+    private val mainScreenRobot = TvMainScreenRobot()
 
     @Before
     fun setUp() {
         activityRule.scenario
+        protonHiltRule.inject()
+        runBlocking {
+            assertEquals(isTvMainScreenRedesign, isTvMainScreenRedesignEnabled())
+        }
         homeRobot.waitUntilCountryIsLoaded(US)
         if (!isTvMainScreenRedesign) {
             // Delay to allow for UI to fully load. TV UI is quite outdated,
@@ -152,6 +164,8 @@ class ConnectionTestsMocked(
     fun logoutWhileConnectedToServer() {
         homeRobot
             .connectToRecommendedCountry()
+        mainScreenRobot
+            .openSettings()
             .signOut()
             .verify { signOutWhileConnectedWarningMessageIsDisplayed() }
     }
@@ -160,14 +174,15 @@ class ConnectionTestsMocked(
     fun cancelLogoutWhileConnectedToServer() {
         homeRobot
             .connectToRecommendedCountry()
+            .verify { userIsConnected() }
 
-        val connectionStatus = homeRobot.getConnectionStatus()
-
-        homeRobot
+        mainScreenRobot
+            .openSettings()
             .signOut()
             .cancelSignOut()
-            .navigateToHome()
-            .verify { connectionStatusDidNotChange(connectionStatus) }
+        mainScreenRobot
+            .openHome()
+            .verify { userIsConnected() }
     }
 
     @After

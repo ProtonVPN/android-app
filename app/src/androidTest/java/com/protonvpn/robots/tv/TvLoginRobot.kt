@@ -74,7 +74,7 @@ class TvLoginRobot : Robot {
         device.pressKeyCode(KeyEvent.KEYCODE_ENTER)
     }
 
-    fun waitUntilLoggedIn(): TvCountryListRobot {
+    fun waitUntilLoggedIn(): TvHomeRobot {
         // The TvMainScreenRedesign flag is user-scoped and can't be read before the login completes, wait for
         // either variant of the main screen.
         // Use compose test rule's waitUntil, it advances the compose clock needed for TvQrLoginActivity to
@@ -86,7 +86,7 @@ class TvLoginRobot : Robot {
             composeRule.onAllNodesWithText(connectFastest).fetchSemanticsNodes().isNotEmpty() ||
                 runCatching { onView(withText(R.string.quickConnect)).check(matches(isDisplayed())) }.isSuccess
         }
-        return TvCountryListRobot()
+        return TvHomeRobot()
     }
 
     override fun robotDisplayed() {

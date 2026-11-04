@@ -25,7 +25,7 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.robots.tv.TvCountryListRobot
+import com.protonvpn.robots.tv.TvHomeRobot
 import com.protonvpn.robots.tv.TvDetailedCountryRobot
 import com.protonvpn.robots.tv.TvServerListRobot
 import com.protonvpn.test.shared.MockedServers
@@ -62,7 +62,7 @@ class ConnectionTestsMockedLegacyUi {
         .around(TvMainScreenRedesignRule(protonHiltRule, isEnabled = false, user = TestUser.plusUser))
         .around(activityRule)
 
-    private val homeRobot = TvCountryListRobot()
+    private val homeRobot = TvHomeRobot()
     private val countryRobot = TvDetailedCountryRobot()
     private val serverListRobot = TvServerListRobot()
 
@@ -82,10 +82,10 @@ class ConnectionTestsMockedLegacyUi {
             .openFirstCountryConnectionWindow()
         countryRobot
             .connectToStreamingCountry()
-            .verify { userIsConnected() }
+            .verify { disconnectButtonIsDisplayed() }
         countryRobot
             .disconnectFromCountry()
-            .verify { userIsDisconnectedStreaming() }
+            .verify { connectButtonIsDisplayed() }
     }
 
     @Test
@@ -96,10 +96,10 @@ class ConnectionTestsMockedLegacyUi {
             .openServerList()
         serverListRobot
             .connectToServer()
-            .verify { userIsConnected() }
+            .verify { disconnectButtonIsDisplayed() }
         serverListRobot
             .disconnectFromServer()
-            .verify { userIsDisconnected() }
+            .verify { disconnectButtonIsNotDisplayed() }
     }
 
     @Test
@@ -116,7 +116,7 @@ class ConnectionTestsMockedLegacyUi {
             .connectToFavouriteCountry()
             .verify {
                 userIsConnected()
-                userIsConnectedToCorrectCountry(countryName)
+                userIsConnectedToCountry(countryName)
             }
         homeRobot
             .disconnectFromCountry()

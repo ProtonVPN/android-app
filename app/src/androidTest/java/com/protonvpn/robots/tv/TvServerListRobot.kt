@@ -21,8 +21,10 @@
 
 package com.protonvpn.robots.tv
 
-import com.protonvpn.base.BaseRobot
+import androidx.test.espresso.matcher.ViewMatchers
 import com.protonvpn.android.R
+import com.protonvpn.base.BaseRobot
+import com.protonvpn.base.BaseVerify
 
 /**
  * [TvServerListRobot] Contains all actions and verifications for server list view
@@ -39,7 +41,22 @@ class TvServerListRobot : BaseRobot() {
         return TvServerListRobot()
     }
 
-    class Verify : ConnectionVerify()
+    class Verify : BaseVerify() {
+        fun disconnectButtonIsDisplayed() {
+            visibleDisconnectButton().checkDisplayed()
+        }
+
+        // There are multiple servers with a "Connect" button, check that none is connected instead.
+        fun disconnectButtonIsNotDisplayed() {
+            visibleDisconnectButton().checkDoesNotExist()
+        }
+
+        // The hierarchy contains an invisible copy of the connected card, match only the visible one.
+        private fun visibleDisconnectButton() =
+            view.withId(R.id.actionButton)
+                .withVisibility(ViewMatchers.Visibility.VISIBLE)
+                .withText(R.string.disconnect)
+    }
 
     inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
 }
