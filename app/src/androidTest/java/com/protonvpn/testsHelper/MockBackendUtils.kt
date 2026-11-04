@@ -30,10 +30,11 @@ import me.proton.core.network.domain.ResponseCodes
 fun MockRuleBuilder.featureFlagsResponseRule(
     vararg flags: Pair<String, Boolean>
 ) {
-    val toggles = flags.map {
+    // Unleash returns only enabled toggles, any toggle present in the response is treated as enabled.
+    val toggles = flags.filter { (_, isEnabled) -> isEnabled }.map { (name, _) ->
         UnleashToggleResource(
-            name = it.first,
-            variant = UnleashVariantResource(name = it.first, enabled = it.second)
+            name = name,
+            variant = UnleashVariantResource(name = name, enabled = true)
         )
     }
     rule(get, path eq "/feature/v2/frontend") {

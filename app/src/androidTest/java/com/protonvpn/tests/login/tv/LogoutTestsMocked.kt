@@ -22,7 +22,6 @@
 package com.protonvpn.tests.login.tv
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.tv.main.TvMainActivity
@@ -31,6 +30,8 @@ import com.protonvpn.robots.tv.TvCountryListRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
+import com.protonvpn.testRules.TV_MAIN_SCREEN_REDESIGN_VARIANTS
+import com.protonvpn.testRules.TvMainScreenRedesignRule
 import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.test.fusion.ui.compose.FusionComposeTest
@@ -39,28 +40,38 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
 /**
  * [LogoutTestsMocked] Contains all tests related to Logout actions.
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(Parameterized::class)
 @LargeTest
 @HiltAndroidTest
-class LogoutTestsMocked : FusionComposeTest() {
+class LogoutTestsMocked(
+    private val isTvMainScreenRedesign: Boolean
+) : FusionComposeTest() {
+
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "redesign={0}")
+        fun data() = TV_MAIN_SCREEN_REDESIGN_VARIANTS
+    }
+
     private val activityRule = ActivityScenarioRule(TvMainActivity::class.java)
+    private val protonHiltRule = ProtonHiltAndroidRule(
+        this,
+        TestApiConfig.Mocked(TestUser.plusUser) {
+            rule(get, path eq "/auth/v4/sessions/forks") {
+                respond(SessionForkSelectorResponse("abcd", "abcd"))
+            }
+        }
+    )
 
     @get:Rule
-    val rules = RuleChain.outerRule(
-        ProtonHiltAndroidRule(
-            this,
-            TestApiConfig.Mocked(TestUser.plusUser) {
-                rule(get, path eq "/auth/v4/sessions/forks") {
-                    respond(SessionForkSelectorResponse("abcd", "abcd"))
-                }
-            }
-        )
-    )
+    val rules = RuleChain.outerRule(protonHiltRule)
         .around(SetLoggedInUserRule(TestUser.plusUser))
+        .around(TvMainScreenRedesignRule(protonHiltRule, isTvMainScreenRedesign, TestUser.plusUser))
         .around(activityRule)
 
     private lateinit var homeRobot: TvCountryListRobot

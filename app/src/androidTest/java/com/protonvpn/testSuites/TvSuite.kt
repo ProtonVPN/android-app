@@ -19,6 +19,7 @@
 package com.protonvpn.testSuites
 
 import com.protonvpn.tests.connection.tv.ConnectionTestsMocked
+import com.protonvpn.tests.connection.tv.ConnectionTestsMockedLegacyUi
 import com.protonvpn.tests.login.tv.LoginTestsMocked
 import com.protonvpn.tests.login.tv.LogoutTestsMocked
 import com.protonvpn.tests.reports.tv.TvBugReportTestsMocked
@@ -30,6 +31,7 @@ import org.junit.runners.Suite
     LoginTestsMocked::class,
     LogoutTestsMocked::class,
     ConnectionTestsMocked::class,
+    ConnectionTestsMockedLegacyUi::class,
     TvBugReportTestsMocked::class,
 )
 class TvSuite

@@ -25,15 +25,35 @@ import androidx.test.core.app.ApplicationProvider
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseVerify
-import me.proton.core.test.android.instrumented.ui.espresso.OnView
+import me.proton.test.fusion.Fusion.node
 
 /**
  * [ConnectionVerify] Contains common verification methods for connection
  */
 open class ConnectionVerify : BaseVerify() {
-    fun userIsConnected(): OnView = checkIfElementIsDisplayedByStringId(R.string.disconnect)
-    fun userIsDisconnected(): OnView = checkIfElementIsNotDisplayedByStringId(R.string.disconnect)
-    fun connectionStatusDidNotChange(status: String): OnView = checkIfElementByIdContainsText(R.id.textStatus, status)
+    fun userIsConnected() {
+        if (isTvMainScreenRedesign()) {
+            node.withText(R.string.disconnect).await { assertIsDisplayed() }
+        } else {
+            checkIfElementIsDisplayedByStringId(R.string.disconnect)
+        }
+    }
+
+    fun userIsDisconnected() {
+        if (isTvMainScreenRedesign()) {
+            node.withText(R.string.tv_vpn_status_action_connect_fastest).await { assertIsDisplayed() }
+        } else {
+            checkIfElementIsNotDisplayedByStringId(R.string.disconnect)
+        }
+    }
+
+    fun connectionStatusDidNotChange(status: String) {
+        if (isTvMainScreenRedesign()) {
+            node.withText(status).await { assertIsDisplayed() }
+        } else {
+            checkIfElementByIdContainsText(R.id.textStatus, status)
+        }
+    }
 
     fun userIsConnectedToCorrectCountry(country: String) {
         val appContext = ApplicationProvider.getApplicationContext<ProtonApplication>()

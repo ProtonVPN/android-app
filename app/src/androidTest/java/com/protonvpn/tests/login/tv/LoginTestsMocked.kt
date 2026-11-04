@@ -2,7 +2,6 @@ package com.protonvpn.tests.login.tv
 
 import android.util.Base64
 import androidx.test.core.app.ActivityScenario
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.telemetry.TelemetryEventData
@@ -12,6 +11,8 @@ import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.robots.tv.TvLoginRobot
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.testRules.TV_MAIN_SCREEN_REDESIGN_VARIANTS
+import com.protonvpn.testRules.TvMainScreenRedesignRule
 import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.data.api.response.ScopesResponse
@@ -26,7 +27,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import javax.inject.Inject
 
 private const val FORK_SELECTOR = "fork_selector"
@@ -35,10 +38,18 @@ private const val FORK_USER_CODE = "1234ABCD"
 /**
  * [LoginTestsMocked] Contains all tests related to Login actions.
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(Parameterized::class)
 @LargeTest
 @HiltAndroidTest
-class LoginTestsMocked : FusionComposeTest() {
+class LoginTestsMocked(
+    private val isTvMainScreenRedesign: Boolean
+) : FusionComposeTest() {
+
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "redesign={0}")
+        fun data() = TV_MAIN_SCREEN_REDESIGN_VARIANTS
+    }
 
     private val user = TestUser.plusUser
 
@@ -64,8 +75,13 @@ class LoginTestsMocked : FusionComposeTest() {
 
     private var activityScenario: ActivityScenario<*>? = null
 
+    private val protonHiltRule = ProtonHiltAndroidRule(this, mockApiConfig)
+
     @get:Rule
-    val protonHiltRule = ProtonHiltAndroidRule(this, mockApiConfig)
+    val rules: RuleChain = RuleChain
+        .outerRule(protonHiltRule)
+        // The user logs in during the test, the app fetches feature flags after login.
+        .around(TvMainScreenRedesignRule(protonHiltRule, isTvMainScreenRedesign, user = null))
 
     private lateinit var userDataHelper: UserDataHelper
     @Inject

@@ -21,9 +21,17 @@ package com.protonvpn.robots.tv
 
 import android.view.KeyEvent
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.R
+import com.protonvpn.data.Timeouts
 import me.proton.test.fusion.Fusion.device
 import me.proton.test.fusion.Fusion.node
+import me.proton.test.fusion.FusionConfig
 import me.proton.test.fusion.data.Robot
 
 class TvLoginRobot : Robot {
@@ -66,8 +74,20 @@ class TvLoginRobot : Robot {
         device.pressKeyCode(KeyEvent.KEYCODE_ENTER)
     }
 
-    fun waitUntilLoggedIn(): TvCountryListRobot =
-        TvCountryListRobot().waitUntilDisplayedByText(R.string.quickConnect)
+    fun waitUntilLoggedIn(): TvCountryListRobot {
+        // The TvMainScreenRedesign flag is user-scoped and can't be read before the login completes, wait for
+        // either variant of the main screen.
+        // Use compose test rule's waitUntil, it advances the compose clock needed for TvQrLoginActivity to
+        // navigate to the main screen.
+        val composeRule = FusionConfig.Compose.testRule.get()
+        val connectFastest = InstrumentationRegistry.getInstrumentation().targetContext
+            .getString(R.string.tv_vpn_status_action_connect_fastest)
+        composeRule.waitUntil(Timeouts.ONE_MINUTE_MS) {
+            composeRule.onAllNodesWithText(connectFastest).fetchSemanticsNodes().isNotEmpty() ||
+                runCatching { onView(withText(R.string.quickConnect)).check(matches(isDisplayed())) }.isSuccess
+        }
+        return TvCountryListRobot()
+    }
 
     override fun robotDisplayed() {
         waitForQrCode()

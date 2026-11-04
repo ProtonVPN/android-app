@@ -22,58 +22,91 @@
 package com.protonvpn.tests.connection.tv
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.protonvpn.android.servers.api.LogicalsResponse
+import com.protonvpn.android.servers.api.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.mocks.TestApiConfig
-import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.robots.tv.TvCountryListRobot
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createLogicalServer
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
+import com.protonvpn.testRules.TV_MAIN_SCREEN_REDESIGN_VARIANTS
+import com.protonvpn.testRules.TvMainScreenRedesignRule
 import com.protonvpn.testsHelper.ServerManagerHelper
-import com.protonvpn.testsHelper.UserDataHelper
-import com.protonvpn.robots.tv.TvCountryListRobot
-import com.protonvpn.robots.tv.TvDetailedCountryRobot
-import com.protonvpn.robots.tv.TvServerListRobot
 import dagger.hilt.android.testing.HiltAndroidTest
+import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.After
+import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
 /**
  * [ConnectionTestsMocked] Contains all tests related to Connection actions.
+ * Tests for the legacy-only screens are in [ConnectionTestsMockedLegacyUi].
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(Parameterized::class)
 @LargeTest
 @HiltAndroidTest
-class ConnectionTestsMocked {
+class ConnectionTestsMocked(
+    private val isTvMainScreenRedesign: Boolean
+) : FusionComposeTest() {
+
+    companion object {
+        private const val US = "US"
+        private const val NEW_YORK = "New York"
+
+        @JvmStatic
+        @Parameterized.Parameters(name = "redesign={0}")
+        fun data() = TV_MAIN_SCREEN_REDESIGN_VARIANTS
+    }
 
     private val activityRule = ActivityScenarioRule(TvMainActivity::class.java)
+    // Same servers as the default mock API config (the binary status data matches 4 servers) but with a city.
+    private val apiConfig = TestApiConfig.Mocked(TestUser.plusUser) {
+        rule(get, path eq "/vpn/v2/logicals") {
+            val servers = listOf(
+                createLogicalServer(
+                    "CH1",
+                    exitCountry = "CH",
+                    entryCountry = "US",
+                    statusIndex = 0u,
+                    features = SERVER_FEATURE_SECURE_CORE
+                ),
+                createLogicalServer("PL1", exitCountry = "PL", statusIndex = 1u),
+                createLogicalServer("US1", exitCountry = US, city = NEW_YORK, statusIndex = 2u),
+                createLogicalServer("AR1", exitCountry = "AR", statusIndex = 3u),
+            )
+            respond(LogicalsResponse("StatusID", servers))
+        }
+    }
+    private val protonHiltRule = ProtonHiltAndroidRule(this, apiConfig)
+
     @get:Rule
     val rules = RuleChain
-        .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser)))
+        .outerRule(protonHiltRule)
         .around(SetLoggedInUserRule(TestUser.plusUser))
+        .around(TvMainScreenRedesignRule(protonHiltRule, isTvMainScreenRedesign, TestUser.plusUser))
         .around(activityRule)
 
     private val homeRobot = TvCountryListRobot()
-    private val countryRobot = TvDetailedCountryRobot()
-    private val serverListRobot = TvServerListRobot()
-
-    private lateinit var userDataHelper: UserDataHelper
 
     @Before
     fun setUp() {
-        userDataHelper = UserDataHelper()
         activityRule.scenario
-        homeRobot.waitUntilCountryIsLoaded(MockedServers.serverList[0].exitCountry)
-        // Delay to allow for UI to fully load. TV UI is quite outdated,
-        // so it requires quite some work on client side to make tests not used this timeout.
-        // VPNAND-1941
-        Thread.sleep(10000)
+        homeRobot.waitUntilCountryIsLoaded(US)
+        if (!isTvMainScreenRedesign) {
+            // Delay to allow for UI to fully load. TV UI is quite outdated,
+            // so it requires quite some work on client side to make tests not used this timeout.
+            // VPNAND-1941
+            Thread.sleep(10000)
+        }
     }
 
     @Test
@@ -88,45 +121,27 @@ class ConnectionTestsMocked {
 
     @Test
     fun connectToCountry() {
+        assumeTrue(isTvMainScreenRedesign)
         homeRobot
-            .openFirstCountryConnectionWindow()
-        countryRobot
-            .connectToStreamingCountry()
-            .verify { userIsConnected() }
-        countryRobot
+            .connectToCountry(US)
+            .verify {
+                userIsConnected()
+                countryTileIsConnected(US)
+            }
+        homeRobot
             .disconnectFromCountry()
-            .verify { userIsDisconnectedStreaming() }
-    }
-
-    @Test
-    fun connectViaServerList() {
-        homeRobot
-            .openFirstCountryConnectionWindow()
-        countryRobot
-            .openServerList()
-        serverListRobot
-            .connectToServer()
-            .verify { userIsConnected() }
-        serverListRobot
-            .disconnectFromServer()
             .verify { userIsDisconnected() }
     }
 
     @Test
-    fun addServerToFavouritesAndConnect() {
+    fun connectToCity() {
+        assumeTrue(isTvMainScreenRedesign)
         homeRobot
-            .openFirstCountryConnectionWindow()
-
-        val countryName = countryRobot.getCountryName()
-
-        countryRobot
-            .addServerToFavourites()
-            .goBackToCountryListView()
-        homeRobot
-            .connectToFavouriteCountry()
+            .connectToCity(US, NEW_YORK)
             .verify {
                 userIsConnected()
-                userIsConnectedToCorrectCountry(countryName)
+                userIsConnectedToCity(US, NEW_YORK)
+                countryTileIsConnected(US)
             }
         homeRobot
             .disconnectFromCountry()
@@ -151,6 +166,7 @@ class ConnectionTestsMocked {
         homeRobot
             .signOut()
             .cancelSignOut()
+            .navigateToHome()
             .verify { connectionStatusDidNotChange(connectionStatus) }
     }
 
