@@ -72,7 +72,7 @@ fun TvCountryGridTile_States_Screenshot() {
             listOf(0f, 1f).forEach { focusProgress ->
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(horizontal = 24.dp),
                 ) {
                     createTileStates().forEach { item ->
                         CountryGridTileContent(item = item, focusProgress = focusProgress)

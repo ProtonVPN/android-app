@@ -38,6 +38,7 @@ annotation class ProtonVpnPreview
 
 @Preview(name = "Default", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL, widthDp = 960, heightDp = 540)
 @Preview(name = "Rtl", locale = "fa", uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL, widthDp = 960, heightDp = 540)
+@Preview(name = "Large_Text", fontScale = 2f, uiMode = UI_MODE_NIGHT_YES or UI_MODE_TYPE_NORMAL, widthDp = 960, heightDp = 540)
 annotation class ProtonVpnTvPreview
 
 
