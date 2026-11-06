@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Zap.</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nedostupné</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="custom_dns_item_removed_snackbar">Položka odebrána</string>
     <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
     <string name="netshield_what_data_means">Vysvětlení statistik NetShield</string>
@@ -328,13 +332,13 @@
     <string name="tv_server_list">Seznam serverů</string>
     <string name="tv_server_list_action_unavailable">Nedostupné</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">Nechráněno</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">Připojování</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">Chráněno</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
-    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
+    <string name="tv_vpn_status_action_connect_fastest">Připojit k nejrychlejšímu</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Připojeno</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
@@ -590,6 +594,16 @@
     <string name="upsell_tv_customization_title">Získejte pokročilé přizpůsobení VPN s Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Odemkněte <b>připojení LAN</b>, <b>vlastní DNS</b> a pokročilejší funkce VPN.]]></string>
     <string name="upsell_tv_fallback_description">Pro navýšení tarifu přejděte na web Proton VPN.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Naskenujte kód nebo navštivte:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Vysokorychlostní servery pro streamování a hraní her</string>
+    <string name="upsell_tv_non_iap_netshield_title">Chraňte svoji TV před malwarem</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Méně reklam na webových stránkách, které otevíráte na TV</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Přistupujte ke svému mediálnímu serveru a domácím zařízením</string>
+    <string name="upsell_tv_non_iap_customization_description">Povolte připojení LAN a nastavte vlastní DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Váš tarif byl snížen na Proton Free a přepojujeme vás k nejrychlejšímu bezplatnému serveru.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Možná později</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Budete moci znovu přistupovat k prémiovým funkcím po uhrazení nezaplacených faktur. Do té doby vás připojujeme k nejrychlejšímu serveru tarifu Free.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

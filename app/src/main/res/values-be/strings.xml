@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Уключана</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Выключана</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недаступна</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">On</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Off</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">On</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Off</string>
     <string name="custom_dns_item_removed_snackbar">Элемент выдалены</string>
     <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння, шкодных праграм на вэб-сайтах і праграмах</string>
     <string name="netshield_what_data_means">Тлумачэнне статыстыкі NetShield</string>
@@ -328,13 +332,13 @@
     <string name="tv_server_list">Спіс сервераў</string>
     <string name="tv_server_list_action_unavailable">Недаступна</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">Неабаронена</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">Падключэнне</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">Абаронена</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
-    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
+    <string name="tv_vpn_status_action_connect_fastest">Падключыцца да найхутчэйшага</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Падключана</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
@@ -590,6 +594,16 @@
     <string name="upsell_tv_customization_title">Атрымайце пашыраныя налады VPN з Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і дадатковыя функцыі VPN.]]></string>
     <string name="upsell_tv_fallback_description">Перайдзіце на вэб-сайт Proton VPN, каб палепшыць свой тарыфны план.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Сканіруйце код або наведайце:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Высакахуткасныя серверы для трансляцый і гульняў</string>
+    <string name="upsell_tv_non_iap_netshield_title">Пазбягайце шкодных праграм на сваім тэлевізары</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Менш рэкламы на вэб-сайтах, якія вы адкрываеце на тэлевізары</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Атрымайце доступ да свайго медыя сервера і іншых хатніх прылад</string>
+    <string name="upsell_tv_non_iap_customization_description">Дазвольце падключэнні па LAN і наладзьце карыстальніцкі DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Ваш тарыфны план быў паніжаны да Proton Free. Вы будзеце перападключаны да найхутчэйшага з бясплатных сервераў.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Магчыма пазней</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Пасля аплаты вы зможаце зноў атрымаць доступ да прэміяльных функцый. Пакуль, вы будзеце перападключаны да найхутчэйшага сервера на тарыфным плане Free.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

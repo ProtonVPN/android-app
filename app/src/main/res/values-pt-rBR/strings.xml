@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Ligado</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Desligado</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Indisponível</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Ligado</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Desligado</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Ligado</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Desligado</string>
     <string name="custom_dns_item_removed_snackbar">Item removido</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sites e aplicativos</string>
     <string name="netshield_what_data_means">Explicação das estatísticas do NetShield</string>
@@ -324,11 +328,11 @@
     <string name="tv_server_list">Lista de servidores</string>
     <string name="tv_server_list_action_unavailable">Indisponível</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">Sem proteção</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">Conectando</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">Protegido</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
     <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Obtenha personalizações avançadas de VPN com o Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloqueie <b>conexões LAN</b>, <b>DNS personalizado</b> e mais recursos VPN avançados.]]></string>
     <string name="upsell_tv_fallback_description">Vá para o site do Proton VPN para fazer upgrade do seu plano.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Escaneie o código ou visite:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">High-speed servers for streaming and gaming</string>
+    <string name="upsell_tv_non_iap_netshield_title">Keep malware off your TV</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Fewer ads on the websites you open on your TV</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Acesse seu servidor de mídia e seus dispositivos domésticos</string>
+    <string name="upsell_tv_non_iap_customization_description">Allow LAN connections and set a custom DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Seu plano foi rebaixado para o Proton Free, e estamos reconectando-o ao servidor gratuito mais rápido.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Talvez mais tarde</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Você conseguirá acessar os recursos premium novamente após estes serem pagos. Por enquanto, estamos reconectando ao servidor mais rápido disponível no plano gratuito.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

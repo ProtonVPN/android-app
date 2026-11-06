@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Attivo</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Non attivo</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Non disponibile</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Attivo</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Non attivo</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Abilitato</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Disabilitato</string>
     <string name="custom_dns_item_removed_snackbar">Elemento rimosso</string>
     <string name="netshield_free_description">Blocca annunci, tracker e malware su siti web e applicazioni</string>
     <string name="netshield_what_data_means">Spiegazione delle statistiche di NetShield</string>
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Ottieni personalizzazioni VPN avanzate con Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Sblocca <b>connessioni LAN</b>, <b>DNS personalizzato</b> e funzionalità VPN più avanzate.]]></string>
     <string name="upsell_tv_fallback_description">Vai al sito web di Proton VPN per aggiornare il tuo piano.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Scansiona il codice o visita il sito:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Server ad alta velocità per lo streaming e i videogiochi</string>
+    <string name="upsell_tv_non_iap_netshield_title">Proteggi la tua TV dal malware</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Meno pubblicità sui siti web che apri sulla TV</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Accedi al tuo media server e ai tuoi dispositivi domestici</string>
+    <string name="upsell_tv_non_iap_customization_description">Consenti le connessioni LAN e imposta un DNS personalizzato.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Il tuo piano è stato declassato a Proton Free e ti stiamo ricollegando al server gratuito più veloce.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Forse più tardi</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Potrai nuovamente accedere alle funzionalità premium dopo il pagamento. Per ora, ci stiamo riconnettendo al server del piano Gratuito più veloce disponibile.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

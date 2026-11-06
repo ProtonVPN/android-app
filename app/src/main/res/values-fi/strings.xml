@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Käytössä</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Ei käytössä</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Ei käytettävissä</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">On</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Off</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">On</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Off</string>
     <string name="custom_dns_item_removed_snackbar">Kohde poistettiin</string>
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
     <string name="netshield_what_data_means">NetShield-tilastojen selitys</string>
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Saat edistyneet VPN-mukautukset Plus-versiolla.</string>
     <string name="upsell_tv_customization_description"><![CDATA[Avaa <b>LAN-yhteydet</b>, <b>Mukautettu DNS</b>, ja kehittyneemmät VPN-ominaisuudet.]]></string>
     <string name="upsell_tv_fallback_description">Siirry Proton VPN:n sivustolle päivittääksesi tilauksesi.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Scan the code or visit:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">High-speed servers for streaming and gaming</string>
+    <string name="upsell_tv_non_iap_netshield_title">Keep malware off your TV</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Fewer ads on the websites you open on your TV</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Reach your media server and home devices</string>
+    <string name="upsell_tv_non_iap_customization_description">Allow LAN connections and set a custom DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Your plan has been downgraded to Proton Free, and we’re reconnecting you to the fastest free server.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Maybe later</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">You will be able to access premium features again after these are paid. For now, we are reconnecting to the fastest Free plan server available.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

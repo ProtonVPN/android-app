@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Ενεργό</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Ανενεργό</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Μη διαθέσιμο</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Ενεργό</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Ανενεργό</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Ενεργό</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Ανενεργό</string>
     <string name="custom_dns_item_removed_snackbar">Το στοιχείο αφαιρέθηκε</string>
     <string name="netshield_free_description">Αποκλεισμός διαφημίσεων, ιχνηλατών και κακόβουλων προγραμμάτων σε ιστότοπους και εφαρμογές</string>
     <string name="netshield_what_data_means">Επεξήγηση στατιστικών NetShield</string>
@@ -324,13 +328,13 @@
     <string name="tv_server_list">Λίστα διακομιστών</string>
     <string name="tv_server_list_action_unavailable">Μη διαθέσιμο</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">Χωρίς προστασία</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">Γίνεται σύνδεση</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">Προστατευμένο</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
-    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
+    <string name="tv_vpn_status_action_connect_fastest">Σύνδεση στο ταχύτερο</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Συνδεδεμένο</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Αποκτήστε προηγμένες δυνατότητες προσαρμογής VPN με το Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Ξεκλειδώστε τις <b>συνδέσεις LAN</b>, <b>προσαρμοσμένο DNS</b> και πιο προηγμένες λειτουργίες VPN.]]></string>
     <string name="upsell_tv_fallback_description">Μεταβείτε στον ιστότοπο του Proton VPN για να αναβαθμίσετε το πακέτο σας.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Σαρώστε τον κωδικό ή επισκεφθείτε:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Διακομιστές υψηλής ταχύτητας για ροή και παιχνίδια</string>
+    <string name="upsell_tv_non_iap_netshield_title">Κρατήστε μακριά την τηλεόρασή σας από κακόβουλο λογισμικό</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Λιγότερες διαφημίσεις στις ιστοσελίδες που ανοίγετε στην τηλεόρασή σας</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Αποκτήστε πρόσβαση στον διακομιστή πολυμέσων και στις οικιακές συσκευές σας</string>
+    <string name="upsell_tv_non_iap_customization_description">Επιτρέψτε τις συνδέσεις LAN και ορίστε έναν προσαρμοσμένο DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Το πλάνο σας έχει υποβαθμιστεί σε Proton Free και σας επανασυνδέουμε στον ταχύτερο δωρεάν διακομιστή.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Ίσως αργότερα</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Θα μπορείτε να αποκτήσετε ξανά πρόσβαση σε premium λειτουργίες μετά την πληρωμή αυτών. Προς το παρόν, επανασυνδεόμαστε στον ταχύτερο διαθέσιμο διακομιστή Free πλάνου.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

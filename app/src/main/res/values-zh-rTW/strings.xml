@@ -144,7 +144,7 @@
     <string name="settings_beta_label_badge">體驗版</string>
     <string name="settingsExcludedIPAddressesListHeader">排除的 IP 位址 (%1$d 個)</string>
     <string name="settingsIncludedIPAddressesListHeader">包含的 IP 位址 (%1$d 個)</string>
-    <string name="settingsExcludedApps">排除所有應用程式</string>
+    <string name="settingsExcludedApps">已排除的應用程式</string>
     <string name="settingsExcludedAppsEmpty">加入您要從 VPN 流量排除的應用程式。</string>
     <string name="settingsIncludedAppsEmpty">新增您要包含於 VPN 流量中的應用程式。</string>
     <string name="settingsExcludedAppsSelectedHeader">排除的應用程式 (%1$d)</string>
@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">開</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">關</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">非適用</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">開啟</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">關閉</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">開啟</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">關閉</string>
     <string name="custom_dns_item_removed_snackbar">項目已移除</string>
     <string name="netshield_free_description">攔截在網站與應用程式裡的廣告、追蹤程式與惡意軟體</string>
     <string name="netshield_what_data_means">NetShield 統計資料說明</string>
@@ -322,13 +326,13 @@
     <string name="tv_server_list">伺服器列表</string>
     <string name="tv_server_list_action_unavailable">不可用</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">未受保護</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">連線中</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">受保護</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
-    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
+    <string name="tv_vpn_status_action_connect_fastest">連線到最快的</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">連線</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
@@ -560,6 +564,16 @@
     <string name="upsell_tv_customization_title">Get advanced VPN customization with Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and more advanced VPN features.]]></string>
     <string name="upsell_tv_fallback_description">Go to the Proton VPN website to upgrade your plan.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Scan the code or visit:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">High-speed servers for streaming and gaming</string>
+    <string name="upsell_tv_non_iap_netshield_title">Keep malware off your TV</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Fewer ads on the websites you open on your TV</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Reach your media server and home devices</string>
+    <string name="upsell_tv_non_iap_customization_description">Allow LAN connections and set a custom DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Your plan has been downgraded to Proton Free, and we’re reconnecting you to the fastest free server.</string>
+    <string name="upsell_tv_non_iap_maybe_later">容後再說</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">You will be able to access premium features again after these are paid. For now, we are reconnecting to the fastest Free plan server available.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
@@ -1383,7 +1397,7 @@
     <string name="info_dialog_tor_description">連線到 Tor 伺服器，使用任何瀏覽器訪問隱藏服務和隱蔽網站。</string>
     <string name="info_dialog_button_learn_more_tor">如何使用 Tor 網路</string>
     <string name="info_dialog_button_learn_more_p2p">如何使用 P2P 下載種子</string>
-    <string name="info_dialog_button_learn_more_ipaddress">什麼是IP地址？</string>
+    <string name="info_dialog_button_learn_more_ipaddress">什麼是 IP 位址？</string>
     <string name="info_dialog_button_learn_more_streaming">需要影音串流幫助?</string>
     <string name="info_dialog_streaming_title">串流</string>
     <string name="info_dialog_streaming_description">影音串流伺服器旨在提供快速安全的電視和電影播放。</string>
@@ -1583,9 +1597,9 @@
     <string name="settings_split_tunneling_mode_description_standard">已選的應用程式及 IP 位址會被排除在 VPN 連線之外.</string>
     <string name="settings_split_tunneling_mode_description_inverse">僅限選取的應用程式和 IP 位址透過 VPN 連線，其餘流量不受保護。</string>
     <string name="settings_split_tunneling_excluded_apps">不包括所有應用</string>
-    <string name="settings_split_tunneling_excluded_ips">排除的IP2地址</string>
+    <string name="settings_split_tunneling_excluded_ips">排除的 IP 位址</string>
     <string name="settings_split_tunneling_included_apps">包含的應用程式</string>
-    <string name="settings_split_tunneling_included_ips">包含的IP2地址</string>
+    <string name="settings_split_tunneling_included_ips">包含的 IP 位址</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">無</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s、%2$s 及另 %3$d 個</string>
     <string name="settings_split_tunneling_already_excluded">已經被排除</string>

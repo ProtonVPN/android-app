@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Activado</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Desactivado</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">No disponible</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Activado</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Activado</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Desactivado</string>
     <string name="custom_dns_item_removed_snackbar">Elemento borrado</string>
     <string name="netshield_free_description">Bloquea anuncios, rastreadores y malware en aplicaciones y sitios web</string>
     <string name="netshield_what_data_means">Estadísticas de NetShield explicadas</string>
@@ -324,13 +328,13 @@
     <string name="tv_server_list">Lista de servidores</string>
     <string name="tv_server_list_action_unavailable">No disponible</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">No protegido</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">Conectando</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">Protegido</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
-    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
+    <string name="tv_vpn_status_action_connect_fastest">Conectar al más rápido</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Conectado</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Obtenga una personalización VPN avanzada con Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloquee <b>conexiones LAN</b>, <b>DNS personalizado</b> y más funciones VPN avanzadas.]]></string>
     <string name="upsell_tv_fallback_description">Vaya al sitio web de Proton VPN para mejorar su plan.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Escanee el código o visite:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Servidores de gran velocidad para streaming y juegos</string>
+    <string name="upsell_tv_non_iap_netshield_title">Aleje el malware de su TV</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Menos anuncios en los sitios web que abra en su TV</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Acceda a su servidor multimedia y dispositivos locales</string>
+    <string name="upsell_tv_non_iap_customization_description">Permita conexiones LAN y establezca un DNS personalizado.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Se cambió su plan a Proton Free y le estamos reconectando al servidor gratuito más rápido.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Más tarde</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Podrá acceder a las funciones premium de nuevo luego de pagar por ellas. Por ahora, le estamos conectando al servidor del plan gratuito más rápido disponible.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

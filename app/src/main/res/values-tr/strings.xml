@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Açık</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Kapalı</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Kullanılamıyor</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Açık</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Açık</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Kapalı</string>
     <string name="custom_dns_item_removed_snackbar">Öge silindi</string>
     <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
     <string name="netshield_what_data_means">NetShield istatistiklerinin açıklaması</string>
@@ -324,13 +328,13 @@
     <string name="tv_server_list">Sunucu listesi</string>
     <string name="tv_server_list_action_unavailable">Kullanılamıyor</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">Korunmuyor</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">Bağlantı kuruluyor</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">Korunuyor</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
-    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
+    <string name="tv_vpn_status_action_connect_fastest">En hızlısına bağlan</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Bağlı</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Plus tarifesi ile gelişmiş VPN özelleştirmeleri edinin</string>
     <string name="upsell_tv_customization_description"><![CDATA[<b>Yerel ağ bağlantıları</b>, <b>Özel DNS</b> ve diğer gelişmiş VPN özelliklerine erişin.]]></string>
     <string name="upsell_tv_fallback_description">Tarifenizi yükseltmek için Proton VPN sitesine gidin.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Kodu tarayın ya da şu adrese gidin:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Yayın akışı izleme ve oyun için yüksek hızlı sunucular</string>
+    <string name="upsell_tv_non_iap_netshield_title">Televizyonunuzu kötü amaçlı yazılımlardan koruyun</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Televizyonunuzda açtığınız sitelerde daha az reklam görün</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Medya sunucunuza ve ev aygıtlarınıza erişin</string>
+    <string name="upsell_tv_non_iap_customization_description">Yerel ağ bağlantılarına izin verin ve özel bir DNS ayarlayın.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Aboneliğiniz Proton Free tarifesine düşürüldü ve sizi yeniden en hızlı Free sunucusuna bağlıyoruz.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Belki daha sonra</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Bunları ödedikten sonra ücretli özelliklere yeniden erişebilirsiniz. Şimdilik bağlantınızı, var olan en hızlı Free tarife sunucusuna geçiriyoruz.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

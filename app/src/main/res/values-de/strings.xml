@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Ein</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Aus</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nicht verfügbar</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Ein</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Aus</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Ein</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Aus</string>
     <string name="custom_dns_item_removed_snackbar">Eintrag entfernt</string>
     <string name="netshield_free_description">Blockiere Werbung, Tracker und Malware auf Websites und Apps.</string>
     <string name="netshield_what_data_means">Erläuterungen zu NetShield-Statistiken</string>
@@ -324,13 +328,13 @@
     <string name="tv_server_list">Serverliste</string>
     <string name="tv_server_list_action_unavailable">Nicht verfügbar</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Unprotected</string>
+    <string name="tv_vpn_status_unprotected">Ungeschützt</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
-    <string name="tv_vpn_status_connecting">Connecting</string>
+    <string name="tv_vpn_status_connecting">Verbindung wird hergestellt</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
-    <string name="tv_vpn_status_protected">Protected</string>
+    <string name="tv_vpn_status_protected">Geschützt</string>
     <!-- Button below the VPN status on the TV home screen, shown when the VPN is not connected. Connects to the fastest server. -->
-    <string name="tv_vpn_status_action_connect_fastest">Connect to fastest</string>
+    <string name="tv_vpn_status_action_connect_fastest">Mit schnellstem verbinden</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connected to that country. -->
     <string name="tv_country_tile_connected">Verbunden</string>
     <!-- Status label below a country flag on the TV home screen while the VPN is connecting to that country. -->
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Hole dir mit Plus erweiterte VPN-Anpassungsmöglichkeiten</string>
     <string name="upsell_tv_customization_description"><![CDATA[Schalte <b>LAN-Verbindungen</b>, <b>benutzerdefinierte DNS</b> und weitere erweiterte VPN-Funktionen frei.]]></string>
     <string name="upsell_tv_fallback_description">Öffne die Website von Proton VPN, um deinen Tarif anzupassen.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Code einlesen oder folgende Seite aufrufen:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Hochleistungsserver für Streaming und Gaming</string>
+    <string name="upsell_tv_non_iap_netshield_title">Schutz vor Malware für deinen Fernseher</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Weniger Werbung auf Websites, die auf deinem Fernseher geöffnet werden</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Greife auf deinen Medienserver und deine Heimgeräte zu</string>
+    <string name="upsell_tv_non_iap_customization_description">Erlaube LAN-Verbindungen und lege einen benutzerdefinierten DNS fest.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Dein Abonnemant wurde auf „Proton Free“ herabgestuft, und du wirst nun wieder mit dem schnellsten kostenlosen Server verbunden.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Vielleicht später</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Sobald die Kosten dafür beglichen wurden, kannst du wieder auf die Premium-Funktionen zugreifen. Vorerst wirst du mit dem schnellsten verfügbaren Server des kostenlosen Tarifs verbunden.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

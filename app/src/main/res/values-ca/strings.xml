@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Activat</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Desactivat</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">No disponible</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Activat</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Desactivat</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Activat</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Desactivat</string>
     <string name="custom_dns_item_removed_snackbar">S\'ha esborrat l\'element.</string>
     <string name="netshield_free_description">Bloqueja anuncis, rastrejadors i programari maliciós en llocs web i aplicacions</string>
     <string name="netshield_what_data_means">Explicació de les estadístiques del NetShield</string>
@@ -324,7 +328,7 @@
     <string name="tv_server_list">Llista de servidors</string>
     <string name="tv_server_list_action_unavailable">No disponible</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is not connected. -->
-    <string name="tv_vpn_status_unprotected">Desprotegit</string>
+    <string name="tv_vpn_status_unprotected">Sense protecció</string>
     <!-- VPN status shown at the top of the TV home screen while the VPN is connecting. -->
     <string name="tv_vpn_status_connecting">S\'està connectant</string>
     <!-- VPN status shown at the top of the TV home screen when the VPN is connected. -->
@@ -570,6 +574,16 @@
     <string name="upsell_tv_customization_title">Aconseguiu una personalització avançada de VPN amb Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Desbloquegeu <b>connexions LAN</b>, <b>DNS personalitzades</b> i funcions VPN més avançades.]]></string>
     <string name="upsell_tv_fallback_description">Aneu al lloc web de Proton VPN per millorar el vostre pla.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Escanegeu el codi o visiteu:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Servidors d\'alta velocitat per a reproducció en línia i jocs</string>
+    <string name="upsell_tv_non_iap_netshield_title">Mantingueu el programari maliciós lluny del vostre televisor</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Menys anuncis als llocs web que obriu al vostre televisor</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Accediu al vostre servidor de continguts multimèdia i dispositius domèstics</string>
+    <string name="upsell_tv_non_iap_customization_description">Permeteu les connexions a la LAN i configureu un DNS personalitzat.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">El vostre pla s\'ha rebaixat a Proton Free i us tornem a connectar al servidor gratuït més ràpid.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Potser més tard</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Podreu tornar a accedir a les característiques prèmium un cop hàgiu fet el pagament. Mentrestant, us tornem a connectar al servidor més ràpid disponible del pla gratuït.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")

@@ -255,6 +255,10 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Zap.</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nedostupné</string>
+    <string name="auto_connect_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="auto_connect_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="ipv6_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="ipv6_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="custom_dns_item_removed_snackbar">Položka odstránená</string>
     <string name="netshield_free_description">Blokovanie reklám, sledovačov a malvéru na webových stránkach a v aplikáciách</string>
     <string name="netshield_what_data_means">Vysvetlenie štatistík funkcie NetShield</string>
@@ -590,6 +594,16 @@
     <string name="upsell_tv_customization_title">Získajte pokročilé prispôsobenia VPN s Plus</string>
     <string name="upsell_tv_customization_description"><![CDATA[Odomknite <b>LAN pripojenia</b>, <b>vlastné DNS</b> a pokročilejšie VPN funkcie.]]></string>
     <string name="upsell_tv_fallback_description">Prejdite na webovú stránku Proton VPN, aby ste si zvýšili úroveň svojho plánu.</string>
+    <!-- Displayed below a QR code and above a URL represented by the QR code. -->
+    <string name="upsell_tv_non_iap_scan_code">Naskenujte kód alebo navštívte:</string>
+    <string name="upsell_tv_non_iap_country_benefit_speed">Vysokorýchlostné servery pre streamovanie a hranie hier</string>
+    <string name="upsell_tv_non_iap_netshield_title">Chráňte svoj televízor pred škodlivým softvérom</string>
+    <string name="upsell_tv_non_iap_netshield_benefit_ads">Menej reklám na webových stránkach, ktoré otvárate na televízore</string>
+    <string name="upsell_tv_non_iap_benefit_lan">Pripojte sa k svojmu mediálnemu serveru a domácim zariadeniam</string>
+    <string name="upsell_tv_non_iap_customization_description">Povoliť pripojenia cez LAN a nastaviť vlastný DNS.</string>
+    <string name="upsell_tv_non_iap_subscription_expired_description">Vaša tarifa bola znížená na Proton Free a prepájame vás k najrýchlejšiemu bezplatnému serveru.</string>
+    <string name="upsell_tv_non_iap_maybe_later">Možno neskôr</string>
+    <string name="upsell_tv_non_iap_payment_pending_description">Po ich zaplatení budete mať opäť prístup k prémiovým funkciám. Nateraz sa znova pripájame k najrýchlejšiemu dostupnému serveru bezplatného plánu.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "week")
