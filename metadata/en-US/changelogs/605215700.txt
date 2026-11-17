@@ -1,0 +1,4 @@
+What's new
+- The app is now available in Hindi, Malay, Swahili, Urdu, and Yoruba
+- Improved security on the "sign-in on another device" screen to prevent tapjacking attacks
+- Introduced a QR code option for purchasing Proton VPN on Android TVs without Google Play support
